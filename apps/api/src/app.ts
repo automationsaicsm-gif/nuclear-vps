@@ -24,7 +24,8 @@ const allowedOrigins = (process.env.WEB_URL || 'http://localhost:3000').split(',
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.some(o => origin.startsWith(o))) return callback(null, true);
+      if (!origin) return callback(null, true);
+      if (origin.endsWith('.vercel.app') || allowedOrigins.some(o => origin.startsWith(o))) return callback(null, true);
       callback(null, false);
     },
     credentials: true,
