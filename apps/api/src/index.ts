@@ -24,9 +24,13 @@ const app = express();
 const PORT = parseInt(process.env.PORT || '4000');
 
 app.use(helmet({ crossOriginResourcePolicy: false }));
+const allowedOrigins = (process.env.WEB_URL || 'http://localhost:3000').split(',').map(o => o.trim());
 app.use(
   cors({
-    origin: process.env.WEB_URL || 'http://localhost:3000',
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.some(o => origin.startsWith(o))) return callback(null, true);
+      callback(null, false);
+    },
     credentials: true,
   })
 );
@@ -53,6 +57,7 @@ app.use('/api/v1', contentRoutes);
 
 // Health check
 app.get('/health', (_req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+app.get('/api/v1/health', (_req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
 // 404 handler
 app.use((_req, res) => res.status(404).json({ success: false, error: 'Route not found' }));
