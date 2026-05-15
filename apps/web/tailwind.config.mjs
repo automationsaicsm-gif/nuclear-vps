@@ -12,6 +12,10 @@ export default {
         'indigo-mid': '#4F46E5',
         coral:        '#F87171',
         'coral-dark': '#EF4444',
+        'text-h':     '#E0E7FF',
+        'text-body':  '#C7D2FE',
+        'text-muted': '#818CF8',
+        'text-dim':   '#6366F1',
       },
       fontFamily: {
         heading: ['Nunito', 'sans-serif'],
