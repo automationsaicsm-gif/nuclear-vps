@@ -10,7 +10,7 @@ import { logger } from '../utils/logger';
 
 const router = Router();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2024-04-10' });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2023-10-16' });
 
 const provisionVPS = async (invoiceId: string, planId: string, userId: string, location: string, os: string, billingCycle: string) => {
   const plan = await prisma.plan.findUnique({ where: { id: planId } });

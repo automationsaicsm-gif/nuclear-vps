@@ -57,7 +57,7 @@ const signToken = (userId: string, sessionToken?: string) => {
   return jwt.sign(
     { userId, sessionToken },
     process.env.JWT_SECRET!,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    { expiresIn: '7d' }
   );
 };
 

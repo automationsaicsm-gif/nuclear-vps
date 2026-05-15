@@ -85,7 +85,7 @@ router.get('/:id/pdf', async (req: AuthRequest, res) => {
   doc.fill('#818CF8').fontSize(10).text('Thank you for your business! Questions? support@Nuclear VPS.com', 50, 700, { align: 'center', width: 495 });
   doc.end();
 
-  await new Promise((resolve) => stream.on('finish', resolve));
+  await new Promise<void>((resolve) => stream.on('finish', () => resolve()));
 
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader('Content-Disposition', `attachment; filename=${invoice.invoiceNumber}.pdf`);

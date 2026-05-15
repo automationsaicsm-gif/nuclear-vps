@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd apps/web && pnpm install && pnpm build",
+  "buildCommand": "turbo run build --filter=@nuclear-vps/web",
   "outputDirectory": "apps/web/.vercel/output",
   "installCommand": "pnpm install --frozen-lockfile",
   "framework": null
