@@ -1,0 +1,36 @@
+﻿---
+import '../styles/global.css';
+import Topbar from '../components/Topbar.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Nuclear VPS — High Performance Trading VPS',
+  description = 'Powerful Forex VPS Optimized for Trading Robots and Expert Advisors. Low latency, 99.9% uptime, 24/7 support.',
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body class="bg-base text-text-body font-body min-h-screen">
+  <Topbar />
+  <Navbar />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+  <CookieBanner />
+</body>
+</html>

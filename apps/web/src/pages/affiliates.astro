@@ -1,0 +1,200 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AffiliateCalculator from '../components/sections/AffiliateCalculator';
+---
+<BaseLayout title="Affiliate Program — Nuclear VPS" description="Join the Nuclear VPS affiliate program and earn 15% recurring commissions for every trader you refer. Build your income stream today.">
+
+  <!-- Hero -->
+  <section class="bg-hero relative overflow-hidden py-20 lg:py-32">
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#F87171,transparent);transform:translate(30%,30%)"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 bg-coral/10 border border-coral/30 rounded-full px-4 py-2 mb-6">
+        <span class="text-coral text-sm font-heading font-bold">💰 Earn Recurring Commissions</span>
+      </div>
+      <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+        Refer and Profit:<br/>
+        <span class="text-coral">Build Your New Income Stream</span>
+      </h1>
+      <p class="text-text-body text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+        Earn 15% recurring commissions on every client you refer. Monthly payouts, real-time tracking, and zero limits on your earnings.
+      </p>
+
+      <!-- Animated counter -->
+      <div class="inline-block bg-deep border border-[#312E81] rounded-2xl px-8 py-5 mb-10">
+        <p class="text-text-muted text-sm mb-1 font-heading">Total paid to affiliates last month</p>
+        <div class="font-heading font-black text-5xl lg:text-6xl text-coral" id="affiliate-counter">$0</div>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/register?ref=affiliate" class="btn-primary text-lg px-8 py-4">Join the Program</a>
+        <a href="#calculator" class="btn-ghost text-lg px-8 py-4">Calculate Earnings</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Start Now? -->
+  <section class="bg-base py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">OPPORTUNITY</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Why Start Now?</h2>
+        <p class="text-text-muted text-lg">The trading technology market is growing fast. Be early.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          {
+            icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+            title: '15% Recurring Commission',
+            desc: 'Earn 15% on every payment your referrals make — month after month, for as long as they remain a customer. This is not a one-time deal. It is a real recurring income stream.',
+          },
+          {
+            icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+            title: 'Real-Time Dashboard',
+            desc: 'Track clicks, sign-ups, active referrals, and commissions in real time. Full transparency — you always know exactly what you are earning and when it will be paid.',
+          },
+          {
+            icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+            title: 'Instant Monthly Payouts',
+            desc: 'Commissions are paid every month with no minimum threshold. Receive payments via PayPal, bank transfer, or crypto. No waiting, no delays.',
+          },
+        ].map(({ icon, title, desc }) => (
+          <div class="bg-surface border border-[#312E81] rounded-2xl p-8 hover:border-coral hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200">
+            <div class="w-12 h-12 bg-deep rounded-2xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}/>
+              </svg>
+            </div>
+            <h3 class="font-heading font-black text-text-h text-xl mb-3">{title}</h3>
+            <p class="text-text-muted leading-relaxed">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Earnings Calculator -->
+  <section id="calculator" class="bg-surface py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <p class="section-tag mb-3">EARNINGS POTENTIAL</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">How Much Will You Earn?</h2>
+        <p class="text-text-muted text-lg">Slide to see your income potential based on referral count</p>
+      </div>
+      <AffiliateCalculator client:load />
+    </div>
+  </section>
+
+  <!-- Partner Types -->
+  <section class="bg-base py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">WHO IS THIS FOR?</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Who Can Be a Partner?</h2>
+        <p class="text-text-muted text-lg">Anyone with an audience of traders can earn. Here are some of the most successful partner types.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          {
+            emoji: '📊',
+            title: 'Forex Bloggers',
+            desc: 'If you run a trading blog or website, add our affiliate link to your content and earn from every reader who signs up.',
+          },
+          {
+            emoji: '📺',
+            title: 'YouTube Traders',
+            desc: 'Mention Nuclear VPS in your trading tutorials and strategy videos. Your viewers already need a VPS — help them find the best one.',
+          },
+          {
+            emoji: '📱',
+            title: 'Social Media Influencers',
+            desc: 'Instagram, Twitter/X, TikTok — share your affiliate link with your trading community and convert followers into commissions.',
+          },
+          {
+            emoji: '🤖',
+            title: 'EA / Robot Developers',
+            desc: 'Selling Expert Advisors? Bundle a Nuclear VPS recommendation with every sale. Your customers need a server anyway.',
+          },
+          {
+            emoji: '🎓',
+            title: 'Trading Educators',
+            desc: 'Running trading courses or mentorship programs? Recommend Nuclear VPS to your students and earn while they learn.',
+          },
+          {
+            emoji: '🏢',
+            title: 'Prop Firm Operators',
+            desc: 'Running a prop trading firm? Refer your traders to Nuclear VPS and earn a meaningful recurring income on every subscription.',
+          },
+        ].map(({ emoji, title, desc }) => (
+          <div class="bg-surface border border-[#312E81] rounded-2xl p-6 hover:border-coral hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200">
+            <div class="text-3xl mb-4">{emoji}</div>
+            <h3 class="font-heading font-black text-text-h text-lg mb-2">{title}</h3>
+            <p class="text-text-muted text-sm leading-relaxed">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="bg-surface py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">SIMPLE PROCESS</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">How It Works</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {[
+          { step: '01', title: 'Sign Up', desc: 'Create your free affiliate account in minutes.' },
+          { step: '02', title: 'Get Your Link', desc: 'Receive your unique tracking link from your dashboard.' },
+          { step: '03', title: 'Share & Promote', desc: 'Share your link with your trading audience anywhere online.' },
+          { step: '04', title: 'Get Paid', desc: 'Earn 15% recurring commissions, paid monthly.' },
+        ].map(({ step, title, desc }) => (
+          <div class="text-center">
+            <div class="w-16 h-16 bg-deep border border-coral rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span class="font-heading font-black text-coral text-xl">{step}</span>
+            </div>
+            <h3 class="font-heading font-black text-text-h text-lg mb-2">{title}</h3>
+            <p class="text-text-muted text-sm">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Banner -->
+  <section class="bg-hero py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-deep border border-coral/30 rounded-3xl p-10 text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 50% 0%, #F87171, transparent 70%)"></div>
+        <div class="relative z-10">
+          <h2 class="font-heading font-black text-4xl text-text-h mb-4">Ready to Start Earning?</h2>
+          <p class="text-text-body text-lg mb-8 leading-relaxed max-w-2xl mx-auto">
+            Join hundreds of affiliates already earning recurring monthly income with Nuclear VPS. Sign up today and get your unique referral link instantly.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="/register?ref=affiliate" class="btn-primary text-lg px-10 py-4">Join the Affiliate Program</a>
+            <a href="/contact-us" class="btn-ghost text-lg px-10 py-4">Have Questions?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  // Animate counter to $56,971
+  const target = 56971;
+  const el = document.getElementById('affiliate-counter');
+  if (el) {
+    let current = 0;
+    const step = Math.ceil(target / 80);
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = '$' + current.toLocaleString();
+      if (current >= target) clearInterval(timer);
+    }, 20);
+  }
+</script>

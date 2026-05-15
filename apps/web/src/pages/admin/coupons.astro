@@ -1,0 +1,143 @@
+﻿---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Coupons — Nuclear VPS">
+
+  <!-- Create form -->
+  <div class="card p-6 mb-8">
+    <h2 class="font-heading font-black text-text-h text-lg mb-5">Create Coupon</h2>
+    <div id="coupon-error" class="hidden mb-4 bg-coral/10 border border-coral/30 rounded-xl p-3 text-coral text-sm"></div>
+    <div id="coupon-success" class="hidden mb-4 bg-green-500/10 border border-green-500/30 rounded-xl p-3 text-green-400 text-sm"></div>
+    <form id="create-coupon-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Code</label>
+        <input id="cc-code" name="code" type="text" required placeholder="SAVE20"
+          class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm uppercase" />
+      </div>
+      <div>
+        <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Discount (%)</label>
+        <input id="cc-discount" name="discount" type="number" min="1" max="100" required placeholder="20"
+          class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
+      </div>
+      <div>
+        <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Max Uses</label>
+        <input id="cc-maxuses" name="maxUses" type="number" min="1" placeholder="Unlimited"
+          class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
+      </div>
+      <div>
+        <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Expiry Date</label>
+        <input id="cc-expiry" name="expiresAt" type="date"
+          class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+      </div>
+      <div class="sm:col-span-2 lg:col-span-4">
+        <button type="submit" class="btn-primary text-sm px-8 py-2.5">Create Coupon</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Coupons table -->
+  <div class="card overflow-hidden">
+    <div class="p-5 border-b border-[#312E81]">
+      <h2 class="font-heading font-black text-text-h">All Coupons</h2>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-deep border-b border-[#312E81]">
+            <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Code</th>
+            <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Discount</th>
+            <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Uses</th>
+            <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Expires</th>
+            <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Active</th>
+            <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="coupons-table">
+          <tr><td colspan="6" class="text-center py-10 text-text-muted">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    async function load() {
+      try {
+        const res = await fetch('/api/v1/admin/coupons', { credentials: 'include' });
+        const json = await res.json();
+        const coupons: any[] = json.data?.coupons || [];
+        const tbody = document.getElementById('coupons-table')!;
+        if (!coupons.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-10 text-text-muted text-sm">No coupons yet.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = coupons.map((c: any) => `
+          <tr class="border-b border-[#312E81] hover:bg-surface transition-colors">
+            <td class="px-5 py-4 font-mono font-black text-coral tracking-widest text-sm">${c.code}</td>
+            <td class="px-5 py-4 text-center font-heading font-black text-text-h">${c.discount}%</td>
+            <td class="px-5 py-4 text-center text-text-body text-sm">${c.uses}${c.maxUses ? ` / ${c.maxUses}` : ''}</td>
+            <td class="px-5 py-4 text-center text-text-muted text-xs">${c.expiresAt ? new Date(c.expiresAt).toLocaleDateString() : '—'}</td>
+            <td class="px-5 py-4 text-center">
+              ${c.active
+                ? '<span class="inline-block w-2 h-2 rounded-full bg-green-400"></span>'
+                : '<span class="inline-block w-2 h-2 rounded-full bg-surface border border-[#312E81]"></span>'
+              }
+            </td>
+            <td class="px-5 py-4 text-center">
+              <button data-cid="${c.id}" data-active="${c.active}" class="toggle-coupon text-xs font-heading font-bold ${c.active ? 'text-text-muted hover:text-coral' : 'text-coral hover:underline'}">
+                ${c.active ? 'Deactivate' : 'Activate'}
+              </button>
+            </td>
+          </tr>
+        `).join('');
+
+        document.querySelectorAll('.toggle-coupon').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-cid')!;
+            const active = btn.getAttribute('data-active') === 'true';
+            await fetch(`/api/v1/admin/coupons/${id}`, {
+              method: 'PUT', credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ active: !active }),
+            });
+            load();
+          });
+        });
+      } catch {
+        document.getElementById('coupons-table')!.innerHTML = '<tr><td colspan="6" class="text-center py-10 text-coral text-sm">Failed to load.</td></tr>';
+      }
+    }
+
+    document.getElementById('create-coupon-form')!.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('coupon-error')!;
+      const sucEl = document.getElementById('coupon-success')!;
+      errEl.classList.add('hidden');
+      sucEl.classList.add('hidden');
+      const form = e.target as HTMLFormElement;
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const res = await fetch('/api/v1/admin/coupons', {
+          method: 'POST', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            code: (data.code as string).toUpperCase(),
+            discount: parseFloat(data.discount as string),
+            maxUses: data.maxUses ? parseInt(data.maxUses as string) : undefined,
+            expiresAt: data.expiresAt || undefined,
+          }),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error);
+        sucEl.textContent = `Coupon "${data.code}" created!`;
+        sucEl.classList.remove('hidden');
+        form.reset();
+        load();
+      } catch (err: any) {
+        errEl.textContent = err.message;
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    load();
+  </script>
+</AdminLayout>

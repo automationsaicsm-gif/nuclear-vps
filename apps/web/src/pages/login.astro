@@ -1,0 +1,127 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Login — Nuclear VPS" description="Sign in to your Nuclear VPS account.">
+  <section class="min-h-[80vh] flex items-center justify-center py-20 px-4">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-10">
+        <a href="/" class="inline-block mb-8">
+          <span class="font-heading font-black text-3xl text-text-h">NUCLEAR</span><span class="font-heading font-black text-3xl text-coral">VPS</span>
+        </a>
+        <h1 class="font-heading font-black text-3xl text-text-h mb-2">Welcome Back</h1>
+        <p class="text-text-muted">Sign in to manage your VPS services</p>
+      </div>
+
+      <div class="bg-surface border border-[#312E81] rounded-2xl p-8">
+        <div id="login-error" class="hidden mb-6 bg-coral/10 border border-coral/30 rounded-xl p-4 text-coral text-sm"></div>
+
+        <form id="login-form" class="space-y-5">
+          <div>
+            <label class="block text-text-body text-sm font-heading font-bold mb-2" for="email">Email Address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+              placeholder="you@example.com"
+            />
+          </div>
+
+          <div>
+            <label class="block text-text-body text-sm font-heading font-bold mb-2" for="password">Password</label>
+            <div class="relative">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+                class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors pr-12"
+                placeholder="••••••••"
+              />
+              <button type="button" id="toggle-pw" class="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-coral transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" name="remember" class="w-4 h-4 rounded border-[#312E81] bg-base accent-coral" />
+              <span class="text-text-muted text-sm">Remember me</span>
+            </label>
+            <a href="/forgot-password" class="text-coral text-sm hover:underline font-heading font-bold">Forgot password?</a>
+          </div>
+
+          <button
+            type="submit"
+            id="login-btn"
+            class="w-full btn-primary py-3 text-base flex items-center justify-center gap-2"
+          >
+            <span id="login-btn-text">Sign In</span>
+            <svg id="login-spinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+            </svg>
+          </button>
+        </form>
+
+        <p class="text-center text-text-muted text-sm mt-6">
+          Don't have an account?
+          <a href="/register" class="text-coral font-heading font-bold hover:underline ml-1">Create one free</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById('login-form') as HTMLFormElement;
+    const errorBox = document.getElementById('login-error')!;
+    const btn = document.getElementById('login-btn') as HTMLButtonElement;
+    const btnText = document.getElementById('login-btn-text')!;
+    const spinner = document.getElementById('login-spinner')!;
+    const togglePw = document.getElementById('toggle-pw')!;
+    const pwInput = document.getElementById('password') as HTMLInputElement;
+
+    togglePw.addEventListener('click', () => {
+      pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.classList.add('hidden');
+      btn.disabled = true;
+      btnText.textContent = 'Signing in...';
+      spinner.classList.remove('hidden');
+
+      const data = Object.fromEntries(new FormData(form));
+
+      try {
+        const res = await fetch('/api/v1/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email: data.email, password: data.password }),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Login failed');
+
+        localStorage.setItem('nuclear-vps-auth', JSON.stringify({ state: { user: json.data.user } }));
+
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = params.get('redirect') || '/dashboard';
+      } catch (err: any) {
+        errorBox.textContent = err.message;
+        errorBox.classList.remove('hidden');
+        btn.disabled = false;
+        btnText.textContent = 'Sign In';
+        spinner.classList.add('hidden');
+      }
+    });
+  </script>
+</BaseLayout>

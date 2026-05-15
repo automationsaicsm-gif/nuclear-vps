@@ -1,0 +1,68 @@
+﻿---
+---
+<footer class="bg-footer border-t border-[#312E81]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+      <!-- Brand -->
+      <div class="md:col-span-1">
+        <a href="/" class="inline-block mb-4">
+          <span class="font-heading font-black text-2xl text-text-h">NUCLEAR</span><span class="font-heading font-black text-2xl text-coral">VPS</span>
+        </a>
+        <p class="text-text-muted text-sm leading-relaxed mb-6">
+          High performance Forex VPS hosting optimized for trading robots and expert advisors.
+        </p>
+        <!-- Socials -->
+        <div class="flex gap-4">
+          {[
+            { href: '#', label: 'Facebook', path: 'M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z' },
+            { href: '#', label: 'Twitter', path: 'M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z' },
+            { href: '#', label: 'LinkedIn', path: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z M4 6a2 2 0 100-4 2 2 0 000 4z' },
+          ].map(({ href, label, path }) => (
+            <a href={href} aria-label={label} class="w-9 h-9 rounded-full bg-surface border border-[#312E81] flex items-center justify-center text-text-muted hover:text-coral hover:border-coral transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={path}/></svg>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div>
+        <h4 class="font-heading font-black text-text-h text-sm uppercase tracking-widest mb-4">Products</h4>
+        <ul class="space-y-3">
+          {[['Trading VPS', '/trading-vps'], ['Trading Servers', '/trading-servers'], ['Affiliates', '/affiliates']].map(([label, href]) => (
+            <li><a href={href} class="text-text-dim hover:text-coral text-sm transition-colors">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h4 class="font-heading font-black text-text-h text-sm uppercase tracking-widest mb-4">Support</h4>
+        <ul class="space-y-3">
+          {[['Contact Us', '/contact-us'], ['Knowledgebase', '/knowledgebase'], ['Broker Latency', '/forex-broker-latency']].map(([label, href]) => (
+            <li><a href={href} class="text-text-dim hover:text-coral text-sm transition-colors">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h4 class="font-heading font-black text-text-h text-sm uppercase tracking-widest mb-4">Legal</h4>
+        <ul class="space-y-3">
+          {[['Cookie Policy', '/cookie-policy'], ['Privacy Policy', '/privacy-policy'], ['Terms & Conditions', '/terms']].map(([label, href]) => (
+            <li><a href={href} class="text-text-dim hover:text-coral text-sm transition-colors">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-[#312E81] mt-12 pt-8">
+      <p class="text-text-dim text-sm text-center">
+        © {new Date().getFullYear()} Nuclear VPS. All rights reserved.
+      </p>
+      <p class="text-[#6366F1] text-xs text-center mt-2 max-w-2xl mx-auto">
+        Risk Warning: Trading financial instruments carries a high level of risk and may not be suitable for all investors. Past performance is not indicative of future results.
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,121 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactFAQTabs from '../components/sections/ContactFAQTabs';
+---
+<BaseLayout title="Contact Us — Nuclear VPS" description="Get help from the Nuclear VPS support team. Open a ticket or browse the knowledge base.">
+
+  <!-- Hero -->
+  <section class="bg-hero relative overflow-hidden py-20">
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="section-tag mb-4">SUPPORT</p>
+      <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+        Need Help? Contact Our<br/>
+        <span class="text-coral">Amazing Team</span>
+      </h1>
+      <p class="text-text-body text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        Our support team is available 24/7 to help you with any questions about your VPS, billing, or account.
+      </p>
+
+      <!-- KB Search -->
+      <div class="relative max-w-xl mx-auto">
+        <input
+          id="kb-search"
+          type="text"
+          placeholder="Search the knowledge base..."
+          class="w-full bg-surface border border-[#312E81] rounded-2xl px-6 py-4 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors pr-14"
+        />
+        <button id="kb-search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-coral hover:text-coral-dark transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </button>
+      </div>
+      <div id="kb-results" class="hidden mt-4 bg-surface border border-[#312E81] rounded-2xl text-left overflow-hidden max-w-xl mx-auto"></div>
+    </div>
+  </section>
+
+  <!-- Contact options -->
+  <section class="bg-base py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <!-- Open Ticket -->
+        <a href="/dashboard/tickets/new" class="group card p-8 text-center hover:border-coral transition-all duration-200">
+          <div class="w-16 h-16 bg-indigo-mid rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-coral transition-colors duration-200">
+            <svg class="w-8 h-8 text-coral group-hover:text-white transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+            </svg>
+          </div>
+          <h3 class="font-heading font-black text-text-h text-xl mb-2">Open a Support Ticket</h3>
+          <p class="text-text-muted text-sm leading-relaxed">Submit a detailed request and our team will respond within minutes. Track your ticket in real time.</p>
+          <span class="inline-block mt-4 text-coral font-heading font-bold text-sm group-hover:underline">Open Ticket →</span>
+        </a>
+
+        <!-- Knowledge Base -->
+        <a href="/knowledgebase" class="group card p-8 text-center hover:border-coral transition-all duration-200">
+          <div class="w-16 h-16 bg-indigo-mid rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-coral transition-colors duration-200">
+            <svg class="w-8 h-8 text-coral group-hover:text-white transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <h3 class="font-heading font-black text-text-h text-xl mb-2">Knowledge Base</h3>
+          <p class="text-text-muted text-sm leading-relaxed">Browse guides, tutorials, and answers to the most common questions about your VPS.</p>
+          <span class="inline-block mt-4 text-coral font-heading font-bold text-sm group-hover:underline">Browse Articles →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Tabs -->
+  <section class="bg-surface py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">FAQ</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Frequently Asked Questions</h2>
+        <p class="text-text-muted text-lg">Browse by category to find what you need</p>
+      </div>
+      <ContactFAQTabs client:load />
+    </div>
+  </section>
+
+  <script>
+    const searchInput = document.getElementById('kb-search') as HTMLInputElement;
+    const searchBtn = document.getElementById('kb-search-btn')!;
+    const resultsBox = document.getElementById('kb-results')!;
+
+    let debounceTimer: ReturnType<typeof setTimeout>;
+
+    async function doSearch(q: string) {
+      if (!q.trim()) { resultsBox.classList.add('hidden'); return; }
+      try {
+        const res = await fetch(`/api/v1/knowledgebase/search?q=${encodeURIComponent(q)}`);
+        const json = await res.json();
+        const articles = json.data?.articles || [];
+        if (!articles.length) {
+          resultsBox.innerHTML = '<p class="p-4 text-text-muted text-sm">No articles found.</p>';
+        } else {
+          resultsBox.innerHTML = articles.map((a: any) => `
+            <a href="/knowledgebase/${a.slug}" class="block px-5 py-3 hover:bg-base transition-colors border-b border-[#312E81] last:border-0">
+              <p class="text-text-h font-heading font-bold text-sm">${a.title}</p>
+              <p class="text-text-muted text-xs mt-0.5">${a.category}</p>
+            </a>
+          `).join('');
+        }
+        resultsBox.classList.remove('hidden');
+      } catch {}
+    }
+
+    searchInput.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => doSearch(searchInput.value), 350);
+    });
+
+    searchBtn.addEventListener('click', () => doSearch(searchInput.value));
+
+    document.addEventListener('click', (e) => {
+      if (!resultsBox.contains(e.target as Node) && e.target !== searchInput) {
+        resultsBox.classList.add('hidden');
+      }
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,123 @@
+﻿---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Admin Dashboard — Nuclear VPS">
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+    {[
+      { label: 'Total Users', id: 'kpi-users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', coral: false },
+      { label: 'Active Services', id: 'kpi-services', icon: 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01', coral: true },
+      { label: 'Monthly Revenue', id: 'kpi-mrr', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', coral: true },
+      { label: 'Open Tickets', id: 'kpi-tickets', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', coral: false },
+    ].map(({ label, id, icon, coral }) => (
+      <div class="card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <p class="text-text-muted text-sm font-heading font-bold">{label}</p>
+          <div class="w-10 h-10 bg-indigo-mid rounded-xl flex items-center justify-center">
+            <svg class={`w-5 h-5 ${coral ? 'text-coral' : 'text-text-muted'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}/>
+            </svg>
+          </div>
+        </div>
+        <p class={`font-heading font-black text-3xl ${coral ? 'text-coral' : 'text-text-h'}`} id={id}>—</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <!-- Recent Orders -->
+    <div class="card p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-heading font-black text-text-h text-lg">Recent Orders</h2>
+        <a href="/admin/invoices" class="text-coral text-sm font-heading font-bold hover:underline">View all</a>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-[#312E81]">
+              <th class="text-left pb-3 text-text-muted font-heading font-black text-xs uppercase tracking-wide">Invoice</th>
+              <th class="text-left pb-3 text-text-muted font-heading font-black text-xs uppercase tracking-wide">Client</th>
+              <th class="text-right pb-3 text-text-muted font-heading font-black text-xs uppercase tracking-wide">Amount</th>
+              <th class="text-right pb-3 text-text-muted font-heading font-black text-xs uppercase tracking-wide">Status</th>
+            </tr>
+          </thead>
+          <tbody id="recent-orders">
+            <tr><td colspan="4" class="text-center py-6 text-text-muted">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Recent Tickets -->
+    <div class="card p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-heading font-black text-text-h text-lg">Recent Tickets</h2>
+        <a href="/admin/tickets" class="text-coral text-sm font-heading font-bold hover:underline">View all</a>
+      </div>
+      <div class="space-y-3" id="recent-tickets">
+        <p class="text-text-muted text-sm">Loading...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/v1/admin/stats', { credentials: 'include' });
+        const json = await res.json();
+        const d = json.data || {};
+        document.getElementById('kpi-users')!.textContent = d.totalUsers ?? '0';
+        document.getElementById('kpi-services')!.textContent = d.activeServices ?? '0';
+        document.getElementById('kpi-mrr')!.textContent = `$${(d.mrr ?? 0).toFixed(2)}`;
+        document.getElementById('kpi-tickets')!.textContent = d.openTickets ?? '0';
+
+        // Recent orders
+        const orders: any[] = d.recentInvoices || [];
+        const ordersEl = document.getElementById('recent-orders')!;
+        if (!orders.length) {
+          ordersEl.innerHTML = '<tr><td colspan="4" class="text-center py-6 text-text-muted text-sm">No invoices yet.</td></tr>';
+        } else {
+          ordersEl.innerHTML = orders.map((inv: any) => `
+            <tr class="border-b border-[#312E81] last:border-0">
+              <td class="py-3 text-text-body font-mono text-xs">${inv.invoiceNumber}</td>
+              <td class="py-3 text-text-body text-xs">${inv.user?.firstName || ''} ${inv.user?.lastName || ''}</td>
+              <td class="py-3 text-right text-coral font-heading font-black">$${inv.amount.toFixed(2)}</td>
+              <td class="py-3 text-right">
+                <span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black ${
+                  inv.status === 'PAID' ? 'bg-green-500/10 text-green-400' :
+                  inv.status === 'UNPAID' ? 'bg-coral/10 text-coral' :
+                  'bg-surface text-text-muted'
+                }">${inv.status}</span>
+              </td>
+            </tr>
+          `).join('');
+        }
+
+        // Recent tickets
+        const tickets: any[] = d.recentTickets || [];
+        const ticketsEl = document.getElementById('recent-tickets')!;
+        if (!tickets.length) {
+          ticketsEl.innerHTML = '<p class="text-text-muted text-sm">No tickets yet.</p>';
+        } else {
+          ticketsEl.innerHTML = tickets.map((t: any) => `
+            <a href="/admin/tickets" class="flex items-center justify-between card px-4 py-3 hover:border-coral transition-all group">
+              <div class="min-w-0 flex-1">
+                <p class="font-heading font-bold text-text-h text-sm truncate group-hover:text-coral transition-colors">${t.subject}</p>
+                <p class="text-text-muted text-xs mt-0.5">${t.department} · ${t.user?.email || ''}</p>
+              </div>
+              <span class="ml-3 inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black shrink-0 ${
+                t.priority === 'URGENT' ? 'bg-coral/20 text-coral' :
+                t.priority === 'HIGH' ? 'bg-amber-500/10 text-amber-400' :
+                'bg-surface text-text-muted'
+              }">${t.priority}</span>
+            </a>
+          `).join('');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    loadStats();
+  </script>
+</AdminLayout>

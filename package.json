@@ -1,0 +1,31 @@
+{
+  "name": "nuclear-vps",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "db:migrate": "pnpm --filter @nuclear-vps/db migrate",
+    "db:seed": "pnpm --filter @nuclear-vps/db seed",
+    "db:studio": "pnpm --filter @nuclear-vps/db studio",
+    "db:generate": "pnpm --filter @nuclear-vps/db generate"
+  },
+  "devDependencies": {
+    "turbo": "^1.13.4",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.4"
+}

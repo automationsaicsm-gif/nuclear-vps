@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+.tmp/
+dist/
+.astro/
+*.local
+*.log
+.DS_Store
+Thumbs.db
+coverage/
+.turbo/
+prisma/migrations/dev.db
+apps/api/dist/
+apps/web/dist/
+apps/web/.astro/

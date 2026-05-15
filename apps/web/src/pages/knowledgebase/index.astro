@@ -1,0 +1,171 @@
+﻿---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Knowledge Base — Nuclear VPS" description="Guides, tutorials, and answers to common questions about your Nuclear VPS.">
+
+  <!-- Hero -->
+  <section class="bg-hero py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="section-tag mb-4">KNOWLEDGE BASE</p>
+      <h1 class="font-heading font-black text-4xl lg:text-5xl text-text-h mb-6">How can we help you?</h1>
+
+      <div class="relative max-w-2xl mx-auto">
+        <input
+          id="kb-search"
+          type="text"
+          placeholder="Search articles, guides, FAQs..."
+          class="w-full bg-surface border border-[#312E81] rounded-2xl px-6 py-4 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors pr-14 text-lg"
+        />
+        <button id="kb-search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-coral hover:text-coral-dark transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search results -->
+  <div id="search-results" class="hidden bg-base">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-heading font-black text-text-h text-xl mb-6" id="results-heading">Search Results</h2>
+      <div id="results-list" class="space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <section id="categories-section" class="bg-base py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="categories-grid">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Articles -->
+  <section class="bg-surface py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="font-heading font-black text-text-h text-2xl mb-8">Recent Articles</h2>
+      <div id="recent-articles" class="space-y-3">
+        <div class="text-text-muted text-sm">Loading articles...</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const categories = [
+      { name: 'Getting Started', icon: 'M13 10V3L4 14h7v7l9-11h-7z', count: 0 },
+      { name: 'Account & Billing', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', count: 0 },
+      { name: 'VPS Setup & Access', icon: 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01', count: 0 },
+      { name: 'Troubleshooting', icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z', count: 0 },
+      { name: 'Optimization', icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', count: 0 },
+      { name: 'Trading Platforms', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', count: 0 },
+    ];
+
+    const grid = document.getElementById('categories-grid')!;
+    grid.innerHTML = categories.map(cat => `
+      <button data-cat="${cat.name}" class="card p-6 text-left hover:border-coral transition-all duration-200 group w-full">
+        <div class="w-12 h-12 bg-indigo-mid rounded-xl flex items-center justify-center mb-4 group-hover:bg-coral transition-colors">
+          <svg class="w-6 h-6 text-coral group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${cat.icon}"/>
+          </svg>
+        </div>
+        <h3 class="font-heading font-black text-text-h mb-1">${cat.name}</h3>
+        <p class="text-text-muted text-sm" id="cat-count-${cat.name.replace(/\s+/g,'_')}">Loading...</p>
+      </button>
+    `).join('');
+
+    async function loadArticles() {
+      try {
+        const res = await fetch('/api/v1/knowledgebase');
+        const json = await res.json();
+        const articles: any[] = json.data?.articles || [];
+
+        // Count by category
+        const counts: Record<string, number> = {};
+        articles.forEach((a: any) => { counts[a.category] = (counts[a.category] || 0) + 1; });
+        categories.forEach(cat => {
+          const el = document.getElementById(`cat-count-${cat.name.replace(/\s+/g,'_')}`);
+          if (el) el.textContent = `${counts[cat.name] || 0} articles`;
+        });
+
+        // Recent articles
+        const recentEl = document.getElementById('recent-articles')!;
+        if (!articles.length) {
+          recentEl.innerHTML = '<p class="text-text-muted text-sm">No articles yet.</p>';
+        } else {
+          recentEl.innerHTML = articles.slice(0, 8).map((a: any) => `
+            <a href="/knowledgebase/${a.slug}" class="flex items-center justify-between card px-5 py-4 hover:border-coral transition-all duration-200 group">
+              <div>
+                <h4 class="font-heading font-bold text-text-h text-sm group-hover:text-coral transition-colors">${a.title}</h4>
+                <p class="text-text-muted text-xs mt-0.5">${a.category} · ${a.views} views</p>
+              </div>
+              <svg class="w-4 h-4 text-text-muted group-hover:text-coral transition-colors shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          `).join('');
+        }
+      } catch {
+        document.getElementById('recent-articles')!.innerHTML = '<p class="text-coral text-sm">Failed to load articles.</p>';
+      }
+    }
+
+    // Category filter
+    document.addEventListener('click', async (e) => {
+      const btn = (e.target as Element).closest('[data-cat]');
+      if (!btn) return;
+      const cat = btn.getAttribute('data-cat')!;
+      const res = await fetch(`/api/v1/knowledgebase?category=${encodeURIComponent(cat)}`);
+      const json = await res.json();
+      const articles: any[] = json.data?.articles || [];
+      showResults(`Category: ${cat}`, articles);
+    });
+
+    function showResults(heading: string, articles: any[]) {
+      document.getElementById('search-results')!.classList.remove('hidden');
+      document.getElementById('categories-section')!.classList.add('hidden');
+      document.getElementById('results-heading')!.textContent = heading;
+      const list = document.getElementById('results-list')!;
+      if (!articles.length) {
+        list.innerHTML = '<p class="text-text-muted">No articles found.</p>';
+      } else {
+        list.innerHTML = articles.map((a: any) => `
+          <a href="/knowledgebase/${a.slug}" class="card px-5 py-4 flex items-center justify-between hover:border-coral transition-all group">
+            <div>
+              <h4 class="font-heading font-bold text-text-h group-hover:text-coral transition-colors">${a.title}</h4>
+              <p class="text-text-muted text-xs mt-1">${a.category}</p>
+            </div>
+            <svg class="w-4 h-4 text-text-muted group-hover:text-coral transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        `).join('');
+      }
+    }
+
+    // Search
+    let timer: ReturnType<typeof setTimeout>;
+    const searchInput = document.getElementById('kb-search') as HTMLInputElement;
+
+    async function doSearch(q: string) {
+      if (!q.trim()) {
+        document.getElementById('search-results')!.classList.add('hidden');
+        document.getElementById('categories-section')!.classList.remove('hidden');
+        return;
+      }
+      const res = await fetch(`/api/v1/knowledgebase/search?q=${encodeURIComponent(q)}`);
+      const json = await res.json();
+      showResults(`Results for "${q}"`, json.data?.articles || []);
+    }
+
+    searchInput.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => doSearch(searchInput.value), 350);
+    });
+
+    document.getElementById('kb-search-btn')!.addEventListener('click', () => doSearch(searchInput.value));
+
+    loadArticles();
+  </script>
+</BaseLayout>

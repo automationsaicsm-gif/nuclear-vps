@@ -1,0 +1,321 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  firstName         String
+  lastName          String
+  email             String    @unique
+  passwordHash      String
+  phone             String?
+  company           String?
+  country           String    @default("US")
+  address           String?
+  role              Role      @default(CLIENT)
+  emailVerified     Boolean   @default(false)
+  twoFactorEnabled  Boolean   @default(false)
+  twoFactorSecret   String?
+  creditBalance     Float     @default(0)
+  affiliateCode     String?   @unique
+  affiliateCoupon   String?   @unique
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  services           Service[]
+  invoices           Invoice[]
+  tickets            Ticket[]
+  affiliateReferrals AffiliateReferral[] @relation("referrer")
+  referredBy         AffiliateReferral?  @relation("referred")
+  passwordResets     PasswordReset[]
+  notifications      Notification[]
+  sessions           Session[]
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+  SUPPORT
+}
+
+model Plan {
+  id             String       @id @default(cuid())
+  name           String
+  slug           String       @unique
+  category       PlanCategory
+  monthlyPrice   Float
+  quarterlyPrice Float
+  annualPrice    Float
+  ram            String
+  cpu            String
+  storage        String
+  platforms      Int
+  os             String[]
+  linuxAvailable Boolean      @default(false)
+  featured       Boolean      @default(false)
+  available      Boolean      @default(true)
+  sortOrder      Int          @default(0)
+  createdAt      DateTime     @default(now())
+
+  services Service[]
+}
+
+enum PlanCategory {
+  TRADING_VPS
+  TRADING_SERVER
+}
+
+model Service {
+  id           String        @id @default(cuid())
+  userId       String
+  planId       String
+  status       ServiceStatus @default(PENDING)
+  billingCycle BillingCycle
+  location     Location
+  os           String        @default("Windows 2022")
+  ipAddress    String?
+  hostname     String?
+  username     String?       @default("Administrator")
+  passwordHash String?
+  nextDueDate  DateTime?
+  terminatedAt DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id])
+  plan     Plan      @relation(fields: [planId], references: [id])
+  invoices Invoice[]
+  backups  Backup[]
+}
+
+enum ServiceStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  TERMINATED
+  CANCELLED
+}
+
+enum BillingCycle {
+  MONTHLY
+  QUARTERLY
+  ANNUALLY
+}
+
+enum Location {
+  LONDON
+  NEW_YORK
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique
+  userId        String
+  serviceId     String?
+  amount        Float
+  status        InvoiceStatus @default(UNPAID)
+  dueDate       DateTime
+  paidAt        DateTime?
+  paymentMethod String?
+  stripeId      String?
+  paypalId      String?
+  coinbaseId    String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+
+  user    User          @relation(fields: [userId], references: [id])
+  service Service?      @relation(fields: [serviceId], references: [id])
+  items   InvoiceItem[]
+}
+
+enum InvoiceStatus {
+  UNPAID
+  PAID
+  CANCELLED
+  REFUNDED
+}
+
+model InvoiceItem {
+  id          String @id @default(cuid())
+  invoiceId   String
+  description String
+  amount      Float
+  quantity    Int    @default(1)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+}
+
+model Ticket {
+  id           String       @id @default(cuid())
+  userId       String
+  ticketNumber String       @unique
+  subject      String
+  department   Department
+  priority     Priority     @default(MEDIUM)
+  status       TicketStatus @default(OPEN)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  user     User            @relation(fields: [userId], references: [id])
+  messages TicketMessage[]
+}
+
+enum Department {
+  GENERAL
+  BILLING
+  TECHNICAL
+  SALES
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_CLIENT
+  RESOLVED
+  CLOSED
+}
+
+model TicketMessage {
+  id          String   @id @default(cuid())
+  ticketId    String
+  authorId    String
+  authorRole  Role
+  message     String
+  attachments String[]
+  createdAt   DateTime @default(now())
+
+  ticket Ticket @relation(fields: [ticketId], references: [id])
+}
+
+model AffiliateReferral {
+  id         String   @id @default(cuid())
+  referrerId String
+  referredId String   @unique
+  commission Float    @default(0)
+  status     String   @default("pending")
+  createdAt  DateTime @default(now())
+
+  referrer User @relation("referrer", fields: [referrerId], references: [id])
+  referred User @relation("referred", fields: [referredId], references: [id])
+}
+
+model AffiliateWithdrawal {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Float
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
+
+model KnowledgeArticle {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  category  String
+  views     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FAQ {
+  id        String @id @default(cuid())
+  question  String
+  answer    String
+  category  String @default("general")
+  sortOrder Int    @default(0)
+  page      String @default("home")
+}
+
+model Testimonial {
+  id        String  @id @default(cuid())
+  name      String
+  handle    String?
+  company   String?
+  content   String
+  rating    Int     @default(5)
+  active    Boolean @default(true)
+  sortOrder Int     @default(0)
+}
+
+model BrokerLatency {
+  id          String   @id @default(cuid())
+  broker      String
+  london      Float
+  newYork     Float
+  recommended Location
+  updatedAt   DateTime @updatedAt
+}
+
+model Backup {
+  id        String   @id @default(cuid())
+  serviceId String
+  filename  String
+  size      String
+  createdAt DateTime @default(now())
+
+  service Service @relation(fields: [serviceId], references: [id])
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model CouponCode {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  discount    Float
+  affiliateId String?
+  uses        Int       @default(0)
+  maxUses     Int?
+  expiresAt   DateTime?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}

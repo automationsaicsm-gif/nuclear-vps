@@ -1,0 +1,29 @@
+﻿---
+---
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 z-50 bg-deep border-t border-[#312E81] p-4 hidden">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-text-muted text-sm">
+      We use cookies to improve your experience. By continuing to use this site, you agree to our
+      <a href="/cookie-policy" class="text-coral hover:underline">Cookie Policy</a>.
+    </p>
+    <div class="flex gap-3 shrink-0">
+      <button id="cookie-reject" class="btn-ghost text-sm px-4 py-2">Reject All</button>
+      <button id="cookie-accept" class="btn-primary text-sm px-4 py-2">Accept All</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById('cookie-banner');
+  const consent = document.cookie.split(';').find(c => c.trim().startsWith('Nuclear VPS_cookie_consent='));
+
+  if (!consent) banner?.classList.remove('hidden');
+
+  const setCookie = (val: string) => {
+    document.cookie = `Nuclear VPS_cookie_consent=${val};max-age=${365*24*60*60};path=/;SameSite=Lax`;
+    banner?.classList.add('hidden');
+  };
+
+  document.getElementById('cookie-accept')?.addEventListener('click', () => setCookie('accepted'));
+  document.getElementById('cookie-reject')?.addEventListener('click', () => setCookie('rejected'));
+</script>

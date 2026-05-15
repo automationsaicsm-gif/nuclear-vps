@@ -1,0 +1,271 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Trading Servers — Nuclear VPS" description="Dedicated trading servers with bare-metal performance. Ryzen 7700 and 7950X3D configurations for serious algorithmic traders.">
+
+  <!-- Hero -->
+  <section class="bg-hero relative overflow-hidden py-20 lg:py-32">
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#F87171,transparent);transform:translate(30%,30%)"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="lg:w-3/5">
+          <div class="inline-flex items-center gap-2 bg-coral/10 border border-coral/30 rounded-full px-4 py-2 mb-6">
+            <span class="text-coral text-sm font-heading font-bold">🖥 Bare-Metal Performance</span>
+          </div>
+          <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+            Trading <span class="text-coral">Servers</span>
+          </h1>
+          <p class="text-text-body text-xl mb-8 leading-relaxed">
+            Dedicated bare-metal servers for professional algorithmic traders who need maximum processing power and unshared resources. No virtualization overhead — pure performance.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#server-plans" class="btn-primary text-lg px-8 py-4">View Server Plans</a>
+            <a href="/contact-us" class="btn-ghost text-lg px-8 py-4">Talk to Sales</a>
+          </div>
+        </div>
+        <div class="lg:w-2/5 flex justify-center">
+          <!-- Server rack illustration -->
+          <div class="bg-deep border border-[#312E81] rounded-2xl p-8 w-full max-w-sm" style="box-shadow:0 0 40px rgba(248,113,113,0.1)">
+            {[0, 1, 2, 3].map((i) => (
+              <div class="border border-[#312E81] rounded-lg p-3 mb-3 flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-coral shrink-0" style="box-shadow:0 0 6px #F87171"></div>
+                <div class="flex-1">
+                  <div class="h-1.5 bg-[#312E81] rounded-full mb-1.5"></div>
+                  <div class="h-1 bg-[#252272] rounded-full w-3/4"></div>
+                </div>
+                <div class="text-coral/60 text-xs font-heading font-bold">OK</div>
+              </div>
+            ))}
+            <div class="mt-4 text-center">
+              <span class="text-text-muted text-xs font-heading">DEDICATED RACK UNIT</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="bg-deep border-y border-[#312E81] py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap justify-around gap-6">
+        {[
+          { value: '100%', label: 'Dedicated Resources' },
+          { value: '< 0.5ms', label: 'Internal Latency' },
+          { value: '99.99%', label: 'Uptime SLA' },
+          { value: '10Gbps', label: 'Network Uplink' },
+          { value: '24/7', label: 'Expert Support' },
+        ].map(({ value, label }) => (
+          <div class="text-center">
+            <div class="font-heading font-black text-coral text-2xl lg:text-3xl">{value}</div>
+            <div class="text-text-muted text-xs mt-1">{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Server Plans -->
+  <section id="server-plans" class="bg-base py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">DEDICATED SERVER PLANS</p>
+        <h2 class="font-heading font-black text-4xl lg:text-5xl text-text-h mb-4">Choose Your Server</h2>
+        <p class="text-text-muted text-lg">Bare-metal performance with full Windows or Linux support</p>
+      </div>
+
+      <!-- Billing cycle tabs -->
+      <div class="flex justify-center mb-12">
+        <div class="flex bg-deep border border-[#312E81] rounded-full p-1 gap-1" id="server-cycle-tabs">
+          <button data-cycle="monthly" class="server-cycle-btn active px-5 py-2 rounded-full font-heading font-bold text-sm transition-all duration-200 bg-coral text-white">Monthly</button>
+          <button data-cycle="quarterly" class="server-cycle-btn px-5 py-2 rounded-full font-heading font-bold text-sm transition-all duration-200 text-text-muted hover:text-text-body">Quarterly (Save 6%)</button>
+          <button data-cycle="annually" class="server-cycle-btn px-5 py-2 rounded-full font-heading font-bold text-sm transition-all duration-200 text-text-muted hover:text-text-body">1-Year (Save 17%)</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Server 7700 -->
+        <div class="relative bg-surface border border-[#312E81] rounded-2xl p-8 hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200">
+          <h3 class="font-heading font-black text-text-h text-2xl mb-2">Server 7700</h3>
+          <p class="text-text-muted text-sm mb-4">Professional-grade dedicated server for active algo traders</p>
+          <div class="mb-1"><span class="text-text-muted line-through text-sm server-original">$250/mo</span></div>
+          <div class="flex items-end gap-1 mb-6">
+            <span class="text-coral font-heading font-black text-5xl server-price" data-monthly="250" data-quarterly="235" data-annually="208.33">$250</span>
+            <span class="text-text-muted text-sm mb-2">/month</span>
+          </div>
+          <div class="border-t border-[#312E81] my-4"></div>
+          <ul class="space-y-3 mb-8">
+            {[
+              'AMD Ryzen 7700 Processor',
+              '8 Cores / 16 Threads',
+              '5.4 GHz Max Boost Clock',
+              '64 GB DDR5 ECC RAM',
+              '2 TB NVMe SSD Storage',
+              'Windows Server or Linux',
+              'Any Trading Platform',
+              '10Gbps Network Uplink',
+            ].map((f) => (
+              <li class="flex items-center gap-2 text-text-body text-sm">
+                <div class="w-4 h-4 rounded-full bg-coral/20 flex items-center justify-center shrink-0">
+                  <div class="w-1.5 h-1.5 rounded-full bg-coral"></div>
+                </div>
+                {f}
+              </li>
+            ))}
+          </ul>
+          <a href="/register?redirect=/dashboard/order&plan=server-7700" class="block w-full bg-coral hover:bg-coral-dark text-white font-heading font-black py-3 rounded-xl transition-all duration-200 text-center">Order Server 7700</a>
+        </div>
+
+        <!-- Server 7950X3D (featured) -->
+        <div class="relative bg-surface border-2 border-coral rounded-2xl p-8 hover:shadow-[0_0_0_2px_#F87171] transition-all duration-200">
+          <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+            <span class="bg-coral text-white font-heading font-bold text-xs px-4 py-1 rounded-full">Most Powerful</span>
+          </div>
+          <h3 class="font-heading font-black text-text-h text-2xl mb-2">Server 7950X3D</h3>
+          <p class="text-text-muted text-sm mb-4">Ultimate trading server for institutional-grade operations</p>
+          <div class="mb-1"><span class="text-text-muted line-through text-sm server-original">$450/mo</span></div>
+          <div class="flex items-end gap-1 mb-6">
+            <span class="text-coral font-heading font-black text-5xl server-price" data-monthly="450" data-quarterly="423" data-annually="375">$450</span>
+            <span class="text-text-muted text-sm mb-2">/month</span>
+          </div>
+          <div class="border-t border-[#312E81] my-4"></div>
+          <ul class="space-y-3 mb-8">
+            {[
+              'AMD Ryzen 9 7950X3D Processor',
+              '16 Cores / 32 Threads',
+              '5.7 GHz Max Boost Clock',
+              '128 GB DDR5 ECC RAM',
+              '4 TB NVMe SSD Storage',
+              'Windows Server or Linux',
+              'Any Trading Platform',
+              '10Gbps Network Uplink',
+            ].map((f) => (
+              <li class="flex items-center gap-2 text-text-body text-sm">
+                <div class="w-4 h-4 rounded-full bg-coral/20 flex items-center justify-center shrink-0">
+                  <div class="w-1.5 h-1.5 rounded-full bg-coral"></div>
+                </div>
+                {f}
+              </li>
+            ))}
+          </ul>
+          <a href="/register?redirect=/dashboard/order&plan=server-7950x3d" class="block w-full bg-coral hover:bg-coral-dark text-white font-heading font-black py-3 rounded-xl transition-all duration-200 text-center">Order Server 7950X3D</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spec Comparison Table -->
+  <section class="bg-surface py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">DETAILED SPECIFICATIONS</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Server Comparison</h2>
+        <p class="text-text-muted text-lg">Full spec breakdown for both dedicated server options</p>
+      </div>
+      <div class="bg-deep border border-[#312E81] rounded-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-[#312E81]">
+                <th class="text-left px-6 py-4 text-text-muted text-sm font-heading font-bold">Specification</th>
+                <th class="text-center px-6 py-4 text-text-h text-sm font-heading font-bold">Server 7700</th>
+                <th class="text-center px-6 py-4 text-coral text-sm font-heading font-bold">Server 7950X3D</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ['Processor', 'AMD Ryzen 7700', 'AMD Ryzen 9 7950X3D'],
+                ['Cores / Threads', '8 / 16', '16 / 32'],
+                ['Base Clock', '3.8 GHz', '4.2 GHz'],
+                ['Max Boost Clock', '5.4 GHz', '5.7 GHz'],
+                ['L3 Cache', '32 MB', '128 MB (3D V-Cache)'],
+                ['RAM', '64 GB DDR5', '128 GB DDR5'],
+                ['Storage', '2 TB NVMe SSD', '4 TB NVMe SSD'],
+                ['Network', '10Gbps Uplink', '10Gbps Uplink'],
+                ['OS Options', 'Windows / Linux', 'Windows / Linux'],
+                ['Trading Platforms', 'Unlimited', 'Unlimited'],
+                ['IPMI Access', 'Yes', 'Yes'],
+                ['Managed Setup', 'Yes', 'Yes'],
+                ['Monthly Price', '$250/mo', '$450/mo'],
+              ].map(([spec, v7700, v7950], i) => (
+                <tr class={`border-b border-[#312E81] ${i % 2 === 0 ? 'bg-base/30' : ''}`}>
+                  <td class="px-6 py-4 text-text-muted text-sm font-medium">{spec}</td>
+                  <td class="px-6 py-4 text-text-body text-sm text-center">{v7700}</td>
+                  <td class="px-6 py-4 text-coral text-sm text-center font-medium">{v7950}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Included With Every Server -->
+  <section class="bg-base py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">WHAT'S INCLUDED</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Included With Every Server</h2>
+        <p class="text-text-muted text-lg">Enterprise-grade features at every level</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: '99.99% Uptime SLA', desc: 'Hardware-level redundancy with dedicated resources. No noisy neighbors.' },
+          { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Full Root / Admin Access', desc: 'Complete control over your server. Install any software, configure any setting.' },
+          { icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', title: 'DDoS Protection', desc: 'Enterprise-grade network-level DDoS mitigation included at no extra cost.' },
+          { icon: 'M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4', title: 'Daily Backups', desc: 'Automated daily backups with 5-day retention. Restore with one click.' },
+          { icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Global Data Centers', desc: 'London and New York locations to minimize latency to your broker.' },
+          { icon: 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z', title: '24/7 Expert Support', desc: 'Dedicated technical support team available around the clock via live chat and tickets.' },
+        ].map(({ icon, title, desc }) => (
+          <div class="bg-surface border border-[#312E81] rounded-2xl p-6 hover:border-coral hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200">
+            <div class="w-10 h-10 bg-deep rounded-xl flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}/>
+              </svg>
+            </div>
+            <h3 class="font-heading font-black text-text-h text-lg mb-2">{title}</h3>
+            <p class="text-text-muted text-sm leading-relaxed">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-hero py-20 text-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="font-heading font-black text-4xl text-text-h mb-4">Need a Custom Configuration?</h2>
+      <p class="text-text-body text-lg mb-8 leading-relaxed">
+        Have specific hardware or network requirements? Our team can build a bespoke server solution tailored to your trading strategy.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#server-plans" class="btn-primary text-lg px-10 py-4">Order a Server</a>
+        <a href="/contact-us" class="btn-ghost text-lg px-10 py-4">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.server-cycle-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cycle = (btn as HTMLElement).dataset.cycle as string;
+
+      document.querySelectorAll('.server-cycle-btn').forEach((b) => {
+        b.classList.remove('bg-coral', 'text-white');
+        b.classList.add('text-text-muted');
+      });
+      btn.classList.add('bg-coral', 'text-white');
+      btn.classList.remove('text-text-muted');
+
+      document.querySelectorAll('.server-price').forEach((el) => {
+        const price = (el as HTMLElement).dataset[cycle];
+        if (price) el.textContent = `$${price}`;
+      });
+    });
+  });
+</script>

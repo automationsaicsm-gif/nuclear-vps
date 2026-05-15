@@ -1,0 +1,165 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Forex Broker Latency — Nuclear VPS" description="Check real ping times from our London and New York data centers to your forex broker's servers.">
+
+  <!-- Hero -->
+  <section class="bg-hero relative overflow-hidden py-20">
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="section-tag mb-4">LATENCY TOOL</p>
+      <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+        Forex Broker
+        <span class="text-coral">Latency</span>
+      </h1>
+      <p class="text-text-body text-xl max-w-2xl mx-auto leading-relaxed">
+        Ping times from our data center infrastructure to the world's leading forex brokers. Choose the right server location for minimum latency.
+      </p>
+    </div>
+  </section>
+
+  <!-- Table section -->
+  <section class="bg-base py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Controls -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <div class="relative">
+          <input
+            id="broker-search"
+            type="text"
+            placeholder="Search broker..."
+            class="bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm"
+          />
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <p class="text-text-muted text-sm">Click column headers to sort</p>
+      </div>
+
+      <!-- Table -->
+      <div class="card overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full" id="latency-table">
+            <thead>
+              <tr class="bg-deep border-b border-[#312E81]">
+                <th class="text-left px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider cursor-pointer hover:text-coral transition-colors" data-col="broker">
+                  Broker <span class="sort-icon">↕</span>
+                </th>
+                <th class="text-center px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider cursor-pointer hover:text-coral transition-colors" data-col="london">
+                  🇬🇧 London (ms) <span class="sort-icon">↕</span>
+                </th>
+                <th class="text-center px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider cursor-pointer hover:text-coral transition-colors" data-col="newYork">
+                  🇺🇸 New York (ms) <span class="sort-icon">↕</span>
+                </th>
+                <th class="text-center px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider">
+                  Recommended
+                </th>
+              </tr>
+            </thead>
+            <tbody id="latency-body">
+              <tr>
+                <td colspan="4" class="text-center py-10 text-text-muted">Loading broker data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="text-text-muted text-xs mt-4 text-center">* Ping times measured from our data center infrastructure. Updated regularly.</p>
+
+      <!-- CTA -->
+      <div class="mt-16 bg-hero rounded-2xl p-10 text-center border border-[#312E81]">
+        <h2 class="font-heading font-black text-3xl text-text-h mb-4">Ready to Trade at Maximum Speed?</h2>
+        <p class="text-text-body mb-8 max-w-lg mx-auto">Deploy your VPS in the location closest to your broker and eliminate latency from your strategy.</p>
+        <a href="/#pricing" class="btn-primary text-lg px-8 py-4">Choose Your Plan</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    interface BrokerRow {
+      broker: string;
+      london: number;
+      newYork: number;
+      recommended: string;
+    }
+
+    let allBrokers: BrokerRow[] = [];
+    let sortCol: keyof BrokerRow = 'london';
+    let sortAsc = true;
+
+    function latencyColor(ms: number): string {
+      if (ms <= 5) return 'text-green-400';
+      if (ms <= 20) return 'text-coral';
+      return 'text-text-muted';
+    }
+
+    function renderTable(data: BrokerRow[]) {
+      const body = document.getElementById('latency-body')!;
+      if (!data.length) {
+        body.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-text-muted">No brokers found.</td></tr>';
+        return;
+      }
+      body.innerHTML = data.map((row, i) => `
+        <tr class="${i % 2 === 0 ? 'bg-surface' : 'bg-base'} border-b border-[#312E81] hover:bg-deep transition-colors">
+          <td class="px-6 py-4 font-heading font-bold text-text-h text-sm">${row.broker}</td>
+          <td class="px-6 py-4 text-center font-heading font-black text-lg ${latencyColor(row.london)}">${row.london}</td>
+          <td class="px-6 py-4 text-center font-heading font-black text-lg ${latencyColor(row.newYork)}">${row.newYork}</td>
+          <td class="px-6 py-4 text-center">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-heading font-black ${row.recommended === 'LONDON' ? 'bg-coral/10 text-coral border border-coral/30' : 'bg-indigo-mid/20 text-text-body border border-[#312E81]'}">
+              ${row.recommended === 'LONDON' ? '🇬🇧 London' : '🇺🇸 New York'}
+            </span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function sortAndRender(data: BrokerRow[]) {
+      return [...data].sort((a, b) => {
+        const va = a[sortCol];
+        const vb = b[sortCol];
+        if (typeof va === 'string' && typeof vb === 'string') {
+          return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+        }
+        return sortAsc ? (va as number) - (vb as number) : (vb as number) - (va as number);
+      });
+    }
+
+    async function loadBrokers() {
+      try {
+        const res = await fetch('/api/v1/broker-latency');
+        const json = await res.json();
+        allBrokers = json.data?.brokers || [];
+        renderTable(sortAndRender(allBrokers));
+      } catch {
+        document.getElementById('latency-body')!.innerHTML =
+          '<tr><td colspan="4" class="text-center py-10 text-coral">Failed to load data.</td></tr>';
+      }
+    }
+
+    // Sorting
+    document.querySelectorAll('[data-col]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.getAttribute('data-col') as keyof BrokerRow;
+        if (sortCol === col) sortAsc = !sortAsc;
+        else { sortCol = col; sortAsc = true; }
+        document.querySelectorAll('.sort-icon').forEach(el => el.textContent = '↕');
+        th.querySelector('.sort-icon')!.textContent = sortAsc ? '↑' : '↓';
+        const query = (document.getElementById('broker-search') as HTMLInputElement).value.toLowerCase();
+        const filtered = allBrokers.filter(b => b.broker.toLowerCase().includes(query));
+        renderTable(sortAndRender(filtered));
+      });
+    });
+
+    // Search
+    document.getElementById('broker-search')!.addEventListener('input', (e) => {
+      const q = (e.target as HTMLInputElement).value.toLowerCase();
+      const filtered = allBrokers.filter(b => b.broker.toLowerCase().includes(q));
+      renderTable(sortAndRender(filtered));
+    });
+
+    loadBrokers();
+  </script>
+</BaseLayout>

@@ -1,0 +1,156 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/sections/ContactForm';
+---
+<BaseLayout title="EA Business Partnership — Nuclear VPS" description="Partner with Nuclear VPS as an Expert Advisor developer. Bundle VPS hosting with your EAs and earn recurring commissions while delivering a better experience to your clients.">
+
+  <!-- Hero -->
+  <section class="bg-hero relative overflow-hidden py-20 lg:py-32">
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#F87171,transparent);transform:translate(30%,30%)"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 bg-coral/10 border border-coral/30 rounded-full px-4 py-2 mb-6">
+        <span class="text-coral text-sm font-heading font-bold">🤖 For EA Developers</span>
+      </div>
+      <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+        EA Business <span class="text-coral">Partnership</span>
+      </h1>
+      <p class="text-text-body text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+        You build the EAs. We provide the VPS. Together, we deliver a complete trading solution. Partner with Nuclear VPS and earn recurring revenue on every client you send our way.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#contact-form" class="btn-primary text-lg px-8 py-4">Apply to Partner</a>
+        <a href="/affiliates" class="btn-ghost text-lg px-8 py-4">View Affiliate Program</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="bg-deep border-y border-[#312E81] py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap justify-around gap-6">
+        {[
+          { value: '15%', label: 'Recurring Commission' },
+          { value: '$56K+', label: 'Paid to Partners Last Month' },
+          { value: '200+', label: 'Active EA Partners' },
+          { value: '24h', label: 'Partnership Setup Time' },
+        ].map(({ value, label }) => (
+          <div class="text-center">
+            <div class="font-heading font-black text-coral text-2xl lg:text-3xl">{value}</div>
+            <div class="text-text-muted text-xs mt-1">{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-Step Process -->
+  <section class="bg-base py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">PARTNERSHIP PROCESS</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">How the Partnership Works</h2>
+        <p class="text-text-muted text-lg">From application to earning — here's what to expect</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          {
+            step: '01',
+            title: 'Apply',
+            desc: 'Fill out the partnership form below. Tell us about your EA products, your customer base size, and how you currently distribute your software.',
+            icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+          },
+          {
+            step: '02',
+            title: 'Get Approved',
+            desc: 'Our partnerships team reviews your application within 24 hours. Once approved, you will receive a dedicated partner account with your unique referral tracking link.',
+            icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+          },
+          {
+            step: '03',
+            title: 'Integrate & Promote',
+            desc: 'Add your referral link to your EA checkout page, user docs, or welcome emails. Optionally co-brand a landing page for your specific EA product audience.',
+            icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
+          },
+          {
+            step: '04',
+            title: 'Earn & Scale',
+            desc: 'Earn 15% recurring monthly commission on every paying Nuclear VPS customer you refer. Watch your passive income grow alongside your EA business.',
+            icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+          },
+        ].map(({ step, title, desc, icon }) => (
+          <div class="bg-surface border border-[#312E81] rounded-2xl p-8 hover:border-coral hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200 relative">
+            <div class="absolute top-6 right-6 font-heading font-black text-[#312E81] text-3xl">{step}</div>
+            <div class="w-12 h-12 bg-deep rounded-2xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}/>
+              </svg>
+            </div>
+            <h3 class="font-heading font-black text-text-h text-xl mb-3">{title}</h3>
+            <p class="text-text-muted text-sm leading-relaxed">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="bg-surface py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="section-tag mb-3">PARTNER BENEFITS</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Why Partner With Nuclear VPS?</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[
+          'Dedicated partner manager assigned to your account',
+          'Custom co-branded landing pages available',
+          'Real-time dashboard to track referrals and earnings',
+          '15% recurring commission — no cap, no limits',
+          'Priority technical support for your referred customers',
+          'Free VPS account for testing your own EAs',
+          'Monthly payouts via PayPal, bank, or crypto',
+          'Marketing materials and banners provided',
+          'Volume bonuses for top-performing partners',
+          'Early access to new server locations and products',
+          'White-label solutions for larger EA businesses',
+          'No lock-in — cancel the partnership anytime',
+        ].map((benefit) => (
+          <div class="flex items-center gap-3 bg-base border border-[#312E81] rounded-xl px-4 py-3">
+            <div class="w-5 h-5 rounded-full bg-coral flex items-center justify-center shrink-0">
+              <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-text-body text-sm">{benefit}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form -->
+  <section id="contact-form" class="bg-base py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <p class="section-tag mb-3">APPLY NOW</p>
+        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Apply to Become an EA Partner</h2>
+        <p class="text-text-muted text-lg">Tell us about your EA business and we will be in touch within 24 hours.</p>
+      </div>
+      <ContactForm
+        client:load
+        formTitle="EA Partnership Application"
+        subjectOptions={[
+          'EA Partnership Application',
+          'Commission Structure Questions',
+          'Co-branding / White Label Inquiry',
+          'Technical Integration Questions',
+          'Other Partnership Inquiry',
+        ]}
+        successMessage="Your partnership application has been received! Our partnerships team will review it and contact you within 24 hours."
+      />
+    </div>
+  </section>
+
+</BaseLayout>

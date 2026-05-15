@@ -1,0 +1,9 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import TicketDetail from '../../../components/dashboard/TicketDetail';
+
+const { id } = Astro.params;
+---
+<DashboardLayout title="Ticket Detail — Nuclear VPS">
+  <TicketDetail client:load ticketId={id!} />
+</DashboardLayout>

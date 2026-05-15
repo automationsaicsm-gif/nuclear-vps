@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const { slug } = Astro.params;
+---
+<BaseLayout title="Knowledge Base — Nuclear VPS" description="Nuclear VPS knowledge base article.">
+  <section class="bg-base py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-sm text-text-muted mb-10">
+        <a href="/" class="hover:text-coral transition-colors">Home</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <a href="/knowledgebase" class="hover:text-coral transition-colors">Knowledge Base</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <span id="breadcrumb-title" class="text-text-body truncate max-w-xs">Loading...</span>
+      </nav>
+
+      <div class="flex flex-col lg:flex-row gap-10">
+        <!-- Article -->
+        <article class="flex-1 min-w-0">
+          <div id="article-loading" class="text-center py-20 text-text-muted">Loading article...</div>
+          <div id="article-content" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <span id="article-category" class="inline-block bg-coral/10 border border-coral/30 rounded-full px-3 py-1 text-coral text-xs font-heading font-black"></span>
+              <span id="article-views" class="text-text-muted text-xs"></span>
+            </div>
+            <h1 id="article-title" class="font-heading font-black text-3xl lg:text-4xl text-text-h mb-8 leading-tight"></h1>
+            <div id="article-body" class="prose-nuclear text-text-body leading-relaxed"></div>
+          </div>
+          <div id="article-error" class="hidden text-center py-20">
+            <p class="text-coral font-heading font-bold text-xl mb-4">Article not found</p>
+            <a href="/knowledgebase" class="btn-primary">Browse Knowledge Base</a>
+          </div>
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="lg:w-72 shrink-0">
+          <div class="card p-6 mb-6">
+            <h3 class="font-heading font-black text-text-h mb-4">Need More Help?</h3>
+            <p class="text-text-muted text-sm mb-5">Our support team is available 24/7.</p>
+            <a href="/dashboard/tickets/new" class="btn-primary w-full text-center block py-2.5 text-sm">Open a Ticket</a>
+          </div>
+
+          <div class="card p-6">
+            <h3 class="font-heading font-black text-text-h mb-4">Related Articles</h3>
+            <div id="related-articles" class="space-y-3">
+              <p class="text-text-muted text-sm">Loading...</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .prose-nuclear h2 { @apply font-heading font-black text-text-h text-2xl mt-10 mb-4; }
+    .prose-nuclear h3 { @apply font-heading font-black text-text-h text-xl mt-8 mb-3; }
+    .prose-nuclear p { @apply mb-5; }
+    .prose-nuclear ul { @apply list-disc list-inside space-y-2 mb-5 text-text-body; }
+    .prose-nuclear ol { @apply list-decimal list-inside space-y-2 mb-5 text-text-body; }
+    .prose-nuclear code { @apply bg-deep rounded px-2 py-0.5 text-coral text-sm font-mono; }
+    .prose-nuclear pre { @apply bg-deep rounded-xl p-5 mb-5 overflow-x-auto; }
+    .prose-nuclear pre code { @apply bg-transparent p-0; }
+    .prose-nuclear a { @apply text-coral hover:underline; }
+    .prose-nuclear strong { @apply text-text-h font-bold; }
+    .prose-nuclear blockquote { @apply border-l-4 border-coral pl-5 italic text-text-muted my-6; }
+  </style>
+
+  <script define:vars={{ slug }}>
+    async function loadArticle() {
+      try {
+        const res = await fetch(`/api/v1/knowledgebase/${slug}`);
+        if (!res.ok) throw new Error('Not found');
+        const json = await res.json();
+        const article = json.data?.article;
+        if (!article) throw new Error('Not found');
+
+        document.title = `${article.title} — Nuclear VPS`;
+        document.getElementById('breadcrumb-title')!.textContent = article.title;
+        document.getElementById('article-category')!.textContent = article.category;
+        document.getElementById('article-views')!.textContent = `${article.views} views`;
+        document.getElementById('article-title')!.textContent = article.title;
+
+        // Render markdown content as HTML (simple conversion)
+        const body = article.content
+          .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+          .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+          .replace(/`(.+?)`/g, '<code>$1</code>')
+          .replace(/^\- (.+)$/gm, '<li>$1</li>')
+          .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+          .replace(/\n\n/g, '</p><p>')
+          .replace(/^(?!<[hulo])(.+)$/gm, '<p>$1</p>');
+
+        document.getElementById('article-body')!.innerHTML = body;
+        document.getElementById('article-loading')!.classList.add('hidden');
+        document.getElementById('article-content')!.classList.remove('hidden');
+
+        loadRelated(article.category, article.slug);
+      } catch {
+        document.getElementById('article-loading')!.classList.add('hidden');
+        document.getElementById('article-error')!.classList.remove('hidden');
+      }
+    }
+
+    async function loadRelated(category: string, currentSlug: string) {
+      try {
+        const res = await fetch(`/api/v1/knowledgebase?category=${encodeURIComponent(category)}`);
+        const json = await res.json();
+        const articles = (json.data?.articles || []).filter((a: any) => a.slug !== currentSlug).slice(0, 5);
+        const el = document.getElementById('related-articles')!;
+        if (!articles.length) { el.innerHTML = '<p class="text-text-muted text-sm">No related articles.</p>'; return; }
+        el.innerHTML = articles.map((a: any) => `
+          <a href="/knowledgebase/${a.slug}" class="block text-text-body hover:text-coral transition-colors text-sm leading-snug border-b border-[#312E81] pb-3 last:border-0 last:pb-0">
+            ${a.title}
+          </a>
+        `).join('');
+      } catch {}
+    }
+
+    loadArticle();
+  </script>
+</BaseLayout>

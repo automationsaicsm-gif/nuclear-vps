@@ -1,0 +1,86 @@
+﻿---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Affiliate Withdrawals — Nuclear VPS">
+
+  <div class="card overflow-hidden">
+    <div class="p-5 border-b border-[#312E81] flex items-center justify-between">
+      <h2 class="font-heading font-black text-text-h">Withdrawal Requests</h2>
+      <p class="text-text-muted text-sm" id="pending-count"></p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-deep border-b border-[#312E81]">
+            <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Affiliate</th>
+            <th class="text-right px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Amount</th>
+            <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Status</th>
+            <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Requested</th>
+            <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="withdrawals-table">
+          <tr><td colspan="5" class="text-center py-10 text-text-muted">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    async function load() {
+      try {
+        const res = await fetch('/api/v1/admin/affiliate/withdrawals', { credentials: 'include' });
+        const json = await res.json();
+        const items: any[] = json.data?.withdrawals || [];
+        const pending = items.filter(i => i.status === 'pending').length;
+        document.getElementById('pending-count')!.textContent = `${pending} pending`;
+        const tbody = document.getElementById('withdrawals-table')!;
+        if (!items.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center py-10 text-text-muted text-sm">No withdrawal requests.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = items.map((w: any) => `
+          <tr class="border-b border-[#312E81] hover:bg-surface transition-colors">
+            <td class="px-5 py-4">
+              <p class="font-heading font-bold text-text-h text-sm">${w.user?.firstName || ''} ${w.user?.lastName || ''}</p>
+              <p class="text-text-muted text-xs">${w.user?.email || ''}</p>
+            </td>
+            <td class="px-5 py-4 text-right font-heading font-black text-coral">$${w.amount.toFixed(2)}</td>
+            <td class="px-5 py-4 text-center">
+              <span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black border ${
+                w.status === 'pending' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                w.status === 'approved' ? 'bg-green-500/10 text-green-400 border-green-500/30' :
+                'bg-surface text-text-muted border-[#312E81]'
+              }">${w.status}</span>
+            </td>
+            <td class="px-5 py-4 text-text-muted text-xs">${new Date(w.createdAt).toLocaleDateString()}</td>
+            <td class="px-5 py-4 text-center">
+              ${w.status === 'pending' ? `
+                <div class="flex items-center justify-center gap-2">
+                  <button data-wid="${w.id}" data-action="approved" class="action-btn text-xs text-green-400 hover:underline font-heading font-bold">Approve</button>
+                  <button data-wid="${w.id}" data-action="rejected" class="action-btn text-xs text-coral hover:underline font-heading font-bold">Reject</button>
+                </div>
+              ` : '<span class="text-text-muted text-xs">—</span>'}
+            </td>
+          </tr>
+        `).join('');
+
+        document.querySelectorAll('.action-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-wid')!;
+            const action = btn.getAttribute('data-action')!;
+            await fetch(`/api/v1/admin/affiliate/withdrawals/${id}`, {
+              method: 'PUT', credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: action }),
+            });
+            load();
+          });
+        });
+      } catch {
+        document.getElementById('withdrawals-table')!.innerHTML = '<tr><td colspan="5" class="text-center py-10 text-coral text-sm">Failed to load.</td></tr>';
+      }
+    }
+    load();
+  </script>
+</AdminLayout>

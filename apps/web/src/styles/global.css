@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Open+Sans:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-base:       #1E1B4B;
+  --color-surface:    #252272;
+  --color-hero:       #312E81;
+  --color-deep:       #13114A;
+  --color-footer:     #0D0B33;
+  --color-indigo-mid: #4F46E5;
+  --color-border:     #312E81;
+  --color-coral:      #F87171;
+  --color-coral-dark: #EF4444;
+  --color-text-h:     #E0E7FF;
+  --color-text-body:  #C7D2FE;
+  --color-text-muted: #818CF8;
+  --color-text-dim:   #6366F1;
+  --color-success:    #34D399;
+  --color-warning:    #FBBF24;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #1E1B4B;
+    color: #C7D2FE;
+    font-family: 'Open Sans', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', sans-serif;
+    color: #E0E7FF;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-coral text-white font-heading font-black px-6 py-3 rounded-full hover:bg-coral-dark transition-all duration-200;
+  }
+  .btn-ghost {
+    @apply border-2 border-coral text-coral hover:bg-coral/10 font-heading font-bold px-6 py-3 rounded-full transition-all duration-200;
+  }
+  .card {
+    @apply bg-surface border border-[#312E81] rounded-2xl;
+  }
+  .card-hover {
+    @apply hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200;
+  }
+  .section-tag {
+    @apply text-coral text-xs font-heading font-black tracking-widest uppercase;
+  }
+  .input-field {
+    @apply w-full bg-deep border border-[#312E81] rounded-xl px-4 py-3 text-text-body placeholder-[#6366F1] focus:outline-none focus:border-coral transition-colors;
+  }
+  .label {
+    @apply block text-sm font-body font-medium text-[#C7D2FE] mb-2;
+  }
+}
+
+@layer utilities {
+  .text-text-h    { color: #E0E7FF; }
+  .text-text-body { color: #C7D2FE; }
+  .text-text-muted { color: #818CF8; }
+  .text-text-dim  { color: #6366F1; }
+}
+
+/* Floating animation for server illustration */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+.animate-float { animation: float 3s ease-in-out infinite; }
+
+/* Count-up animation placeholder */
+.count-up { transition: all 0.5s ease-out; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #1E1B4B; }
+::-webkit-scrollbar-thumb { background: #312E81; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4F46E5; }
