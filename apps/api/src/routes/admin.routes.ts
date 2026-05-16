@@ -10,27 +10,33 @@ router.use(authenticate, requireAdmin);
 
 // GET /api/v1/admin/stats
 router.get('/stats', async (_req, res) => {
-  const [totalUsers, activeServices, openTickets, unpaidInvoices] = await Promise.all([
+  const [totalUsers, activeServices, openTickets, unpaidInvoices, recentInvoices, recentTickets] = await Promise.all([
     prisma.user.count(),
     prisma.service.count({ where: { status: 'ACTIVE' } }),
     prisma.ticket.count({ where: { status: { in: ['OPEN', 'IN_PROGRESS'] } } }),
     prisma.invoice.count({ where: { status: 'UNPAID' } }),
+    prisma.invoice.findMany({
+      take: 10,
+      orderBy: { createdAt: 'desc' },
+      include: { user: { select: { firstName: true, lastName: true, email: true } } },
+    }),
+    prisma.ticket.findMany({
+      take: 10,
+      orderBy: { createdAt: 'desc' },
+      include: { user: { select: { email: true } } },
+    }),
   ]);
 
-  const paidInvoices = await prisma.invoice.findMany({
-    where: { status: 'PAID' },
-    select: { amount: true, createdAt: true },
-  });
-  const mrr = paidInvoices
-    .filter((i) => i.createdAt >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
+  const mrr = recentInvoices
+    .filter((i) => i.status === 'PAID' && i.createdAt >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
     .reduce((sum, i) => sum + i.amount, 0);
 
-  return success(res, { totalUsers, activeServices, openTickets, unpaidInvoices, mrr });
+  return success(res, { totalUsers, activeServices, openTickets, unpaidInvoices, mrr, recentInvoices, recentTickets });
 });
 
 // GET /api/v1/admin/revenue-chart
 router.get('/revenue-chart', async (_req, res) => {
-  const months = [];
+  const months: { month: string; revenue: number }[] = [];
   for (let i = 11; i >= 0; i--) {
     const date = new Date();
     date.setMonth(date.getMonth() - i);
@@ -265,7 +271,16 @@ router.get('/affiliate/withdrawals', async (_req, res) => {
   const withdrawals = await prisma.affiliateWithdrawal.findMany({
     orderBy: { createdAt: 'desc' },
   });
-  return success(res, withdrawals);
+  const withUsers = await Promise.all(
+    withdrawals.map(async (w) => {
+      const user = await prisma.user.findUnique({
+        where: { id: w.userId },
+        select: { firstName: true, lastName: true, email: true },
+      });
+      return { ...w, user };
+    })
+  );
+  return success(res, withUsers);
 });
 
 // PUT /api/v1/admin/affiliate/withdrawals/:id
@@ -280,13 +295,13 @@ router.put('/affiliate/withdrawals/:id', async (req, res) => {
 // GET /api/v1/admin/settings
 router.get('/settings', async (_req, res) => {
   const settings = await prisma.siteSetting.findMany();
-  const obj = Object.fromEntries(settings.map((s) => [s.key, s.value]));
-  return success(res, obj);
+  return success(res, { settings });
 });
 
 // PUT /api/v1/admin/settings
 router.put('/settings', async (req, res) => {
-  for (const [key, value] of Object.entries(req.body)) {
+  const entries: { key: string; value: string }[] = req.body.settings ?? [];
+  for (const { key, value } of entries) {
     await prisma.siteSetting.upsert({
       where: { key },
       update: { value: String(value) },

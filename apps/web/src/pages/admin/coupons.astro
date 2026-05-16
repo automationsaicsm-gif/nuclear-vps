@@ -64,7 +64,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       try {
         const res = await fetch('/api/v1/admin/coupons', { credentials: 'include' });
         const json = await res.json();
-        const coupons: any[] = json.data?.coupons || [];
+        const coupons: any[] = json.data || [];
         const tbody = document.getElementById('coupons-table')!;
         if (!coupons.length) {
           tbody.innerHTML = '<tr><td colspan="6" class="text-center py-10 text-text-muted text-sm">No coupons yet.</td></tr>';

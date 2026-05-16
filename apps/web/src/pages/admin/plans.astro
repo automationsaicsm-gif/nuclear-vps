@@ -148,7 +148,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       try {
         const res = await fetch('/api/v1/admin/plans', { credentials: 'include' });
         const json = await res.json();
-        plans = json.data?.plans || [];
+        plans = json.data || [];
         render();
       } catch {
         document.getElementById('plans-table')!.innerHTML = '<tr><td colspan="7" class="text-center py-10 text-coral text-sm">Failed to load.</td></tr>';

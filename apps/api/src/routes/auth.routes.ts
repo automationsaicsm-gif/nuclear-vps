@@ -69,7 +69,7 @@ const cookieOptions = {
 };
 
 // POST /api/v1/auth/register
-router.post('/register', authLimiter, validateBody(registerSchema), async (req, res) => {
+router.post('/register', validateBody(registerSchema), async (req, res) => {
   const { firstName, lastName, email, password, country, phone, company } = req.body;
 
   const existing = await prisma.user.findUnique({ where: { email } });

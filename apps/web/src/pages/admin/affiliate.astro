@@ -31,7 +31,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       try {
         const res = await fetch('/api/v1/admin/affiliate/withdrawals', { credentials: 'include' });
         const json = await res.json();
-        const items: any[] = json.data?.withdrawals || [];
+        const items: any[] = json.data || [];
         const pending = items.filter(i => i.status === 'pending').length;
         document.getElementById('pending-count')!.textContent = `${pending} pending`;
         const tbody = document.getElementById('withdrawals-table')!;
