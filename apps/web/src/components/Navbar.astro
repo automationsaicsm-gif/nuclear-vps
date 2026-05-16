@@ -15,9 +15,11 @@
             Services
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </button>
-          <div class="absolute top-full left-0 mt-2 w-48 bg-surface border border-[#312E81] rounded-xl shadow-xl hidden group-hover:block">
-            <a href="/trading-vps" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-t-xl">Trading VPS</a>
-            <a href="/trading-servers" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-b-xl">Trading Servers</a>
+          <div class="absolute top-full left-0 w-48 hidden group-hover:block pt-2">
+            <div class="bg-surface border border-[#312E81] rounded-xl shadow-xl">
+              <a href="/trading-vps" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-t-xl">Trading VPS</a>
+              <a href="/trading-servers" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-b-xl">Trading Servers</a>
+            </div>
           </div>
         </div>
 
@@ -26,10 +28,12 @@
             Partnership
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </button>
-          <div class="absolute top-full left-0 mt-2 w-56 bg-surface border border-[#312E81] rounded-xl shadow-xl hidden group-hover:block">
-            <a href="/affiliates" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-t-xl">Affiliates</a>
-            <a href="/expert-advisor-partnership" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors">EA Business</a>
-            <a href="/custom-vps" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-b-xl">Brokers &amp; Custom</a>
+          <div class="absolute top-full left-0 w-56 hidden group-hover:block pt-2">
+            <div class="bg-surface border border-[#312E81] rounded-xl shadow-xl">
+              <a href="/affiliates" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-t-xl">Affiliates</a>
+              <a href="/expert-advisor-partnership" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors">EA Business</a>
+              <a href="/custom-vps" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-b-xl">Brokers &amp; Custom</a>
+            </div>
           </div>
         </div>
 
@@ -95,11 +99,13 @@
                 <span>${user.firstName}</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
               </button>
-              <div class="absolute right-0 top-full mt-2 w-48 bg-surface border border-[#312E81] rounded-xl shadow-xl hidden group-hover:block">
-                <a href="/dashboard" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-t-xl">Dashboard</a>
-                <a href="/dashboard/account" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors">Account</a>
-                ${user.role === 'ADMIN' ? '<a href="/admin" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors">Admin Panel</a>' : ''}
-                <button id="nav-logout" class="w-full text-left block px-4 py-3 text-coral hover:bg-deep transition-colors rounded-b-xl">Logout</button>
+              <div class="absolute right-0 top-full w-48 hidden group-hover:block pt-2">
+                <div class="bg-surface border border-[#312E81] rounded-xl shadow-xl">
+                  <a href="/dashboard" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors rounded-t-xl">Dashboard</a>
+                  <a href="/dashboard/account" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors">Account</a>
+                  ${user.role === 'ADMIN' ? '<a href="/admin" class="block px-4 py-3 text-text-body hover:text-coral hover:bg-deep transition-colors">Admin Panel</a>' : ''}
+                  <button id="nav-logout" class="w-full text-left block px-4 py-3 text-coral hover:bg-deep transition-colors rounded-b-xl">Logout</button>
+                </div>
               </div>
             </div>
           `;
