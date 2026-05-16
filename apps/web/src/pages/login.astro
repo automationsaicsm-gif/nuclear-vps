@@ -111,10 +111,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         const json = await res.json();
         if (!res.ok) throw new Error(json.error || 'Login failed');
 
-        localStorage.setItem('nuclear-vps-auth', JSON.stringify({ state: { user: json.data.user } }));
+        const user = json.data.user;
+        localStorage.setItem('nuclear-vps-auth', JSON.stringify({ state: { user } }));
 
         const params = new URLSearchParams(window.location.search);
-        window.location.href = params.get('redirect') || '/dashboard';
+        const redirect = params.get('redirect');
+        if (redirect) {
+          window.location.href = redirect;
+        } else {
+          window.location.href = user.role === 'ADMIN' ? '/admin' : '/dashboard';
+        }
       } catch (err: any) {
         errorBox.textContent = err.message;
         errorBox.classList.remove('hidden');
