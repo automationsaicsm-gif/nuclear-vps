@@ -230,9 +230,10 @@ export default function OrderWizard() {
                   <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${location === 'LONDON' ? 'border-coral' : 'border-[#312E81]'}`}>
                     {location === 'LONDON' && <div className="w-2 h-2 rounded-full bg-coral" />}
                   </div>
+                  <img src="https://flagcdn.com/w20/gb.png" srcSet="https://flagcdn.com/w40/gb.png 2x" width="20" height="15" alt="UK" className="rounded-sm shrink-0" />
                   <div>
-                    <p className="font-heading font-bold text-text-h text-sm">🇬🇧 London, UK</p>
-                    <p className="text-text-muted text-xs mt-0.5">Best for most European &amp; Asian brokers</p>
+                    <p className="font-heading font-bold text-text-h text-sm">London, UK</p>
+                    <p className="text-text-muted text-xs mt-0.5">Best for European &amp; Asian brokers</p>
                   </div>
                 </div>
               </div>
@@ -246,8 +247,9 @@ export default function OrderWizard() {
                   <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${location === 'NEW_YORK' ? 'border-coral' : 'border-[#312E81]'}`}>
                     {location === 'NEW_YORK' && <div className="w-2 h-2 rounded-full bg-coral" />}
                   </div>
+                  <img src="https://flagcdn.com/w20/us.png" srcSet="https://flagcdn.com/w40/us.png 2x" width="20" height="15" alt="US" className="rounded-sm shrink-0" />
                   <div>
-                    <p className="font-heading font-bold text-text-h text-sm">🇺🇸 New York, US</p>
+                    <p className="font-heading font-bold text-text-h text-sm">New York, US</p>
                     <p className="text-text-muted text-xs mt-0.5">Best for US &amp; Latin American brokers</p>
                   </div>
                 </div>
