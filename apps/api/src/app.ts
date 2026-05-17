@@ -33,6 +33,7 @@ app.use(
 );
 
 app.use('/api/v1/payments/stripe/webhook', express.raw({ type: 'application/json' }));
+app.use('/api/v1/payments/coinbase/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));

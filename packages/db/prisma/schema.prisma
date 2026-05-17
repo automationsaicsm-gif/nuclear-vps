@@ -22,6 +22,7 @@ model User {
   twoFactorEnabled  Boolean   @default(false)
   twoFactorSecret   String?
   creditBalance     Float     @default(0)
+  googleId          String?   @unique
   affiliateCode     String?   @unique
   affiliateCoupon   String?   @unique
   createdAt         DateTime  @default(now())
