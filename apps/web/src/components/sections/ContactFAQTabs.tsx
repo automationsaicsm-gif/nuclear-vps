@@ -31,7 +31,7 @@ const tabGroups = [
       },
       {
         q: 'Can I get a refund?',
-        a: 'Yes. All plans come with a 7-day money-back guarantee, no questions asked. If you are not satisfied within the first 7 days, contact our support team for a full refund.',
+        a: 'All payments are non-refundable. Once a service has been activated, we do not offer refunds or credits for unused time. Please review your plan carefully before purchasing.',
       },
       {
         q: 'How does billing work?',

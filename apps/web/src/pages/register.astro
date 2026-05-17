@@ -9,12 +9,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <span class="font-heading font-black text-3xl text-text-h">NUCLEAR</span><span class="font-heading font-black text-3xl text-coral">VPS</span>
         </a>
         <h1 class="font-heading font-black text-3xl text-text-h mb-2">Create Your Account</h1>
-        <p class="text-text-muted">Start with a 7-day money-back guarantee</p>
+        <p class="text-text-muted">Get started in minutes — instant activation</p>
       </div>
 
       <div class="bg-surface border border-[#312E81] rounded-2xl p-8">
         <div id="reg-error" class="hidden mb-6 bg-coral/10 border border-coral/30 rounded-xl p-4 text-coral text-sm"></div>
         <div id="reg-success" class="hidden mb-6 bg-green-500/10 border border-green-500/30 rounded-xl p-4 text-green-400 text-sm"></div>
+
+        <!-- Google OAuth -->
+        <a href="/api/v1/auth/google"
+          class="flex items-center justify-center gap-3 w-full bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-xl border border-gray-200 transition-colors mb-5 text-sm">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+            <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+            <path d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z" fill="#FBBC05"/>
+            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z" fill="#EA4335"/>
+          </svg>
+          Sign up with Google
+        </a>
+
+        <div class="flex items-center gap-4 mb-5">
+          <div class="flex-1 h-px bg-[#312E81]"></div>
+          <span class="text-text-muted text-xs font-heading font-bold uppercase tracking-wide">or register manually</span>
+          <div class="flex-1 h-px bg-[#312E81]"></div>
+        </div>
 
         <form id="reg-form" class="space-y-5">
           <!-- Name row -->
@@ -172,6 +190,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             country: data.country,
             phone: data.phone || undefined,
             company: data.company || undefined,
+            acceptTerms: data.terms === 'on',
           }),
         });
         const json = await res.json();
