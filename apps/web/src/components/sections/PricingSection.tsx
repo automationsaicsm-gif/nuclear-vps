@@ -7,7 +7,9 @@ interface Plan {
   category: 'TRADING_VPS' | 'TRADING_SERVER';
   monthlyPrice: number;
   quarterlyPrice: number;
+  price6Month: number;
   annualPrice: number;
+  price2Year: number;
   ram: string;
   cpu: string;
   storage: string;
@@ -19,11 +21,11 @@ interface Plan {
 }
 
 type Tab = 'vps' | 'servers';
-type Cycle = 'monthly' | 'quarterly' | 'annually';
+type Cycle = '1month' | '2months' | '6months' | '1year' | '2years';
 
 export default function PricingSection() {
   const [tab, setTab] = useState<Tab>('vps');
-  const [cycle, setCycle] = useState<Cycle>('monthly');
+  const [cycle, setCycle] = useState<Cycle>('1month');
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,14 +43,16 @@ export default function PricingSection() {
     if (!user) {
       window.location.href = `/register?redirect=/dashboard/order&plan=${slug}`;
     } else {
-      window.location.href = `/dashboard/order?plan=${slug}&cycle=${cycle.toUpperCase()}`;
+      window.location.href = `/dashboard/order?plan=${slug}&cycle=${cycle}`;
     }
   };
 
   const getPrice = (plan: Plan): number => {
-    if (cycle === 'monthly') return plan.monthlyPrice;
-    if (cycle === 'quarterly') return plan.quarterlyPrice;
-    return plan.annualPrice;
+    if (cycle === '1month') return plan.monthlyPrice;
+    if (cycle === '2months') return plan.quarterlyPrice;
+    if (cycle === '6months') return plan.price6Month;
+    if (cycle === '1year') return plan.annualPrice;
+    return plan.price2Year;
   };
 
   const currentPlans = plans.filter((p) =>
@@ -78,9 +82,11 @@ export default function PricingSection() {
       <div className="flex justify-center mb-12">
         <div className="flex bg-deep border border-[#312E81] rounded-full p-1 gap-1">
           {([
-            ['monthly', 'Monthly'],
-            ['quarterly', 'Quarterly (Save 6%)'],
-            ['annually', '1-Year (Save 17%)'],
+            ['1month', '1 Month'],
+            ['2months', '2 Months'],
+            ['6months', '6 Months'],
+            ['1year', '1 Year'],
+            ['2years', '2 Years'],
           ] as [Cycle, string][]).map(([c, label]) => (
             <button
               key={c}
@@ -128,9 +134,14 @@ export default function PricingSection() {
                 <span className="text-coral font-heading font-black text-4xl">${getPrice(plan).toFixed(2)}</span>
                 <span className="text-text-muted text-sm mb-1">/month</span>
               </div>
-              {cycle !== 'monthly' && (
+              {cycle !== '1month' && (
                 <p className="text-text-muted text-xs mb-4">
-                  Billed {cycle === 'quarterly' ? 'quarterly' : 'annually'}
+                  {{
+                    '2months': 'Billed every 2 months',
+                    '6months': 'Billed every 6 months',
+                    '1year': 'Billed annually',
+                    '2years': 'Billed every 2 years',
+                  }[cycle]}
                 </p>
               )}
 
