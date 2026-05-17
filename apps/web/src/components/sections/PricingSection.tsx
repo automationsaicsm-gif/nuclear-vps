@@ -97,17 +97,17 @@ export default function PricingSection() {
 
       {/* Plan cards */}
       {loading ? (
-        <div className={`grid gap-6 ${tab === 'vps' ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto'}`}>
-          {[...Array(tab === 'vps' ? 3 : 2)].map((_, i) => (
+        <div className={`grid gap-4 ${tab === 'vps' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto'}`}>
+          {[...Array(tab === 'vps' ? 4 : 2)].map((_, i) => (
             <div key={i} className="bg-surface rounded-2xl p-8 border border-[#312E81] animate-pulse h-96" />
           ))}
         </div>
       ) : (
-        <div className={`grid gap-6 ${tab === 'vps' ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto'}`}>
+        <div className={`grid gap-4 ${tab === 'vps' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto'}`}>
           {currentPlans.map((plan) => (
             <div
               key={plan.slug}
-              className={`relative bg-surface rounded-2xl p-8 transition-all duration-200 hover:shadow-[0_0_0_1px_#F87171] ${
+              className={`relative bg-surface rounded-2xl p-6 transition-all duration-200 hover:shadow-[0_0_0_1px_#F87171] ${
                 plan.featured ? 'border-2 border-coral' : 'border border-[#312E81]'
               }`}
             >
