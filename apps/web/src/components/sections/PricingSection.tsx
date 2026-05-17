@@ -48,11 +48,11 @@ export default function PricingSection() {
   };
 
   const getPrice = (plan: Plan): number => {
-    if (cycle === '1month') return plan.monthlyPrice;
-    if (cycle === '2months') return plan.quarterlyPrice;
-    if (cycle === '6months') return plan.price6Month;
-    if (cycle === '1year') return plan.annualPrice;
-    return plan.price2Year;
+    if (cycle === '1month') return plan.monthlyPrice ?? 0;
+    if (cycle === '2months') return plan.quarterlyPrice ?? plan.monthlyPrice ?? 0;
+    if (cycle === '6months') return plan.price6Month ?? plan.monthlyPrice ?? 0;
+    if (cycle === '1year') return plan.annualPrice ?? plan.monthlyPrice ?? 0;
+    return plan.price2Year ?? plan.monthlyPrice ?? 0;
   };
 
   const currentPlans = plans.filter((p) =>
