@@ -3,7 +3,8 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 ---
 <AdminLayout title="Services — Nuclear VPS">
 
-  <div class="flex flex-col sm:flex-row gap-4 mb-6">
+  <div class="flex flex-col sm:flex-row gap-4 mb-6 items-start">
+    <button id="create-svc-btn" class="btn-primary text-sm px-5 py-2.5 shrink-0">+ Create Service</button>
     <div class="relative flex-1 max-w-sm">
       <input id="svc-search" type="text" placeholder="Search by IP or user..."
         class="w-full bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
@@ -43,6 +44,56 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           <tr><td colspan="7" class="text-center py-10 text-text-muted">Loading...</td></tr>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- Create Service Modal -->
+  <div id="create-svc-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div class="bg-surface border border-[#312E81] rounded-2xl p-8 max-w-lg w-full">
+      <h3 class="font-heading font-black text-text-h text-xl mb-6">Create Service</h3>
+      <div id="cs-error" class="hidden mb-4 bg-coral/10 border border-coral/30 rounded-xl p-3 text-coral text-sm"></div>
+      <form id="create-svc-form" class="space-y-4">
+        <div>
+          <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">User Email</label>
+          <input id="cs-email" type="email" placeholder="client@example.com" required class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+        </div>
+        <div>
+          <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Plan</label>
+          <select id="cs-plan" required class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
+            <option value="">Select plan...</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Billing Cycle</label>
+            <select id="cs-billing" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
+              <option value="MONTHLY">Monthly</option>
+              <option value="QUARTERLY">Quarterly</option>
+              <option value="ANNUALLY">Annually</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Location</label>
+            <select id="cs-location" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
+              <option value="NEW_YORK">New York, US</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">IP Address</label>
+            <input id="cs-ip" type="text" placeholder="192.168.1.1" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+          </div>
+          <div>
+            <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Password</label>
+            <input id="cs-pw" type="text" placeholder="VPS password" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+          </div>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" id="cs-cancel" class="btn-ghost flex-1 py-2.5">Cancel</button>
+          <button type="submit" class="btn-primary flex-1 py-2.5">Create Service</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -89,16 +140,27 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           <td class="px-5 py-4 font-mono text-xs text-text-body">${s.ipAddress || '—'}</td>
           <td class="px-5 py-4 text-text-muted text-xs">${s.nextDueDate ? new Date(s.nextDueDate).toLocaleDateString() : '—'}</td>
           <td class="px-5 py-4 text-center">
-            <select data-svc-id="${s.id}" class="bg-base border border-[#312E81] rounded-lg px-2 py-1 text-text-body text-xs focus:outline-none focus:border-coral" onchange="updateStatus(this)">
-              <option value="">Set Status...</option>
-              <option value="ACTIVE">Active</option>
-              <option value="SUSPENDED">Suspended</option>
-              <option value="TERMINATED">Terminated</option>
-            </select>
+            <div class="flex items-center justify-center gap-2">
+              <select data-svc-id="${s.id}" class="bg-base border border-[#312E81] rounded-lg px-2 py-1 text-text-body text-xs focus:outline-none focus:border-coral" onchange="updateStatus(this)">
+                <option value="">Status...</option>
+                <option value="ACTIVE">Active</option>
+                <option value="PENDING">Pending</option>
+                <option value="SUSPENDED">Suspended</option>
+              </select>
+              ${s.status !== 'TERMINATED' ? `<button data-term="${s.id}" class="term-btn text-coral text-xs font-heading font-bold hover:underline">Terminate</button>` : ''}
+            </div>
           </td>
         </tr>
       `).join('');
     }
+
+    document.getElementById('svc-table')!.addEventListener('click', async (e) => {
+      const btn = (e.target as HTMLElement).closest('.term-btn') as HTMLElement | null;
+      if (!btn) return;
+      if (!confirm('Terminate this service? This cannot be undone.')) return;
+      await fetch(`/api/v1/admin/services/${btn.getAttribute('data-term')}`, { method: 'DELETE', credentials: 'include' });
+      load();
+    });
 
     (window as any).updateStatus = async (sel: HTMLSelectElement) => {
       const id = sel.getAttribute('data-svc-id')!;
@@ -129,5 +191,74 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       }
     }
     load();
+
+    // Create Service modal
+    const createModal = document.getElementById('create-svc-modal')!;
+    const csError = document.getElementById('cs-error')!;
+
+    document.getElementById('create-svc-btn')!.addEventListener('click', async () => {
+      csError.classList.add('hidden');
+      createModal.classList.remove('hidden');
+      // Populate plan select
+      const planSel = document.getElementById('cs-plan') as HTMLSelectElement;
+      if (planSel.options.length <= 1) {
+        try {
+          const r = await fetch('/api/v1/admin/plans', { credentials: 'include' });
+          const j = await r.json();
+          (j.data || []).forEach((p: any) => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = `${p.name} ($${p.monthlyPrice}/mo)`;
+            planSel.appendChild(opt);
+          });
+        } catch {}
+      }
+    });
+
+    document.getElementById('cs-cancel')!.addEventListener('click', () => {
+      createModal.classList.add('hidden');
+      (document.getElementById('create-svc-form') as HTMLFormElement).reset();
+    });
+
+    createModal.addEventListener('click', (e) => {
+      if (e.target === createModal) {
+        createModal.classList.add('hidden');
+        (document.getElementById('create-svc-form') as HTMLFormElement).reset();
+      }
+    });
+
+    document.getElementById('create-svc-form')!.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      csError.classList.add('hidden');
+      const email = (document.getElementById('cs-email') as HTMLInputElement).value.trim();
+      const planId = (document.getElementById('cs-plan') as HTMLSelectElement).value;
+      const billingCycle = (document.getElementById('cs-billing') as HTMLSelectElement).value;
+      const location = (document.getElementById('cs-location') as HTMLSelectElement).value;
+      const ipAddress = (document.getElementById('cs-ip') as HTMLInputElement).value.trim() || undefined;
+      const password = (document.getElementById('cs-pw') as HTMLInputElement).value.trim() || undefined;
+
+      try {
+        // Look up user by email
+        const ur = await fetch(`/api/v1/admin/users?search=${encodeURIComponent(email)}`, { credentials: 'include' });
+        const uj = await ur.json();
+        const users: any[] = uj.data?.users || [];
+        const match = users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+        if (!match) throw new Error('No user found with that email.');
+
+        const res = await fetch('/api/v1/admin/services', {
+          method: 'POST', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: match.id, planId, billingCycle, location, ipAddress, password }),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to create service.');
+        createModal.classList.add('hidden');
+        (document.getElementById('create-svc-form') as HTMLFormElement).reset();
+        load();
+      } catch (err: any) {
+        csError.textContent = err.message;
+        csError.classList.remove('hidden');
+      }
+    });
   </script>
 </AdminLayout>

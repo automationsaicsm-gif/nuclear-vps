@@ -1,7 +1,7 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Forex Broker Latency — Nuclear VPS" description="Check real ping times from our London and New York data centers to your forex broker's servers.">
+<BaseLayout title="Forex Broker Latency — Nuclear VPS" description="Check real ping times from our New York data center to your forex broker's servers.">
 
   <!-- Hero -->
   <section class="bg-hero relative overflow-hidden py-20">
@@ -13,7 +13,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <span class="text-coral">Latency</span>
       </h1>
       <p class="text-text-body text-xl max-w-2xl mx-auto leading-relaxed">
-        Ping times from our data center infrastructure to the world's leading forex brokers. Choose the right server location for minimum latency.
+        Ping times from our New York data center to the world's leading forex brokers. Deploy where it matters most.
       </p>
     </div>
   </section>
@@ -47,20 +47,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <th class="text-left px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider cursor-pointer hover:text-coral transition-colors" data-col="broker">
                   Broker <span class="sort-icon">↕</span>
                 </th>
-                <th class="text-center px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider cursor-pointer hover:text-coral transition-colors" data-col="london">
-                  🇬🇧 London (ms) <span class="sort-icon">↕</span>
-                </th>
                 <th class="text-center px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider cursor-pointer hover:text-coral transition-colors" data-col="newYork">
-                  🇺🇸 New York (ms) <span class="sort-icon">↕</span>
-                </th>
-                <th class="text-center px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider">
-                  Recommended
+                  <img src="https://flagcdn.com/w20/us.png" srcset="https://flagcdn.com/w40/us.png 2x" width="20" height="15" alt="US" class="inline mr-1 rounded-sm" style="vertical-align:middle" /> New York (ms) <span class="sort-icon">↕</span>
                 </th>
               </tr>
             </thead>
             <tbody id="latency-body">
               <tr>
-                <td colspan="4" class="text-center py-10 text-text-muted">Loading broker data...</td>
+                <td colspan="2" class="text-center py-10 text-text-muted">Loading broker data...</td>
               </tr>
             </tbody>
           </table>
@@ -81,13 +75,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <script>
     interface BrokerRow {
       broker: string;
-      london: number;
       newYork: number;
-      recommended: string;
     }
 
     let allBrokers: BrokerRow[] = [];
-    let sortCol: keyof BrokerRow = 'london';
+    let sortCol: keyof BrokerRow = 'newYork';
     let sortAsc = true;
 
     function latencyColor(ms: number): string {
@@ -99,19 +91,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     function renderTable(data: BrokerRow[]) {
       const body = document.getElementById('latency-body')!;
       if (!data.length) {
-        body.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-text-muted">No brokers found.</td></tr>';
+        body.innerHTML = '<tr><td colspan="2" class="text-center py-10 text-text-muted">No brokers found.</td></tr>';
         return;
       }
       body.innerHTML = data.map((row, i) => `
         <tr class="${i % 2 === 0 ? 'bg-surface' : 'bg-base'} border-b border-[#312E81] hover:bg-deep transition-colors">
           <td class="px-6 py-4 font-heading font-bold text-text-h text-sm">${row.broker}</td>
-          <td class="px-6 py-4 text-center font-heading font-black text-lg ${latencyColor(row.london)}">${row.london}</td>
           <td class="px-6 py-4 text-center font-heading font-black text-lg ${latencyColor(row.newYork)}">${row.newYork}</td>
-          <td class="px-6 py-4 text-center">
-            <span class="inline-block px-3 py-1 rounded-full text-xs font-heading font-black ${row.recommended === 'LONDON' ? 'bg-coral/10 text-coral border border-coral/30' : 'bg-indigo-mid/20 text-text-body border border-[#312E81]'}">
-              ${row.recommended === 'LONDON' ? '🇬🇧 London' : '🇺🇸 New York'}
-            </span>
-          </td>
         </tr>
       `).join('');
     }
@@ -135,7 +121,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         renderTable(sortAndRender(allBrokers));
       } catch {
         document.getElementById('latency-body')!.innerHTML =
-          '<tr><td colspan="4" class="text-center py-10 text-coral">Failed to load data.</td></tr>';
+          '<tr><td colspan="2" class="text-center py-10 text-coral">Failed to load data.</td></tr>';
       }
     }
 

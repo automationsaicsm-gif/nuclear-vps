@@ -40,7 +40,7 @@ export default function OrderWizard() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [cycle, setCycle] = useState<Cycle>('MONTHLY');
-  const [location, setLocation] = useState<Location>('LONDON');
+  const [location, setLocation] = useState<Location>('NEW_YORK');
   const [os, setOs] = useState('Windows 2022');
   const [couponCode, setCouponCode] = useState('');
   const [couponDiscount, setCouponDiscount] = useState(0);
@@ -220,37 +220,12 @@ export default function OrderWizard() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
               <h3 className="font-heading font-black text-text-h mb-4">Data Center Location</h3>
-
-              {/* London */}
-              <div
-                onClick={() => setLocation('LONDON')}
-                className={`cursor-pointer border rounded-xl p-4 mb-3 transition-all ${location === 'LONDON' ? 'border-coral bg-coral/5' : 'border-[#312E81] hover:border-coral/50'}`}
-              >
+              <div className="border border-coral bg-coral/5 rounded-xl p-4">
                 <div className="flex items-center gap-3">
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${location === 'LONDON' ? 'border-coral' : 'border-[#312E81]'}`}>
-                    {location === 'LONDON' && <div className="w-2 h-2 rounded-full bg-coral" />}
-                  </div>
-                  <img src="https://flagcdn.com/w20/gb.png" srcSet="https://flagcdn.com/w40/gb.png 2x" width="20" height="15" alt="UK" className="rounded-sm shrink-0" />
-                  <div>
-                    <p className="font-heading font-bold text-text-h text-sm">London, UK</p>
-                    <p className="text-text-muted text-xs mt-0.5">Best for European &amp; Asian brokers</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* New York */}
-              <div
-                onClick={() => setLocation('NEW_YORK')}
-                className={`cursor-pointer border rounded-xl p-4 transition-all ${location === 'NEW_YORK' ? 'border-coral bg-coral/5' : 'border-[#312E81] hover:border-coral/50'}`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${location === 'NEW_YORK' ? 'border-coral' : 'border-[#312E81]'}`}>
-                    {location === 'NEW_YORK' && <div className="w-2 h-2 rounded-full bg-coral" />}
-                  </div>
                   <img src="https://flagcdn.com/w20/us.png" srcSet="https://flagcdn.com/w40/us.png 2x" width="20" height="15" alt="US" className="rounded-sm shrink-0" />
                   <div>
                     <p className="font-heading font-bold text-text-h text-sm">New York, US</p>
-                    <p className="text-text-muted text-xs mt-0.5">Best for US &amp; Latin American brokers</p>
+                    <p className="text-text-muted text-xs mt-0.5">Our data center — low latency trading</p>
                   </div>
                 </div>
               </div>
