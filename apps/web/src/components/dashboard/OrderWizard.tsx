@@ -114,10 +114,14 @@ export default function OrderWizard() {
         toast.success('Order placed successfully with account credit!');
         setTimeout(() => window.location.href = '/dashboard/services', 1500);
       } else {
-        // For now, show a payment stub
-        await api.post('/payments/stripe/create-intent', { invoiceId, planId, location, os, billingCycle });
-        toast.success('Order created! Redirecting to payment...');
-        setTimeout(() => window.location.href = '/dashboard/billing', 1500);
+        try {
+          await api.post('/payments/stripe/create-intent', { invoiceId, planId, location, os, billingCycle });
+          toast.success('Order created! Redirecting to billing...');
+          setTimeout(() => window.location.href = '/dashboard/billing', 1500);
+        } catch (payErr) {
+          toast.error(getErrorMessage(payErr));
+          setTimeout(() => window.location.href = '/dashboard/billing', 2000);
+        }
       }
     } catch (e) {
       toast.error(getErrorMessage(e));
@@ -215,23 +219,39 @@ export default function OrderWizard() {
         <div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
-              <h3 className="font-heading font-black text-text-h mb-4">Location</h3>
-              {(['LONDON', 'NEW_YORK'] as Location[]).map((loc) => (
-                <div
-                  key={loc}
-                  onClick={() => setLocation(loc)}
-                  className={`cursor-pointer border rounded-xl p-4 mb-3 last:mb-0 transition-all ${location === loc ? 'border-coral bg-coral/5' : 'border-[#312E81] hover:border-coral/50'}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${location === loc ? 'border-coral' : 'border-[#312E81]'}`}>
-                      {location === loc && <div className="w-2 h-2 rounded-full bg-coral" />}
-                    </div>
-                    <span className="font-heading font-bold text-text-body">
-                      {loc === 'LONDON' ? '🇬🇧 London, UK' : '🇺🇸 New York, US'}
-                    </span>
+              <h3 className="font-heading font-black text-text-h mb-4">Data Center Location</h3>
+
+              {/* London */}
+              <div
+                onClick={() => setLocation('LONDON')}
+                className={`cursor-pointer border rounded-xl p-4 mb-3 transition-all ${location === 'LONDON' ? 'border-coral bg-coral/5' : 'border-[#312E81] hover:border-coral/50'}`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${location === 'LONDON' ? 'border-coral' : 'border-[#312E81]'}`}>
+                    {location === 'LONDON' && <div className="w-2 h-2 rounded-full bg-coral" />}
+                  </div>
+                  <div>
+                    <p className="font-heading font-bold text-text-h text-sm">🇬🇧 London, UK</p>
+                    <p className="text-text-muted text-xs mt-0.5">Best for most European &amp; Asian brokers</p>
                   </div>
                 </div>
-              ))}
+              </div>
+
+              {/* New York */}
+              <div
+                onClick={() => setLocation('NEW_YORK')}
+                className={`cursor-pointer border rounded-xl p-4 transition-all ${location === 'NEW_YORK' ? 'border-coral bg-coral/5' : 'border-[#312E81] hover:border-coral/50'}`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${location === 'NEW_YORK' ? 'border-coral' : 'border-[#312E81]'}`}>
+                    {location === 'NEW_YORK' && <div className="w-2 h-2 rounded-full bg-coral" />}
+                  </div>
+                  <div>
+                    <p className="font-heading font-bold text-text-h text-sm">🇺🇸 New York, US</p>
+                    <p className="text-text-muted text-xs mt-0.5">Best for US &amp; Latin American brokers</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
