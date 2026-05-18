@@ -1,4 +1,4 @@
-﻿---
+---
 import '../styles/global.css';
 
 interface Props {
@@ -26,13 +26,13 @@ const currentPath = Astro.url.pathname;
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
-<body class="bg-base text-text-body font-body min-h-screen flex">
+<body class="bg-[#F3F4F6] text-[#374151] font-body min-h-screen flex">
 
   <!-- Sidebar -->
-  <aside class="fixed left-0 top-0 bottom-0 w-64 bg-footer border-r border-[#312E81] flex flex-col z-30">
-    <div class="p-6 border-b border-[#312E81]">
+  <aside class="fixed left-0 top-0 bottom-0 w-64 bg-[#111827] border-r border-[#1F2937] flex flex-col z-30">
+    <div class="p-6 border-b border-[#1F2937]">
       <a href="/">
-        <span class="font-heading font-black text-2xl text-text-h">NUCLEAR</span><span class="font-heading font-black text-2xl text-coral">VPS</span>
+        <span class="font-heading font-black text-2xl text-white">NUCLEAR</span><span class="font-heading font-black text-2xl text-coral">VPS</span>
       </a>
     </div>
 
@@ -44,8 +44,8 @@ const currentPath = Astro.url.pathname;
             href={href}
             class={`flex items-center gap-3 px-4 py-3 rounded-xl mb-1 font-heading font-bold text-sm transition-all duration-200 ${
               isActive
-                ? 'bg-indigo-mid text-white border-l-4 border-coral'
-                : 'text-text-body hover:bg-surface hover:text-coral'
+                ? 'bg-coral text-white border-l-4 border-white/30'
+                : 'text-gray-300 hover:bg-[#1F2937] hover:text-white'
             }`}
           >
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,8 +57,8 @@ const currentPath = Astro.url.pathname;
       })}
     </nav>
 
-    <div class="p-4 border-t border-[#312E81]">
-      <button id="dash-logout" class="w-full flex items-center gap-3 px-4 py-3 text-coral hover:bg-surface rounded-xl font-heading font-bold text-sm transition-colors">
+    <div class="p-4 border-t border-[#1F2937]">
+      <button id="dash-logout" class="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-[#1F2937] rounded-xl font-heading font-bold text-sm transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
         </svg>
@@ -70,39 +70,39 @@ const currentPath = Astro.url.pathname;
   <!-- Main content -->
   <div class="ml-64 flex-1 flex flex-col min-h-screen">
     <!-- Top bar -->
-    <header class="bg-footer border-b border-[#312E81] px-6 py-4 flex items-center justify-between sticky top-0 z-20">
-      <h1 class="font-heading font-black text-text-h text-xl" id="page-title">{title.replace(' — Nuclear VPS', '')}</h1>
+    <header class="bg-[#111827] border-b border-[#1F2937] px-6 py-4 flex items-center justify-between sticky top-0 z-20">
+      <h1 class="font-heading font-black text-white text-xl" id="page-title">{title.replace(' — Nuclear VPS', '')}</h1>
       <div class="flex items-center gap-4">
         <!-- Notification bell -->
         <div class="relative" id="notif-wrapper">
-          <button id="notif-btn" class="relative text-text-muted hover:text-coral transition-colors focus:outline-none">
+          <button id="notif-btn" class="relative text-gray-400 hover:text-white transition-colors focus:outline-none">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
-            <span id="notif-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-coral rounded-full text-white text-[10px] font-black flex items-center justify-center leading-none"></span>
+            <span id="notif-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-[10px] font-black flex items-center justify-center leading-none"></span>
           </button>
           <!-- Dropdown -->
-          <div id="notif-dropdown" class="hidden absolute right-0 top-10 w-80 bg-footer border border-[#312E81] rounded-2xl shadow-xl z-50 overflow-hidden">
-            <div class="px-4 py-3 border-b border-[#312E81] flex items-center justify-between">
-              <p class="font-heading font-black text-text-h text-sm">Notifications</p>
-              <button id="notif-clear" class="text-text-muted hover:text-coral text-xs font-heading font-bold transition-colors">Mark all read</button>
+          <div id="notif-dropdown" class="hidden absolute right-0 top-10 w-80 bg-[#111827] border border-[#1F2937] rounded-2xl shadow-xl z-50 overflow-hidden">
+            <div class="px-4 py-3 border-b border-[#1F2937] flex items-center justify-between">
+              <p class="font-heading font-black text-white text-sm">Notifications</p>
+              <button id="notif-clear" class="text-gray-400 hover:text-white text-xs font-heading font-bold transition-colors">Mark all read</button>
             </div>
-            <div id="notif-list" class="max-h-72 overflow-y-auto divide-y divide-[#312E81]">
-              <p class="text-text-muted text-sm p-4 text-center">Loading...</p>
+            <div id="notif-list" class="max-h-72 overflow-y-auto divide-y divide-[#1F2937]">
+              <p class="text-gray-400 text-sm p-4 text-center">Loading...</p>
             </div>
-            <div class="px-4 py-3 border-t border-[#312E81] text-center">
+            <div class="px-4 py-3 border-t border-[#1F2937] text-center">
               <a href="/dashboard/tickets" class="text-coral text-xs font-heading font-bold hover:underline">View all tickets</a>
             </div>
           </div>
         </div>
-        <div class="w-9 h-9 rounded-full bg-indigo-mid flex items-center justify-center" id="dash-avatar">
-          <span class="font-heading font-black text-coral text-sm" id="dash-initials">U</span>
+        <div class="w-9 h-9 rounded-full bg-coral flex items-center justify-center" id="dash-avatar">
+          <span class="font-heading font-black text-white text-sm" id="dash-initials">U</span>
         </div>
       </div>
     </header>
 
     <!-- Page content -->
-    <main class="flex-1 p-6 bg-base">
+    <main class="flex-1 p-6 bg-[#F3F4F6]">
       <slot />
     </main>
   </div>
@@ -142,8 +142,6 @@ const currentPath = Astro.url.pathname;
     const notifList = document.getElementById('notif-list')!;
     const notifClear = document.getElementById('notif-clear')!;
 
-    // seenMap: { [ticketId]: ISO timestamp of last seen admin reply }
-    // A ticket is "new" if its repliedAt is AFTER the stored timestamp
     let seenMap: Record<string, string> = JSON.parse(localStorage.getItem('notif-seen-v2') || '{}');
 
     function isNewNotif(ticket: any): boolean {
@@ -169,7 +167,7 @@ const currentPath = Astro.url.pathname;
         }
 
         if (tickets.length === 0) {
-          notifList.innerHTML = '<p class="text-text-muted text-sm p-4 text-center">No new notifications</p>';
+          notifList.innerHTML = '<p class="text-gray-400 text-sm p-4 text-center">No new notifications</p>';
           return;
         }
 
@@ -177,13 +175,13 @@ const currentPath = Astro.url.pathname;
           const isNew = isNewNotif(t);
           const time = new Date(t.repliedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
           return `
-            <a href="/dashboard/tickets/${t.id}" class="flex flex-col gap-1 px-4 py-3 hover:bg-surface transition-colors ${isNew ? 'border-l-2 border-coral' : ''}">
+            <a href="/dashboard/tickets/${t.id}" class="flex flex-col gap-1 px-4 py-3 hover:bg-[#1F2937] transition-colors ${isNew ? 'border-l-2 border-coral' : ''}">
               <div class="flex items-center justify-between gap-2">
-                <p class="font-heading font-bold text-text-h text-xs truncate">${t.subject}</p>
+                <p class="font-heading font-bold text-white text-xs truncate">${t.subject}</p>
                 ${isNew ? '<span class="shrink-0 w-2 h-2 rounded-full bg-coral"></span>' : ''}
               </div>
-              <p class="text-text-muted text-xs truncate">Support: ${t.preview}</p>
-              <p class="text-text-muted text-[11px]">${time}</p>
+              <p class="text-gray-400 text-xs truncate">Support: ${t.preview}</p>
+              <p class="text-gray-500 text-[11px]">${time}</p>
             </a>
           `;
         }).join('');
@@ -201,11 +199,10 @@ const currentPath = Astro.url.pathname;
         .then(r => r.json())
         .then(json => {
           const tickets: any[] = json.data?.tickets || [];
-          // Mark each ticket as seen at its current repliedAt timestamp
           tickets.forEach((t: any) => { seenMap[t.id] = t.repliedAt; });
           localStorage.setItem('notif-seen-v2', JSON.stringify(seenMap));
           notifBadge.classList.add('hidden');
-          notifList.innerHTML = '<p class="text-text-muted text-sm p-4 text-center">No new notifications</p>';
+          notifList.innerHTML = '<p class="text-gray-400 text-sm p-4 text-center">No new notifications</p>';
         });
     });
 

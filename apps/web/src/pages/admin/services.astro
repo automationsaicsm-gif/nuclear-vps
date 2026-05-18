@@ -7,19 +7,19 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     <button id="create-svc-btn" class="btn-primary text-sm px-5 py-2.5 shrink-0">+ Create Service</button>
     <div class="relative flex-1 max-w-sm">
       <input id="svc-search" type="text" placeholder="Search by IP or user..."
-        class="w-full bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
+        class="w-full bg-surface border border-[#E5E7EB] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
       <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
       </svg>
     </div>
-    <select id="status-filter" class="bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
+    <select id="status-filter" class="bg-surface border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
       <option value="">All Statuses</option>
       <option value="ACTIVE">Active</option>
       <option value="PENDING">Pending</option>
       <option value="SUSPENDED">Suspended</option>
       <option value="TERMINATED">Terminated</option>
     </select>
-    <select id="loc-filter" class="bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
+    <select id="loc-filter" class="bg-surface border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
       <option value="">All Locations</option>
       <option value="LONDON">🇬🇧 London</option>
       <option value="NEW_YORK">🇺🇸 New York</option>
@@ -30,7 +30,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     <div class="overflow-x-auto">
       <table class="w-full">
         <thead>
-          <tr class="bg-deep border-b border-[#312E81]">
+          <tr class="bg-deep border-b border-[#E5E7EB]">
             <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Service</th>
             <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Client</th>
             <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Status</th>
@@ -49,24 +49,24 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 
   <!-- Create Service Modal -->
   <div id="create-svc-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-    <div class="bg-surface border border-[#312E81] rounded-2xl p-8 max-w-lg w-full">
+    <div class="bg-surface border border-[#E5E7EB] rounded-2xl p-8 max-w-lg w-full">
       <h3 class="font-heading font-black text-text-h text-xl mb-6">Create Service</h3>
       <div id="cs-error" class="hidden mb-4 bg-coral/10 border border-coral/30 rounded-xl p-3 text-coral text-sm"></div>
       <form id="create-svc-form" class="space-y-4">
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">User Email</label>
-          <input id="cs-email" type="email" placeholder="client@example.com" required class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+          <input id="cs-email" type="email" placeholder="client@example.com" required class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Plan</label>
-          <select id="cs-plan" required class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
+          <select id="cs-plan" required class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
             <option value="">Select plan...</option>
           </select>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Billing Cycle</label>
-            <select id="cs-billing" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
+            <select id="cs-billing" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
               <option value="MONTHLY">Monthly</option>
               <option value="QUARTERLY">Quarterly</option>
               <option value="ANNUALLY">Annually</option>
@@ -74,7 +74,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           </div>
           <div>
             <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Location</label>
-            <select id="cs-location" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
+            <select id="cs-location" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm">
               <option value="NEW_YORK">New York, US</option>
             </select>
           </div>
@@ -82,11 +82,11 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">IP Address</label>
-            <input id="cs-ip" type="text" placeholder="192.168.1.1" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+            <input id="cs-ip" type="text" placeholder="192.168.1.1" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
           </div>
           <div>
             <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Password</label>
-            <input id="cs-pw" type="text" placeholder="VPS password" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+            <input id="cs-pw" type="text" placeholder="VPS password" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
           </div>
         </div>
         <div class="flex gap-3 pt-2">
@@ -105,8 +105,8 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
         ACTIVE: 'bg-green-500/10 text-green-400 border-green-500/30',
         PENDING: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
         SUSPENDED: 'bg-coral/10 text-coral border-coral/30',
-        TERMINATED: 'bg-surface text-text-muted border-[#312E81]',
-        CANCELLED: 'bg-surface text-text-muted border-[#312E81]',
+        TERMINATED: 'bg-surface text-text-muted border-[#E5E7EB]',
+        CANCELLED: 'bg-surface text-text-muted border-[#E5E7EB]',
       };
       return `<span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black border ${map[status] || map.PENDING}">${status}</span>`;
     }
@@ -126,7 +126,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
         return;
       }
       tbody.innerHTML = filtered.map((s: any) => `
-        <tr class="border-b border-[#312E81] hover:bg-surface transition-colors">
+        <tr class="border-b border-[#E5E7EB] hover:bg-surface transition-colors">
           <td class="px-5 py-4">
             <p class="font-heading font-bold text-text-h text-sm">${s.plan?.name || '—'}</p>
             <p class="text-text-muted text-xs">${s.billingCycle}</p>
@@ -141,7 +141,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           <td class="px-5 py-4 text-text-muted text-xs">${s.nextDueDate ? new Date(s.nextDueDate).toLocaleDateString() : '—'}</td>
           <td class="px-5 py-4 text-center">
             <div class="flex items-center justify-center gap-2">
-              <select data-svc-id="${s.id}" class="bg-base border border-[#312E81] rounded-lg px-2 py-1 text-text-body text-xs focus:outline-none focus:border-coral" onchange="updateStatus(this)">
+              <select data-svc-id="${s.id}" class="bg-base border border-[#E5E7EB] rounded-lg px-2 py-1 text-text-body text-xs focus:outline-none focus:border-coral" onchange="updateStatus(this)">
                 <option value="">Status...</option>
                 <option value="ACTIVE">Active</option>
                 <option value="PENDING">Pending</option>

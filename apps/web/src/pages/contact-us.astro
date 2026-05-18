@@ -6,14 +6,14 @@ import ContactFAQTabs from '../components/sections/ContactFAQTabs';
 
   <!-- Hero -->
   <section class="bg-hero relative overflow-hidden py-20">
-    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#1E3FA0,transparent);transform:translate(-30%,-30%)"></div>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="section-tag mb-4">SUPPORT</p>
-      <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+      <p class="text-blue-200 text-xs font-heading font-black tracking-widest uppercase mb-4">SUPPORT</p>
+      <h1 class="font-heading font-black text-4xl lg:text-6xl text-white mb-6">
         Need Help? Contact Our<br/>
         <span class="text-coral">Amazing Team</span>
       </h1>
-      <p class="text-text-body text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+      <p class="text-blue-100 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
         Our support team is available 24/7 to help you with any questions about your VPS, billing, or account.
       </p>
 
@@ -23,7 +23,7 @@ import ContactFAQTabs from '../components/sections/ContactFAQTabs';
           id="kb-search"
           type="text"
           placeholder="Search the knowledge base..."
-          class="w-full bg-surface border border-[#312E81] rounded-2xl px-6 py-4 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors pr-14"
+          class="w-full bg-white border border-[#E5E7EB] rounded-2xl px-6 py-4 text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-coral transition-colors pr-14"
         />
         <button id="kb-search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-coral hover:text-coral-dark transition-colors">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,7 +31,7 @@ import ContactFAQTabs from '../components/sections/ContactFAQTabs';
           </svg>
         </button>
       </div>
-      <div id="kb-results" class="hidden mt-4 bg-surface border border-[#312E81] rounded-2xl text-left overflow-hidden max-w-xl mx-auto"></div>
+      <div id="kb-results" class="hidden mt-4 bg-surface border border-[#E5E7EB] rounded-2xl text-left overflow-hidden max-w-xl mx-auto"></div>
     </div>
   </section>
 
@@ -95,7 +95,7 @@ import ContactFAQTabs from '../components/sections/ContactFAQTabs';
           resultsBox.innerHTML = '<p class="p-4 text-text-muted text-sm">No articles found.</p>';
         } else {
           resultsBox.innerHTML = articles.map((a: any) => `
-            <a href="/knowledgebase/${a.slug}" class="block px-5 py-3 hover:bg-base transition-colors border-b border-[#312E81] last:border-0">
+            <a href="/knowledgebase/${a.slug}" class="block px-5 py-3 hover:bg-base transition-colors border-b border-[#E5E7EB] last:border-0">
               <p class="text-text-h font-heading font-bold text-sm">${a.title}</p>
               <p class="text-text-muted text-xs mt-0.5">${a.category}</p>
             </a>

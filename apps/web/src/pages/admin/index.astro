@@ -35,7 +35,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
-            <tr class="border-b border-[#312E81]">
+            <tr class="border-b border-[#E5E7EB]">
               <th class="text-left pb-3 text-text-muted font-heading font-black text-xs uppercase tracking-wide">Invoice</th>
               <th class="text-left pb-3 text-text-muted font-heading font-black text-xs uppercase tracking-wide">Client</th>
               <th class="text-right pb-3 text-text-muted font-heading font-black text-xs uppercase tracking-wide">Amount</th>
@@ -79,7 +79,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           ordersEl.innerHTML = '<tr><td colspan="4" class="text-center py-6 text-text-muted text-sm">No invoices yet.</td></tr>';
         } else {
           ordersEl.innerHTML = orders.map((inv: any) => `
-            <tr class="border-b border-[#312E81] last:border-0">
+            <tr class="border-b border-[#E5E7EB] last:border-0">
               <td class="py-3 text-text-body font-mono text-xs">${inv.invoiceNumber}</td>
               <td class="py-3 text-text-body text-xs">${inv.user?.firstName || ''} ${inv.user?.lastName || ''}</td>
               <td class="py-3 text-right text-coral font-heading font-black">$${inv.amount.toFixed(2)}</td>

@@ -77,11 +77,11 @@ export default function TicketDetail({ ticketId }: { ticketId: string }) {
 
   return (
     <div className="max-w-3xl">
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       <a href="/dashboard/tickets" className="text-text-muted hover:text-coral text-sm transition-colors">← Back to Tickets</a>
 
-      <div className="bg-surface border border-[#312E81] rounded-2xl p-6 mt-4 mb-6">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6 mt-4 mb-6">
         <div className="flex justify-between items-start flex-wrap gap-4">
           <div>
             <p className="text-text-muted text-xs mb-1">{ticket.ticketNumber}</p>
@@ -95,7 +95,7 @@ export default function TicketDetail({ ticketId }: { ticketId: string }) {
             </div>
           </div>
           {!isClosed && (
-            <button onClick={closeTicket} className="border border-[#312E81] text-text-muted hover:border-coral hover:text-coral font-heading font-bold text-sm px-4 py-2 rounded-xl transition-colors">
+            <button onClick={closeTicket} className="border border-[#E5E7EB] text-text-muted hover:border-coral hover:text-coral font-heading font-bold text-sm px-4 py-2 rounded-xl transition-colors">
               Close Ticket
             </button>
           )}
@@ -110,7 +110,7 @@ export default function TicketDetail({ ticketId }: { ticketId: string }) {
             <div key={msg.id} className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}>
               <div
                 className={`max-w-[80%] rounded-2xl p-4 ${
-                  isOwn ? 'bg-indigo-mid' : 'bg-surface border border-[#312E81]'
+                  isOwn ? 'bg-indigo-mid' : 'bg-surface border border-[#E5E7EB]'
                 }`}
               >
                 <div className="flex items-center gap-2 mb-2">
@@ -128,7 +128,7 @@ export default function TicketDetail({ ticketId }: { ticketId: string }) {
 
       {/* Reply form */}
       {!isClosed ? (
-        <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+        <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
           <h3 className="font-heading font-bold text-text-h mb-3">Reply</h3>
           <form onSubmit={sendReply} className="space-y-4">
             <textarea
@@ -144,7 +144,7 @@ export default function TicketDetail({ ticketId }: { ticketId: string }) {
           </form>
         </div>
       ) : (
-        <div className="bg-deep border border-[#312E81] rounded-2xl p-4 text-center text-text-muted text-sm">
+        <div className="bg-deep border border-[#E5E7EB] rounded-2xl p-4 text-center text-text-muted text-sm">
           This ticket is closed. <a href="/dashboard/tickets/new" className="text-coral hover:underline">Open a new ticket</a> if you need further help.
         </div>
       )}

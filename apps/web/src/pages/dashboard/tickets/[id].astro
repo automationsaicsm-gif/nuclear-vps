@@ -7,3 +7,11 @@ const { id } = Astro.params;
 <DashboardLayout title="Ticket Detail — Nuclear VPS">
   <TicketDetail client:load ticketId={id!} />
 </DashboardLayout>
+
+<script define:vars={{ ticketId: id }}>
+  const seen = JSON.parse(localStorage.getItem('notif-seen') || '[]');
+  if (!seen.includes(ticketId)) {
+    seen.push(ticketId);
+    localStorage.setItem('notif-seen', JSON.stringify(seen));
+  }
+</script>

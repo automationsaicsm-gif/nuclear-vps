@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 
 interface Plan {
   id: string;
@@ -55,38 +55,19 @@ export default function PricingSection() {
     return plan.price2Year ?? plan.monthlyPrice ?? 0;
   };
 
-  const currentPlans = plans.filter((p) =>
-    tab === 'vps' ? p.category === 'TRADING_VPS' : p.category === 'TRADING_SERVER'
-  );
+  const currentPlans = plans.filter((p) => p.category === 'TRADING_VPS');
 
   return (
     <div>
-      {/* Tab switcher */}
-      <div className="flex justify-center mb-8">
-        <div className="flex bg-deep border border-[#312E81] rounded-full p-1">
-          {(['vps', 'servers'] as Tab[]).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-6 py-2 rounded-full font-heading font-bold text-sm transition-all duration-200 ${
-                tab === t ? 'bg-coral text-white' : 'text-text-muted hover:text-text-body'
-              }`}
-            >
-              {t === 'vps' ? 'Trading VPS' : 'Trading Servers'}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Billing cycle */}
       <div className="flex justify-center mb-12">
-        <div className="flex bg-deep border border-[#312E81] rounded-full p-1 gap-1">
+        <div className="flex bg-deep border border-[#E5E7EB] rounded-full p-1 gap-1">
           {([
             ['1month', '1 Month'],
-            ['2months', '2 Months'],
+            ['2months', '3 Months'],
             ['6months', '6 Months'],
-            ['1year', '1 Year'],
-            ['2years', '2 Years'],
+            ['1year', '12 Months'],
+            ['2years', '24 Months'],
           ] as [Cycle, string][]).map(([c, label]) => (
             <button
               key={c}
@@ -103,18 +84,18 @@ export default function PricingSection() {
 
       {/* Plan cards */}
       {loading ? (
-        <div className={`grid gap-4 ${tab === 'vps' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto'}`}>
-          {[...Array(tab === 'vps' ? 4 : 2)].map((_, i) => (
-            <div key={i} className="bg-surface rounded-2xl p-8 border border-[#312E81] animate-pulse h-96" />
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-surface rounded-2xl p-8 border border-[#E5E7EB] animate-pulse h-96" />
           ))}
         </div>
       ) : (
-        <div className={`grid gap-4 ${tab === 'vps' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto'}`}>
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {currentPlans.map((plan) => (
             <div
               key={plan.slug}
-              className={`relative bg-surface rounded-2xl p-6 transition-all duration-200 hover:shadow-[0_0_0_1px_#F87171] ${
-                plan.featured ? 'border-2 border-coral' : 'border border-[#312E81]'
+              className={`relative bg-surface rounded-2xl p-6 transition-all duration-200 hover:shadow-[0_0_0_1px_#2D55C8] ${
+                plan.featured ? 'border-2 border-coral' : 'border border-[#E5E7EB]'
               }`}
             >
               {plan.featured && (
@@ -145,16 +126,14 @@ export default function PricingSection() {
                 </p>
               )}
 
-              <div className="border-t border-[#312E81] my-4" />
+              <div className="border-t border-[#E5E7EB] my-4" />
 
               <ul className="space-y-3 mb-8">
                 {[
-                  plan.ram,
-                  plan.cpu,
-                  plan.storage,
-                  plan.os.join(' / '),
-                  'Trading Optimized',
-                  `Up to ${plan.platforms} Platforms`,
+                  `RAM ${plan.ram.replace(/ DDR\d+/, '').replace(' ', '')}`,
+                  `Instances 1-${plan.platforms}* MT4/MT5/ cTrade`,
+                  `Disk Space ${plan.storage.replace(/ NVMe SSD| SSD/, '').replace(' ', '')}`,
+                  `CPU ${plan.cpu}`,
                 ].map((feature) => (
                   <li key={feature} className="flex items-center gap-2 text-text-body text-sm">
                     <div className="w-4 h-4 rounded-full bg-coral/20 flex items-center justify-center shrink-0">

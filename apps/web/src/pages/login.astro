@@ -1,36 +1,54 @@
-﻿---
+---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="Login — Nuclear VPS" description="Sign in to your Nuclear VPS account.">
-  <section class="min-h-[80vh] flex items-center justify-center py-20 px-4">
+  <section class="min-h-[80vh] flex items-center justify-center py-20 px-4 bg-[#F9FAFB]">
     <div class="w-full max-w-md">
       <div class="text-center mb-10">
         <a href="/" class="inline-block mb-8">
-          <span class="font-heading font-black text-3xl text-text-h">NUCLEAR</span><span class="font-heading font-black text-3xl text-coral">VPS</span>
+          <span class="font-heading font-black text-3xl text-[#111827]">NUCLEAR</span><span class="font-heading font-black text-3xl text-coral">VPS</span>
         </a>
-        <h1 class="font-heading font-black text-3xl text-text-h mb-2">Welcome Back</h1>
-        <p class="text-text-muted">Sign in to manage your VPS services</p>
+        <h1 class="font-heading font-black text-3xl text-[#111827] mb-2">Welcome Back</h1>
+        <p class="text-[#6B7280]">Sign in to manage your VPS services</p>
       </div>
 
-      <div class="bg-surface border border-[#312E81] rounded-2xl p-8">
-        <div id="login-error" class="hidden mb-6 bg-coral/10 border border-coral/30 rounded-xl p-4 text-coral text-sm"></div>
+      <div class="bg-white border border-[#E5E7EB] rounded-2xl p-8 shadow-sm">
+        <div id="login-error" class="hidden mb-6 bg-red-50 border border-red-200 rounded-xl p-4 text-red-600 text-sm"></div>
+
+        <!-- Google OAuth -->
+        <a href="/api/v1/auth/google"
+          class="flex items-center justify-center gap-3 w-full bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-xl border border-gray-200 transition-colors mb-5 text-sm">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+            <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+            <path d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z" fill="#FBBC05"/>
+            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </a>
+
+        <div class="flex items-center gap-4 mb-5">
+          <div class="flex-1 h-px bg-[#E5E7EB]"></div>
+          <span class="text-[#6B7280] text-xs font-heading font-bold uppercase tracking-wide">or</span>
+          <div class="flex-1 h-px bg-[#E5E7EB]"></div>
+        </div>
 
         <form id="login-form" class="space-y-5">
           <div>
-            <label class="block text-text-body text-sm font-heading font-bold mb-2" for="email">Email Address</label>
+            <label class="block text-[#374151] text-sm font-heading font-bold mb-2" for="email">Email Address</label>
             <input
               id="email"
               name="email"
               type="email"
               autocomplete="email"
               required
-              class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+              class="w-full bg-white border border-[#E5E7EB] rounded-xl px-4 py-3 text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-coral transition-colors"
               placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label class="block text-text-body text-sm font-heading font-bold mb-2" for="password">Password</label>
+            <label class="block text-[#374151] text-sm font-heading font-bold mb-2" for="password">Password</label>
             <div class="relative">
               <input
                 id="password"
@@ -38,10 +56,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 type="password"
                 autocomplete="current-password"
                 required
-                class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors pr-12"
+                class="w-full bg-white border border-[#E5E7EB] rounded-xl px-4 py-3 text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-coral transition-colors pr-12"
                 placeholder="••••••••"
               />
-              <button type="button" id="toggle-pw" class="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-coral transition-colors">
+              <button type="button" id="toggle-pw" class="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B7280] hover:text-coral transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -52,8 +70,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
           <div class="flex items-center justify-between">
             <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" name="remember" class="w-4 h-4 rounded border-[#312E81] bg-base accent-coral" />
-              <span class="text-text-muted text-sm">Remember me</span>
+              <input type="checkbox" name="remember" class="w-4 h-4 rounded border-[#E5E7EB] bg-white accent-coral" />
+              <span class="text-[#6B7280] text-sm">Remember me</span>
             </label>
             <a href="/forgot-password" class="text-coral text-sm hover:underline font-heading font-bold">Forgot password?</a>
           </div>
@@ -71,7 +89,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </button>
         </form>
 
-        <p class="text-center text-text-muted text-sm mt-6">
+        <p class="text-center text-[#6B7280] text-sm mt-6">
           Don't have an account?
           <a href="/register" class="text-coral font-heading font-bold hover:underline ml-1">Create one free</a>
         </p>
@@ -80,6 +98,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 
   <script>
+    // Show error from Google OAuth redirect
+    const urlError = new URLSearchParams(window.location.search).get('error');
+    if (urlError) {
+      const errorBox = document.getElementById('login-error')!;
+      const msgs: Record<string, string> = {
+        google_cancelled: 'Google sign-in was cancelled.',
+        google_failed: 'Google sign-in failed. Please try again.',
+        google_no_email: 'Your Google account did not provide an email address.',
+        google_not_configured: 'Google sign-in is not configured yet.',
+      };
+      errorBox.textContent = msgs[urlError] || 'An error occurred. Please try again.';
+      errorBox.classList.remove('hidden');
+    }
+
     const form = document.getElementById('login-form') as HTMLFormElement;
     const errorBox = document.getElementById('login-error')!;
     const btn = document.getElementById('login-btn') as HTMLButtonElement;

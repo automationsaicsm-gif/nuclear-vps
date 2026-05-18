@@ -12,7 +12,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p class="text-text-muted">Get started in minutes — instant activation</p>
       </div>
 
-      <div class="bg-surface border border-[#312E81] rounded-2xl p-8">
+      <div class="bg-surface border border-[#E5E7EB] rounded-2xl p-8">
         <div id="reg-error" class="hidden mb-6 bg-coral/10 border border-coral/30 rounded-xl p-4 text-coral text-sm"></div>
         <div id="reg-success" class="hidden mb-6 bg-green-500/10 border border-green-500/30 rounded-xl p-4 text-green-400 text-sm"></div>
 
@@ -29,9 +29,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </a>
 
         <div class="flex items-center gap-4 mb-5">
-          <div class="flex-1 h-px bg-[#312E81]"></div>
+          <div class="flex-1 h-px bg-[#E5E7EB]"></div>
           <span class="text-text-muted text-xs font-heading font-bold uppercase tracking-wide">or register manually</span>
-          <div class="flex-1 h-px bg-[#312E81]"></div>
+          <div class="flex-1 h-px bg-[#E5E7EB]"></div>
         </div>
 
         <form id="reg-form" class="space-y-5">
@@ -40,13 +40,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div>
               <label class="block text-text-body text-sm font-heading font-bold mb-2" for="firstName">First Name</label>
               <input id="firstName" name="firstName" type="text" required
-                class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+                class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
                 placeholder="John" />
             </div>
             <div>
               <label class="block text-text-body text-sm font-heading font-bold mb-2" for="lastName">Last Name</label>
               <input id="lastName" name="lastName" type="text" required
-                class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+                class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
                 placeholder="Doe" />
             </div>
           </div>
@@ -55,7 +55,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div>
             <label class="block text-text-body text-sm font-heading font-bold mb-2" for="email">Email Address</label>
             <input id="email" name="email" type="email" required autocomplete="email"
-              class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+              class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
               placeholder="you@example.com" />
           </div>
 
@@ -64,13 +64,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div>
               <label class="block text-text-body text-sm font-heading font-bold mb-2" for="password">Password</label>
               <input id="password" name="password" type="password" required minlength="8"
-                class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+                class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
                 placeholder="Min 8 characters" />
             </div>
             <div>
               <label class="block text-text-body text-sm font-heading font-bold mb-2" for="confirmPassword">Confirm Password</label>
               <input id="confirmPassword" name="confirmPassword" type="password" required
-                class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+                class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
                 placeholder="Repeat password" />
             </div>
           </div>
@@ -79,7 +79,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div>
             <label class="block text-text-body text-sm font-heading font-bold mb-2" for="country">Country</label>
             <select id="country" name="country" required
-              class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors">
+              class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors">
               <option value="">Select your country</option>
               <option value="US">United States</option>
               <option value="GB">United Kingdom</option>
@@ -109,13 +109,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div>
               <label class="block text-text-body text-sm font-heading font-bold mb-2" for="phone">Phone <span class="text-text-muted font-normal">(optional)</span></label>
               <input id="phone" name="phone" type="tel"
-                class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+                class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
                 placeholder="+1 555 000 0000" />
             </div>
             <div>
               <label class="block text-text-body text-sm font-heading font-bold mb-2" for="company">Company <span class="text-text-muted font-normal">(optional)</span></label>
               <input id="company" name="company" type="text"
-                class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
+                class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors"
                 placeholder="Your company" />
             </div>
           </div>
@@ -124,7 +124,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div>
             <label class="flex items-start gap-3 cursor-pointer">
               <input id="terms" name="terms" type="checkbox" required
-                class="w-4 h-4 mt-1 rounded border-[#312E81] bg-base accent-coral shrink-0" />
+                class="w-4 h-4 mt-1 rounded border-[#E5E7EB] bg-base accent-coral shrink-0" />
               <span class="text-text-muted text-sm leading-relaxed">
                 I agree to the
                 <a href="/terms" class="text-coral hover:underline">Terms & Conditions</a>

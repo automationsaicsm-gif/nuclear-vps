@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { api, getErrorMessage } from '../../lib/api';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -74,7 +74,7 @@ export default function DashboardOverview() {
 
   return (
     <div>
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       {/* Stats cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -84,7 +84,7 @@ export default function DashboardOverview() {
           { label: 'Unpaid Invoices', value: stats?.unpaidInvoices || 0, coral: (stats?.unpaidInvoices || 0) > 0, href: '/dashboard/billing' },
           { label: 'Account Credit', value: `$${(stats?.creditBalance || 0).toFixed(2)}`, coral: false, href: '/dashboard/billing' },
         ].map(({ label, value, coral, href }) => (
-          <a key={label} href={href} className="bg-surface border border-[#312E81] rounded-2xl p-6 hover:border-coral transition-all duration-200 block">
+          <a key={label} href={href} className="bg-surface border border-[#E5E7EB] rounded-2xl p-6 hover:border-coral transition-all duration-200 block">
             <p className="text-text-muted text-sm mb-1">{label}</p>
             <p className={`font-heading font-black text-3xl ${coral ? 'text-coral' : 'text-text-h'}`}>{value}</p>
           </a>
@@ -99,20 +99,20 @@ export default function DashboardOverview() {
         <a href="/dashboard/tickets/new" className="border-2 border-coral text-coral hover:bg-coral/10 font-heading font-bold px-6 py-3 rounded-xl transition-colors">
           Open Support Ticket
         </a>
-        <a href="/dashboard/billing" className="border border-[#312E81] text-text-body hover:border-coral hover:text-coral font-heading font-bold px-6 py-3 rounded-xl transition-colors">
+        <a href="/dashboard/billing" className="border border-[#E5E7EB] text-text-body hover:border-coral hover:text-coral font-heading font-bold px-6 py-3 rounded-xl transition-colors">
           View Invoices
         </a>
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
         <h2 className="font-heading font-black text-text-h text-lg mb-4">Recent Activity</h2>
         {recentActivity.length === 0 ? (
           <p className="text-text-muted text-sm">No recent activity. <a href="/dashboard/order" className="text-coral hover:underline">Order your first VPS!</a></p>
         ) : (
           <ul className="space-y-3">
             {recentActivity.map((item, i) => (
-              <li key={i} className="flex items-center gap-3 py-2 border-b border-[#312E81] last:border-0">
+              <li key={i} className="flex items-center gap-3 py-2 border-b border-[#E5E7EB] last:border-0">
                 <div className={`w-2 h-2 rounded-full shrink-0 ${
                   item.type === 'service' ? 'bg-green-400' :
                   item.type === 'invoice' ? 'bg-coral' : 'bg-indigo-mid'

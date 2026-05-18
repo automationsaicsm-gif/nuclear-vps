@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { api, getErrorMessage } from '../../lib/api';
 import toast, { Toaster } from 'react-hot-toast';
 
-type Step = 'plan' | 'configure' | 'payment';
-type Cycle = 'MONTHLY' | 'QUARTERLY' | 'ANNUALLY';
-type Location = 'LONDON' | 'NEW_YORK';
+type Step = 'plan' | 'payment';
+type Cycle = 'MONTHLY' | 'QUARTERLY' | '6MONTHS' | 'ANNUALLY' | '2YEARS';
 
 interface Plan {
   id: string;
@@ -13,7 +12,9 @@ interface Plan {
   category: string;
   monthlyPrice: number;
   quarterlyPrice: number;
+  price6Month: number;
   annualPrice: number;
+  price2Year: number;
   ram: string;
   cpu: string;
   storage: string;
@@ -23,16 +24,30 @@ interface Plan {
   linuxAvailable: boolean;
 }
 
-const cyclePriceKey: Record<Cycle, 'monthlyPrice' | 'quarterlyPrice' | 'annualPrice'> = {
+const cyclePriceKey: Record<Cycle, keyof Pick<Plan, 'monthlyPrice' | 'quarterlyPrice' | 'price6Month' | 'annualPrice' | 'price2Year'>> = {
   MONTHLY: 'monthlyPrice',
   QUARTERLY: 'quarterlyPrice',
+  '6MONTHS': 'price6Month',
   ANNUALLY: 'annualPrice',
+  '2YEARS': 'price2Year',
 };
 
 const cycleLabels: Record<Cycle, string> = {
-  MONTHLY: 'Monthly',
-  QUARTERLY: 'Quarterly',
-  ANNUALLY: 'Annual',
+  MONTHLY: '1 Month',
+  QUARTERLY: '3 Months',
+  '6MONTHS': '6 Months',
+  ANNUALLY: '12 Months',
+  '2YEARS': '24 Months',
+};
+
+const mapCycleParam = (param: string): Cycle => {
+  const map: Record<string, Cycle> = {
+    '1month': 'MONTHLY', '2months': 'QUARTERLY', '6months': '6MONTHS',
+    '1year': 'ANNUALLY', '2years': '2YEARS',
+    'MONTHLY': 'MONTHLY', 'QUARTERLY': 'QUARTERLY', '6MONTHS': '6MONTHS',
+    'ANNUALLY': 'ANNUALLY', '2YEARS': '2YEARS',
+  };
+  return map[param] || 'MONTHLY';
 };
 
 export default function OrderWizard() {
@@ -40,36 +55,36 @@ export default function OrderWizard() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [cycle, setCycle] = useState<Cycle>('MONTHLY');
-  const [location, setLocation] = useState<Location>('NEW_YORK');
-  const [os, setOs] = useState('Windows 2022');
   const [couponCode, setCouponCode] = useState('');
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [couponApplied, setCouponApplied] = useState('');
   const [useCredit, setUseCredit] = useState(false);
   const [creditBalance, setCreditBalance] = useState(0);
   const [processing, setProcessing] = useState(false);
-  const [tab, setTab] = useState<'vps' | 'servers'>('vps');
 
   const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
   const planSlugParam = urlParams.get('plan');
-  const cycleParam = urlParams.get('cycle') as Cycle | null;
+  const cycleParam = urlParams.get('cycle');
 
   useEffect(() => {
-    Promise.all([api.get('/plans'), api.get('/auth/me')]).then(([plansRes, userRes]) => {
-      const allPlans = plansRes.data.data || [];
-      setPlans(allPlans);
-      setCreditBalance(userRes.data.data?.creditBalance || 0);
-
-      if (planSlugParam) {
-        const found = allPlans.find((p: Plan) => p.slug === planSlugParam);
-        if (found) {
-          setSelectedPlan(found);
-          setTab(found.category === 'TRADING_VPS' ? 'vps' : 'servers');
-          if (cycleParam) setCycle(cycleParam);
-          setStep('configure');
+    api.get('/plans')
+      .then((plansRes) => {
+        const allPlans = plansRes.data.data || [];
+        setPlans(allPlans);
+        if (planSlugParam) {
+          const found = allPlans.find((p: Plan) => p.slug === planSlugParam);
+          if (found) {
+            setSelectedPlan(found);
+            if (cycleParam) setCycle(mapCycleParam(cycleParam));
+            setStep('payment');
+          }
         }
-      }
-    });
+      })
+      .catch(() => {});
+
+    api.get('/auth/me')
+      .then((res) => setCreditBalance(res.data.data?.creditBalance || 0))
+      .catch(() => {});
   }, []);
 
   const getPrice = (plan: Plan) => plan[cyclePriceKey[cycle]];
@@ -101,21 +116,20 @@ export default function OrderWizard() {
       const orderRes = await api.post('/orders/create', {
         planId: selectedPlan.id,
         billingCycle: cycle,
-        location,
-        os,
+        location: 'NEW_YORK',
+        os: 'Windows 2022',
         couponCode: couponApplied || undefined,
         useCredit,
       });
 
       const { invoiceId, planId, billingCycle } = orderRes.data.data;
 
-      // Simulate payment with credit or create a Stripe intent
       if (totalPrice() <= 0) {
         toast.success('Order placed successfully with account credit!');
         setTimeout(() => window.location.href = '/dashboard/services', 1500);
       } else {
         try {
-          await api.post('/payments/stripe/create-intent', { invoiceId, planId, location, os, billingCycle });
+          await api.post('/payments/stripe/create-intent', { invoiceId, planId, location: 'NEW_YORK', os: 'Windows 2022', billingCycle });
           toast.success('Order created! Redirecting to billing...');
           setTimeout(() => window.location.href = '/dashboard/billing', 1500);
         } catch (payErr) {
@@ -130,24 +144,24 @@ export default function OrderWizard() {
     }
   };
 
-  const filteredPlans = plans.filter((p) =>
-    tab === 'vps' ? p.category === 'TRADING_VPS' : p.category === 'TRADING_SERVER'
-  );
+  const filteredPlans = plans.filter((p) => p.category === 'TRADING_VPS');
 
   return (
     <div className="max-w-4xl">
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       {/* Progress steps */}
       <div className="flex items-center gap-4 mb-8">
-        {(['plan', 'configure', 'payment'] as Step[]).map((s, i) => (
+        {(['plan', 'payment'] as Step[]).map((s, i) => (
           <div key={s} className="flex items-center gap-2">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center font-heading font-black text-sm ${
               step === s ? 'bg-coral text-white' :
-              ['plan', 'configure', 'payment'].indexOf(step) > i ? 'bg-green-500 text-white' : 'bg-[#312E81] text-text-muted'
+              step === 'payment' && s === 'plan' ? 'bg-green-500 text-white' : 'bg-[#E5E7EB] text-text-muted'
             }`}>{i + 1}</div>
-            <span className={`text-sm font-heading font-bold capitalize ${step === s ? 'text-coral' : 'text-text-muted'}`}>{s === 'plan' ? 'Select Plan' : s === 'configure' ? 'Configure' : 'Review & Pay'}</span>
-            {i < 2 && <div className={`w-8 h-0.5 ${['plan', 'configure', 'payment'].indexOf(step) > i ? 'bg-coral' : 'bg-[#312E81]'}`} />}
+            <span className={`text-sm font-heading font-bold ${step === s ? 'text-coral' : 'text-text-muted'}`}>
+              {s === 'plan' ? 'Select Plan' : 'Review & Pay'}
+            </span>
+            {i < 1 && <div className={`w-8 h-0.5 ${step === 'payment' ? 'bg-coral' : 'bg-[#E5E7EB]'}`} />}
           </div>
         ))}
       </div>
@@ -156,16 +170,11 @@ export default function OrderWizard() {
       {step === 'plan' && (
         <div>
           <div className="flex gap-4 mb-6">
-            <div className="flex bg-deep border border-[#312E81] rounded-full p-1">
-              {(['vps', 'servers'] as const).map((t) => (
-                <button key={t} onClick={() => setTab(t)} className={`px-5 py-2 rounded-full font-heading font-bold text-sm transition-all ${tab === t ? 'bg-coral text-white' : 'text-text-muted hover:text-text-body'}`}>
-                  {t === 'vps' ? 'Trading VPS' : 'Trading Servers'}
-                </button>
-              ))}
+            <div className="flex bg-deep border border-[#E5E7EB] rounded-full p-1">
+              <span className="px-5 py-2 rounded-full font-heading font-bold text-sm bg-coral text-white">Trading VPS</span>
             </div>
-
-            <div className="flex bg-deep border border-[#312E81] rounded-full p-1 gap-1">
-              {(['MONTHLY', 'QUARTERLY', 'ANNUALLY'] as Cycle[]).map((c) => (
+            <div className="flex bg-deep border border-[#E5E7EB] rounded-full p-1 gap-1">
+              {(['MONTHLY', 'QUARTERLY', '6MONTHS', 'ANNUALLY', '2YEARS'] as Cycle[]).map((c) => (
                 <button key={c} onClick={() => setCycle(c)} className={`px-4 py-2 rounded-full font-heading font-bold text-xs transition-all ${cycle === c ? 'bg-coral text-white' : 'text-text-muted hover:text-text-body'}`}>
                   {cycleLabels[c]}
                 </button>
@@ -179,12 +188,12 @@ export default function OrderWizard() {
                 key={plan.id}
                 onClick={() => setSelectedPlan(plan)}
                 className={`cursor-pointer border rounded-2xl p-6 transition-all duration-200 ${
-                  selectedPlan?.id === plan.id ? 'border-coral bg-coral/5' : 'border-[#312E81] bg-surface hover:border-coral/50'
+                  selectedPlan?.id === plan.id ? 'border-coral bg-coral/5' : 'border-[#E5E7EB] bg-surface hover:border-coral/50'
                 }`}
               >
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div className="flex items-center gap-4">
-                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedPlan?.id === plan.id ? 'border-coral' : 'border-[#312E81]'}`}>
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedPlan?.id === plan.id ? 'border-coral' : 'border-[#E5E7EB]'}`}>
                       {selectedPlan?.id === plan.id && <div className="w-2 h-2 rounded-full bg-coral" />}
                     </div>
                     <div>
@@ -204,7 +213,7 @@ export default function OrderWizard() {
 
           <div className="flex justify-end mt-6">
             <button
-              onClick={() => selectedPlan && setStep('configure')}
+              onClick={() => selectedPlan && setStep('payment')}
               disabled={!selectedPlan}
               className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -214,61 +223,18 @@ export default function OrderWizard() {
         </div>
       )}
 
-      {/* Step 2: Configure */}
-      {step === 'configure' && selectedPlan && (
-        <div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
-              <h3 className="font-heading font-black text-text-h mb-4">Data Center Location</h3>
-              <div className="border border-coral bg-coral/5 rounded-xl p-4">
-                <div className="flex items-center gap-3">
-                  <img src="https://flagcdn.com/w20/us.png" srcSet="https://flagcdn.com/w40/us.png 2x" width="20" height="15" alt="US" className="rounded-sm shrink-0" />
-                  <div>
-                    <p className="font-heading font-bold text-text-h text-sm">New York, US</p>
-                    <p className="text-text-muted text-xs mt-0.5">Our data center — low latency trading</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
-              <h3 className="font-heading font-black text-text-h mb-4">Operating System</h3>
-              {selectedPlan.os.map((o) => (
-                <div
-                  key={o}
-                  onClick={() => setOs(o)}
-                  className={`cursor-pointer border rounded-xl p-3 mb-2 last:mb-0 transition-all ${os === o ? 'border-coral bg-coral/5' : 'border-[#312E81] hover:border-coral/50'}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center ${os === o ? 'border-coral' : 'border-[#312E81]'}`}>
-                      {os === o && <div className="w-1.5 h-1.5 rounded-full bg-coral" />}
-                    </div>
-                    <span className="text-text-body text-sm">{o}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-between mt-6">
-            <button onClick={() => setStep('plan')} className="btn-ghost">← Back</button>
-            <button onClick={() => setStep('payment')} className="btn-primary">Continue →</button>
-          </div>
-        </div>
-      )}
-
-      {/* Step 3: Payment */}
+      {/* Step 2: Review & Pay */}
       {step === 'payment' && selectedPlan && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Order summary */}
-          <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+          <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
             <h3 className="font-heading font-black text-text-h text-lg mb-4">Order Summary</h3>
             <div className="space-y-3 text-sm mb-4">
               {[
                 ['Plan', selectedPlan.name],
                 ['Billing Cycle', cycleLabels[cycle]],
-                ['Location', location === 'LONDON' ? '🇬🇧 London' : '🇺🇸 New York'],
-                ['OS', os],
+                ['Location', '🇺🇸 New York, US'],
+                ['OS', 'Windows 2022'],
                 ['Price', `$${getPrice(selectedPlan)}/mo`],
               ].map(([label, val]) => (
                 <div key={label} className="flex justify-between">
@@ -288,7 +254,7 @@ export default function OrderWizard() {
                   <span>-${Math.min(creditBalance, getPrice(selectedPlan)).toFixed(2)}</span>
                 </div>
               )}
-              <div className="border-t border-[#312E81] pt-3 flex justify-between font-heading font-black text-lg">
+              <div className="border-t border-[#E5E7EB] pt-3 flex justify-between font-heading font-black text-lg">
                 <span className="text-text-h">Total</span>
                 <span className="text-coral">${totalPrice().toFixed(2)}</span>
               </div>
@@ -304,7 +270,7 @@ export default function OrderWizard() {
                   placeholder="ENTER CODE"
                   className="input-field flex-1 uppercase"
                 />
-                <button onClick={applyCoupon} className="border border-[#312E81] hover:border-coral text-text-muted hover:text-coral font-heading font-bold text-sm px-4 rounded-xl transition-colors">
+                <button onClick={applyCoupon} className="border border-[#E5E7EB] hover:border-coral text-text-muted hover:text-coral font-heading font-bold text-sm px-4 rounded-xl transition-colors">
                   Apply
                 </button>
               </div>
@@ -327,11 +293,11 @@ export default function OrderWizard() {
           </div>
 
           {/* Payment method */}
-          <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+          <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
             <h3 className="font-heading font-black text-text-h text-lg mb-4">Payment Method</h3>
             <div className="space-y-3">
               {['Credit/Debit Card', 'PayPal', 'Cryptocurrency'].map((method) => (
-                <div key={method} className="border border-[#312E81] rounded-xl p-4 text-text-muted text-sm">
+                <div key={method} className="border border-[#E5E7EB] rounded-xl p-4 text-text-muted text-sm">
                   {method}
                   {method === 'Credit/Debit Card' && (
                     <p className="text-xs text-text-dim mt-1">Configure Stripe keys in .env to enable</p>
@@ -341,7 +307,7 @@ export default function OrderWizard() {
             </div>
 
             <div className="flex justify-between mt-6">
-              <button onClick={() => setStep('configure')} className="btn-ghost">← Back</button>
+              <button onClick={() => setStep('plan')} className="btn-ghost">← Back</button>
               <button
                 onClick={placeOrder}
                 disabled={processing}

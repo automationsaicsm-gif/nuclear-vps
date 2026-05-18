@@ -1,4 +1,4 @@
----
+﻿---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 const { id } = Astro.params;
 ---
@@ -24,9 +24,10 @@ const { id } = Astro.params;
           <span class="text-text-muted text-xs" id="user-joined"></span>
         </div>
       </div>
-      <div class="flex gap-3 shrink-0">
+      <div class="flex gap-3 shrink-0 flex-wrap">
+        <button id="reset-pw-btn" class="btn-ghost text-sm px-4 py-2">Reset Password</button>
         <button id="impersonate-btn" class="btn-ghost text-sm px-4 py-2">Impersonate</button>
-        <button id="suspend-btn" class="border border-coral text-coral hover:bg-coral hover:text-white rounded-xl px-4 py-2 text-sm font-heading font-bold transition-all">Suspend</button>
+        <button id="delete-user-btn" class="border border-coral text-coral hover:bg-coral hover:text-white rounded-xl px-4 py-2 text-sm font-heading font-bold transition-all">Delete User</button>
       </div>
     </div>
 
@@ -38,19 +39,19 @@ const { id } = Astro.params;
       <form id="edit-form" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">First Name</label>
-          <input id="ef-firstName" name="firstName" type="text" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+          <input id="ef-firstName" name="firstName" type="text" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Last Name</label>
-          <input id="ef-lastName" name="lastName" type="text" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+          <input id="ef-lastName" name="lastName" type="text" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Email</label>
-          <input id="ef-email" name="email" type="email" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+          <input id="ef-email" name="email" type="email" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Role</label>
-          <select id="ef-role" name="role" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
+          <select id="ef-role" name="role" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
             <option value="CLIENT">Client</option>
             <option value="SUPPORT">Support</option>
             <option value="ADMIN">Admin</option>
@@ -58,11 +59,11 @@ const { id } = Astro.params;
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Phone</label>
-          <input id="ef-phone" name="phone" type="tel" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+          <input id="ef-phone" name="phone" type="tel" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Country</label>
-          <input id="ef-country" name="country" type="text" class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+          <input id="ef-country" name="country" type="text" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
         <div class="sm:col-span-2">
           <button type="submit" class="btn-primary px-8 py-2.5 text-sm">Save Changes</button>
@@ -105,7 +106,7 @@ const { id } = Astro.params;
         const roleColors: Record<string, string> = {
           ADMIN: 'bg-coral/10 text-coral border-coral/30',
           SUPPORT: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-          CLIENT: 'bg-indigo-mid/20 text-text-body border-[#312E81]',
+          CLIENT: 'bg-indigo-mid/20 text-text-body border-[#E5E7EB]',
         };
         document.getElementById('user-role-badge')!.innerHTML = `<span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black border ${roleColors[u.role] || roleColors.CLIENT}">${u.role}</span>`;
 
@@ -120,19 +121,19 @@ const { id } = Astro.params;
         // Services
         const services: any[] = u.services || [];
         document.getElementById('user-services')!.innerHTML = services.length
-          ? services.map((s: any) => `<div class="flex items-center justify-between py-2 border-b border-[#312E81] last:border-0"><span class="text-text-body text-sm">${s.plan?.name || s.planId}</span><span class="text-xs px-2 py-0.5 rounded-full font-heading font-black ${s.status === 'ACTIVE' ? 'bg-green-500/10 text-green-400' : 'bg-surface text-text-muted'}">${s.status}</span></div>`).join('')
+          ? services.map((s: any) => `<div class="flex items-center justify-between py-2 border-b border-[#E5E7EB] last:border-0"><span class="text-text-body text-sm">${s.plan?.name || s.planId}</span><span class="text-xs px-2 py-0.5 rounded-full font-heading font-black ${s.status === 'ACTIVE' ? 'bg-green-500/10 text-green-400' : 'bg-surface text-text-muted'}">${s.status}</span></div>`).join('')
           : 'No services.';
 
         // Invoices
         const invoices: any[] = u.invoices || [];
         document.getElementById('user-invoices')!.innerHTML = invoices.length
-          ? invoices.map((inv: any) => `<div class="flex items-center justify-between py-2 border-b border-[#312E81] last:border-0"><span class="font-mono text-xs text-text-body">${inv.invoiceNumber}</span><span class="text-coral font-heading font-black">$${inv.amount.toFixed(2)}</span><span class="text-xs text-text-muted">${inv.status}</span></div>`).join('')
+          ? invoices.map((inv: any) => `<div class="flex items-center justify-between py-2 border-b border-[#E5E7EB] last:border-0"><span class="font-mono text-xs text-text-body">${inv.invoiceNumber}</span><span class="text-coral font-heading font-black">$${inv.amount.toFixed(2)}</span><span class="text-xs text-text-muted">${inv.status}</span></div>`).join('')
           : 'No invoices.';
 
         // Tickets
         const tickets: any[] = u.tickets || [];
         document.getElementById('user-tickets')!.innerHTML = tickets.length
-          ? tickets.map((t: any) => `<div class="flex items-center justify-between py-2 border-b border-[#312E81] last:border-0"><span class="text-text-body text-sm">${t.subject}</span><span class="text-xs text-text-muted">${t.status}</span></div>`).join('')
+          ? tickets.map((t: any) => `<div class="flex items-center justify-between py-2 border-b border-[#E5E7EB] last:border-0"><span class="text-text-body text-sm">${t.subject}</span><span class="text-xs text-text-muted">${t.status}</span></div>`).join('')
           : 'No tickets.';
 
         document.getElementById('user-loading')!.classList.add('hidden');
@@ -165,10 +166,29 @@ const { id } = Astro.params;
       }
     });
 
-    document.getElementById('suspend-btn')!.addEventListener('click', async () => {
-      if (!confirm('Suspend this user and all their services?')) return;
-      await fetch(`/api/v1/admin/users/${id}/suspend`, { method: 'POST', credentials: 'include' });
-      load();
+    document.getElementById('delete-user-btn')!.addEventListener('click', async () => {
+      if (!confirm('Permanently delete this user and all their data? This cannot be undone.')) return;
+      const res = await fetch(`/api/v1/admin/users/${id}`, { method: 'DELETE', credentials: 'include' });
+      if (res.ok) {
+        window.location.href = '/admin/users';
+      } else {
+        alert('Failed to delete user.');
+      }
+    });
+
+    document.getElementById('reset-pw-btn')!.addEventListener('click', async () => {
+      const newPw = prompt('Enter new password for this user (min 8 chars):');
+      if (!newPw || newPw.length < 8) { alert('Password must be at least 8 characters.'); return; }
+      const res = await fetch(`/api/v1/admin/users/${id}/reset-password`, {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: newPw }),
+      });
+      if (res.ok) {
+        alert('Password updated successfully.');
+      } else {
+        alert('Failed to reset password.');
+      }
     });
 
     document.getElementById('impersonate-btn')!.addEventListener('click', async () => {

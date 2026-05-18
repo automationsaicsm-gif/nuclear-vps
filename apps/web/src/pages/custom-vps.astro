@@ -6,8 +6,8 @@ import ContactForm from '../components/sections/ContactForm';
 
   <!-- Hero -->
   <section class="bg-hero relative overflow-hidden py-20 lg:py-32">
-    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
-    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#F87171,transparent);transform:translate(30%,30%)"></div>
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#1E3FA0,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#2D55C8,transparent);transform:translate(30%,30%)"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col lg:flex-row items-center gap-12">
@@ -15,10 +15,10 @@ import ContactForm from '../components/sections/ContactForm';
           <div class="inline-flex items-center gap-2 bg-coral/10 border border-coral/30 rounded-full px-4 py-2 mb-6">
             <span class="text-coral text-sm font-heading font-bold">🏢 Institutional Solutions</span>
           </div>
-          <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+          <h1 class="font-heading font-black text-4xl lg:text-6xl text-white mb-6">
             Brokers &amp; Custom<br/><span class="text-coral">VPS Solutions</span>
           </h1>
-          <p class="text-text-body text-xl mb-8 leading-relaxed">
+          <p class="text-blue-100 text-xl mb-8 leading-relaxed">
             Offer your traders a premium VPS experience without building the infrastructure yourself. Nuclear VPS provides white-label and bulk VPS solutions tailored for Forex brokers and institutional clients.
           </p>
           <div class="flex flex-wrap gap-4">
@@ -27,8 +27,8 @@ import ContactForm from '../components/sections/ContactForm';
           </div>
         </div>
         <div class="lg:w-2/5">
-          <div class="bg-deep border border-[#312E81] rounded-2xl p-8" style="box-shadow:0 0 40px rgba(248,113,113,0.08)">
-            <h3 class="font-heading font-black text-text-h text-lg mb-6">Custom solutions include:</h3>
+          <div class="bg-deep border border-[#E5E7EB] rounded-2xl p-8" style="box-shadow:0 0 40px rgba(248,113,113,0.08)">
+            <h3 class="font-heading font-black text-white text-lg mb-6">Custom solutions include:</h3>
             <ul class="space-y-3">
               {[
                 'White-label VPS portal with your branding',
@@ -45,7 +45,7 @@ import ContactForm from '../components/sections/ContactForm';
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
                     </svg>
                   </div>
-                  <span class="text-text-body text-sm">{item}</span>
+                  <span class="text-blue-100 text-sm">{item}</span>
                 </li>
               ))}
             </ul>
@@ -96,7 +96,7 @@ import ContactForm from '../components/sections/ContactForm';
             desc: 'A named technical account manager available to your team directly, not a ticket queue.',
           },
         ].map(({ icon, title, desc }) => (
-          <div class="bg-surface border border-[#312E81] rounded-2xl p-6 hover:border-coral hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200">
+          <div class="bg-surface border border-[#E5E7EB] rounded-2xl p-6 hover:border-coral hover:shadow-[0_0_0_1px_#2D55C8] transition-all duration-200">
             <div class="w-10 h-10 bg-deep rounded-xl flex items-center justify-center mb-4">
               <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}/>
@@ -124,11 +124,11 @@ import ContactForm from '../components/sections/ContactForm';
           { range: '50–199 VPS', discount: '20%', desc: 'Mid-size brokers with a growing algorithmic trading clientele.' },
           { range: '200+ VPS', discount: 'Custom', desc: 'Enterprise pricing, dedicated infrastructure, and white-label options.' },
         ].map(({ range, discount, desc }) => (
-          <div class="bg-base border border-[#312E81] rounded-2xl p-6 text-center hover:border-coral hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200">
+          <div class="bg-base border border-[#E5E7EB] rounded-2xl p-6 text-center hover:border-coral hover:shadow-[0_0_0_1px_#2D55C8] transition-all duration-200">
             <div class="font-heading font-black text-text-muted text-sm mb-2">{range}</div>
             <div class="font-heading font-black text-coral text-4xl mb-3">{discount}</div>
             <div class="text-text-muted text-xs mb-1">off standard pricing</div>
-            <div class="border-t border-[#312E81] my-4"></div>
+            <div class="border-t border-[#E5E7EB] my-4"></div>
             <p class="text-text-body text-sm leading-relaxed">{desc}</p>
           </div>
         ))}

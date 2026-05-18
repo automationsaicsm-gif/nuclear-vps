@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { api, getErrorMessage } from '../../lib/api';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -58,7 +58,7 @@ export default function AffiliateDashboard() {
 
   return (
     <div>
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -68,7 +68,7 @@ export default function AffiliateDashboard() {
           { label: 'Commission Rate', value: '15%', coral: true },
           { label: 'Available Payout', value: `$${(stats?.totalCommission || 0).toFixed(2)}`, coral: true },
         ].map(({ label, value, coral }) => (
-          <div key={label} className="bg-surface border border-[#312E81] rounded-2xl p-6">
+          <div key={label} className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
             <p className="text-text-muted text-sm mb-1">{label}</p>
             <p className={`font-heading font-black text-3xl ${coral ? 'text-coral' : 'text-text-h'}`}>{value}</p>
           </div>
@@ -76,7 +76,7 @@ export default function AffiliateDashboard() {
       </div>
 
       {/* Affiliate Links */}
-      <div className="bg-surface border border-[#312E81] rounded-2xl p-6 mb-6">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6 mb-6">
         <h2 className="font-heading font-black text-text-h text-xl mb-4">Your Affiliate Links</h2>
 
         <div className="space-y-4">
@@ -90,7 +90,7 @@ export default function AffiliateDashboard() {
               />
               <button
                 onClick={() => copyToClipboard(stats?.affiliateUrl || '')}
-                className="border border-[#312E81] hover:border-coral text-text-muted hover:text-coral font-heading font-bold px-4 py-2 rounded-xl transition-colors text-sm"
+                className="border border-[#E5E7EB] hover:border-coral text-text-muted hover:text-coral font-heading font-bold px-4 py-2 rounded-xl transition-colors text-sm"
               >
                 Copy
               </button>
@@ -107,7 +107,7 @@ export default function AffiliateDashboard() {
               />
               <button
                 onClick={() => copyToClipboard(stats?.affiliateCode || '')}
-                className="border border-[#312E81] hover:border-coral text-text-muted hover:text-coral font-heading font-bold px-4 py-2 rounded-xl transition-colors text-sm"
+                className="border border-[#E5E7EB] hover:border-coral text-text-muted hover:text-coral font-heading font-bold px-4 py-2 rounded-xl transition-colors text-sm"
               >
                 Copy
               </button>
@@ -117,7 +117,7 @@ export default function AffiliateDashboard() {
       </div>
 
       {/* Withdrawal */}
-      <div className="bg-surface border border-[#312E81] rounded-2xl p-6 mb-6">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6 mb-6">
         <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
           <div>
             <h2 className="font-heading font-black text-text-h text-xl">Withdraw Earnings</h2>
@@ -129,7 +129,7 @@ export default function AffiliateDashboard() {
         </div>
 
         {showWithdraw && (
-          <form onSubmit={handleWithdraw} className="space-y-4 border-t border-[#312E81] pt-4">
+          <form onSubmit={handleWithdraw} className="space-y-4 border-t border-[#E5E7EB] pt-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="label">Amount ($)</label>
@@ -160,8 +160,8 @@ export default function AffiliateDashboard() {
       </div>
 
       {/* Referrals */}
-      <div className="bg-surface border border-[#312E81] rounded-2xl overflow-hidden">
-        <div className="p-6 border-b border-[#312E81]">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl overflow-hidden">
+        <div className="p-6 border-b border-[#E5E7EB]">
           <h2 className="font-heading font-black text-text-h text-xl">Referrals ({referrals.length})</h2>
         </div>
         {referrals.length === 0 ? (
@@ -169,7 +169,7 @@ export default function AffiliateDashboard() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-deep border-b border-[#312E81]">
+              <thead className="bg-deep border-b border-[#E5E7EB]">
                 <tr>
                   {['Client', 'Joined', 'Commission', 'Status'].map((h) => (
                     <th key={h} className="text-left px-6 py-3 text-text-muted text-xs font-heading font-bold uppercase">{h}</th>
@@ -178,7 +178,7 @@ export default function AffiliateDashboard() {
               </thead>
               <tbody>
                 {referrals.map((r) => (
-                  <tr key={r.id} className="border-b border-[#312E81] hover:bg-deep/50">
+                  <tr key={r.id} className="border-b border-[#E5E7EB] hover:bg-deep/50">
                     <td className="px-6 py-4 text-text-body text-sm">{r.referred.email}</td>
                     <td className="px-6 py-4 text-text-muted text-sm">{new Date(r.referred.createdAt).toLocaleDateString()}</td>
                     <td className="px-6 py-4 text-coral font-bold">${r.commission.toFixed(2)}</td>

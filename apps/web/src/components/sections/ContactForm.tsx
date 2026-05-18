@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -65,7 +65,7 @@ export default function ContactForm({
   }
 
   return (
-    <div className="bg-deep border border-[#312E81] rounded-2xl p-8">
+    <div className="bg-deep border border-[#E5E7EB] rounded-2xl p-8">
       <h3 className="font-heading font-black text-text-h text-xl mb-6">{formTitle}</h3>
 
       {error && (

@@ -1,0 +1,61 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="404 — Page Not Found | Nuclear VPS" description="The page you are looking for does not exist.">
+
+  <section class="bg-hero min-h-[80vh] flex items-center justify-center relative overflow-hidden">
+    <!-- Decorative circles -->
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10 pointer-events-none" style="background:radial-gradient(circle,#1E3FA0,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10 pointer-events-none" style="background:radial-gradient(circle,#2D55C8,transparent);transform:translate(30%,30%)"></div>
+
+    <div class="relative text-center px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">
+      <!-- Giant 404 -->
+      <div class="font-heading font-black text-[120px] sm:text-[180px] leading-none text-coral opacity-20 select-none">
+        404
+      </div>
+
+      <!-- Content -->
+      <div class="-mt-8 sm:-mt-12">
+        <h1 class="font-heading font-black text-3xl sm:text-4xl text-white mb-4">
+          Page Not Found
+        </h1>
+        <p class="text-blue-100 text-lg mb-8 leading-relaxed">
+          The page you're looking for doesn't exist or has been moved. Let's get you back on track.
+        </p>
+
+        <!-- Action buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/" class="btn-primary text-center">
+            Back to Home
+          </a>
+          <a href="/dashboard" class="btn-ghost text-center">
+            Go to Dashboard
+          </a>
+        </div>
+
+        <!-- Quick links -->
+        <div class="mt-12 pt-8 border-t border-[#E5E7EB]">
+          <p class="text-blue-200/70 text-sm mb-4">Or try one of these pages:</p>
+          <div class="flex flex-wrap gap-3 justify-center">
+            {[
+              { href: '/trading-vps', label: 'Trading VPS' },
+              { href: '/trading-servers', label: 'Trading Servers' },
+              { href: '/affiliates', label: 'Affiliate Program' },
+              { href: '/contact-us', label: 'Contact Support' },
+              { href: '/knowledgebase', label: 'Knowledgebase' },
+              { href: '/login', label: 'Login' },
+            ].map(({ href, label }) => (
+              <a
+                href={href}
+                class="text-xs font-heading font-bold text-blue-200/70 hover:text-coral border border-[#E5E7EB] hover:border-coral/40 rounded-full px-4 py-2 transition-all duration-200"
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

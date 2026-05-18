@@ -65,10 +65,10 @@ export default function AccountSettings() {
 
   return (
     <div className="max-w-2xl">
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       {/* Section tabs */}
-      <div className="flex gap-2 mb-6 border-b border-[#312E81] pb-0">
+      <div className="flex gap-2 mb-6 border-b border-[#E5E7EB] pb-0">
         {(['profile', 'security', 'danger'] as const).map((s) => (
           <button
             key={s}
@@ -84,7 +84,7 @@ export default function AccountSettings() {
 
       {/* Profile */}
       {section === 'profile' && (
-        <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+        <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
           <h2 className="font-heading font-black text-text-h text-xl mb-6">Profile Information</h2>
           <form onSubmit={profileForm.handleSubmit(saveProfile)} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -126,7 +126,7 @@ export default function AccountSettings() {
 
       {/* Security */}
       {section === 'security' && (
-        <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+        <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
           <h2 className="font-heading font-black text-text-h text-xl mb-6">Change Password</h2>
           <form onSubmit={passwordForm.handleSubmit(changePassword)} className="space-y-4">
             <div>

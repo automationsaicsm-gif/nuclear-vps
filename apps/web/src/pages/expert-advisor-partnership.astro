@@ -6,17 +6,17 @@ import ContactForm from '../components/sections/ContactForm';
 
   <!-- Hero -->
   <section class="bg-hero relative overflow-hidden py-20 lg:py-32">
-    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
-    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#F87171,transparent);transform:translate(30%,30%)"></div>
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#1E3FA0,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#2D55C8,transparent);transform:translate(30%,30%)"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <div class="inline-flex items-center gap-2 bg-coral/10 border border-coral/30 rounded-full px-4 py-2 mb-6">
         <span class="text-coral text-sm font-heading font-bold">🤖 For EA Developers</span>
       </div>
-      <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+      <h1 class="font-heading font-black text-4xl lg:text-6xl text-white mb-6">
         EA Business <span class="text-coral">Partnership</span>
       </h1>
-      <p class="text-text-body text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+      <p class="text-blue-100 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
         You build the EAs. We provide the VPS. Together, we deliver a complete trading solution. Partner with Nuclear VPS and earn recurring revenue on every client you send our way.
       </p>
       <div class="flex flex-wrap justify-center gap-4">
@@ -27,7 +27,7 @@ import ContactForm from '../components/sections/ContactForm';
   </section>
 
   <!-- Stats -->
-  <section class="bg-deep border-y border-[#312E81] py-8">
+  <section class="bg-deep border-y border-[#E5E7EB] py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-wrap justify-around gap-6">
         {[
@@ -80,8 +80,8 @@ import ContactForm from '../components/sections/ContactForm';
             icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
           },
         ].map(({ step, title, desc, icon }) => (
-          <div class="bg-surface border border-[#312E81] rounded-2xl p-8 hover:border-coral hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200 relative">
-            <div class="absolute top-6 right-6 font-heading font-black text-[#312E81] text-3xl">{step}</div>
+          <div class="bg-surface border border-[#E5E7EB] rounded-2xl p-8 hover:border-coral hover:shadow-[0_0_0_1px_#2D55C8] transition-all duration-200 relative">
+            <div class="absolute top-6 right-6 font-heading font-black text-[#E5E7EB] text-3xl">{step}</div>
             <div class="w-12 h-12 bg-deep rounded-2xl flex items-center justify-center mb-6">
               <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}/>
@@ -117,7 +117,7 @@ import ContactForm from '../components/sections/ContactForm';
           'White-label solutions for larger EA businesses',
           'No lock-in — cancel the partnership anytime',
         ].map((benefit) => (
-          <div class="flex items-center gap-3 bg-base border border-[#312E81] rounded-xl px-4 py-3">
+          <div class="flex items-center gap-3 bg-base border border-[#E5E7EB] rounded-xl px-4 py-3">
             <div class="w-5 h-5 rounded-full bg-coral flex items-center justify-center shrink-0">
               <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>

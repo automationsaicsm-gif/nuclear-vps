@@ -1,9 +1,9 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast, { Toaster } from 'react-hot-toast';
-import axios from 'axios';
+import { api, getErrorMessage } from '../../lib/api';
 
 const schema = z.object({
   subject: z.string().min(5, 'Subject must be at least 5 characters').max(200),
@@ -24,14 +24,13 @@ export default function NewTicketForm() {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:4000';
-      const r = await axios.post(`${API_URL}/api/v1/tickets`, data, { withCredentials: true });
+      const r = await api.post('/tickets', data);
       toast.success('Ticket created successfully!');
       setTimeout(() => {
         window.location.href = `/dashboard/tickets/${r.data.data.id}`;
       }, 1000);
     } catch (err: unknown) {
-      toast.error(axios.isAxiosError(err) ? err.response?.data?.error || 'Failed to create ticket' : 'Error');
+      toast.error(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -39,13 +38,13 @@ export default function NewTicketForm() {
 
   return (
     <div className="max-w-2xl">
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       <div className="mb-6">
         <a href="/dashboard/tickets" className="text-text-muted hover:text-coral text-sm transition-colors">← Back to Tickets</a>
       </div>
 
-      <div className="bg-surface border border-[#312E81] rounded-2xl p-8">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-8">
         <h2 className="font-heading font-black text-text-h text-2xl mb-6">Open New Ticket</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

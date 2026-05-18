@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { api, getErrorMessage } from '../../lib/api';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -59,12 +59,12 @@ export default function ServiceDetail({ serviceId }: { serviceId: string }) {
 
   return (
     <div className="max-w-3xl space-y-6">
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       <a href="/dashboard/services" className="text-text-muted hover:text-coral text-sm transition-colors">← Back to Services</a>
 
       {/* Service Info */}
-      <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-heading font-black text-text-h text-xl">{service.plan.name}</h2>
           <span className={`text-xs px-3 py-1 rounded-full font-bold ${
@@ -95,7 +95,7 @@ export default function ServiceDetail({ serviceId }: { serviceId: string }) {
               key={action}
               onClick={() => doAction(action)}
               disabled={!!actionLoading}
-              className="border border-[#312E81] text-text-body hover:border-coral hover:text-coral font-heading font-bold text-sm px-5 py-2 rounded-xl transition-colors capitalize disabled:opacity-50"
+              className="border border-[#E5E7EB] text-text-body hover:border-coral hover:text-coral font-heading font-bold text-sm px-5 py-2 rounded-xl transition-colors capitalize disabled:opacity-50"
             >
               {actionLoading === action ? 'Loading...' : `${action.charAt(0).toUpperCase() + action.slice(1)} VPS`}
             </button>
@@ -104,7 +104,7 @@ export default function ServiceDetail({ serviceId }: { serviceId: string }) {
       </div>
 
       {/* Change Password */}
-      <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
         <h3 className="font-heading font-black text-text-h text-lg mb-4">Change Password</h3>
         <form onSubmit={handleChangePassword} className="space-y-4">
           <div>
@@ -136,18 +136,18 @@ export default function ServiceDetail({ serviceId }: { serviceId: string }) {
 
       {/* Backups */}
       {service.backups && service.backups.length > 0 && (
-        <div className="bg-surface border border-[#312E81] rounded-2xl p-6">
+        <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6">
           <h3 className="font-heading font-black text-text-h text-lg mb-4">Backups</h3>
           <div className="space-y-3">
             {service.backups.map((backup) => (
-              <div key={backup.id} className="flex items-center justify-between py-3 border-b border-[#312E81] last:border-0">
+              <div key={backup.id} className="flex items-center justify-between py-3 border-b border-[#E5E7EB] last:border-0">
                 <div>
                   <p className="text-text-body text-sm">{backup.filename}</p>
                   <p className="text-text-muted text-xs">{backup.size} — {new Date(backup.createdAt).toLocaleDateString()}</p>
                 </div>
                 <button
                   onClick={() => doAction(`backups/${backup.id}/restore`)}
-                  className="border border-[#312E81] text-text-muted hover:border-coral hover:text-coral font-heading font-bold text-xs px-3 py-2 rounded-lg transition-colors"
+                  className="border border-[#E5E7EB] text-text-muted hover:border-coral hover:text-coral font-heading font-bold text-xs px-3 py-2 rounded-lg transition-colors"
                 >
                   Restore
                 </button>
@@ -174,7 +174,7 @@ export default function ServiceDetail({ serviceId }: { serviceId: string }) {
             >
               Confirm Cancel
             </button>
-            <button onClick={() => setCancelConfirm(false)} className="border border-[#312E81] text-text-muted hover:text-coral font-heading font-bold px-5 py-2 rounded-xl transition-colors">
+            <button onClick={() => setCancelConfirm(false)} className="border border-[#E5E7EB] text-text-muted hover:text-coral font-heading font-bold px-5 py-2 rounded-xl transition-colors">
               Abort
             </button>
           </div>

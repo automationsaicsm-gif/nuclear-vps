@@ -132,7 +132,7 @@ export default function ContactFAQTabs() {
             className={`whitespace-nowrap px-5 py-2.5 rounded-full font-heading font-bold text-sm transition-all duration-200 shrink-0 ${
               activeTab === i
                 ? 'bg-coral text-white'
-                : 'bg-deep border border-[#312E81] text-text-muted hover:text-text-body hover:border-coral/50'
+                : 'bg-deep border border-[#E5E7EB] text-text-muted hover:text-text-body hover:border-coral/50'
             }`}
           >
             {group.label}
@@ -146,7 +146,7 @@ export default function ContactFAQTabs() {
           <div
             key={i}
             className={`border rounded-xl overflow-hidden transition-all duration-200 ${
-              openIndex === i ? 'border-coral' : 'border-[#312E81]'
+              openIndex === i ? 'border-coral' : 'border-[#E5E7EB]'
             }`}
           >
             <button

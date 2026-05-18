@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { api, getErrorMessage } from '../../lib/api';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -55,10 +55,10 @@ export default function BillingPage() {
 
   return (
     <div>
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       {/* Credit balance */}
-      <div className="bg-surface border border-[#312E81] rounded-2xl p-6 mb-6 flex items-center justify-between flex-wrap gap-4">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6 mb-6 flex items-center justify-between flex-wrap gap-4">
         <div>
           <p className="text-text-muted text-sm">Account Credit Balance</p>
           <p className="font-heading font-black text-coral text-4xl mt-1">${creditBalance.toFixed(2)}</p>
@@ -72,7 +72,7 @@ export default function BillingPage() {
       </div>
 
       {showAddCredit && (
-        <div className="bg-surface border border-[#312E81] rounded-2xl p-6 mb-6">
+        <div className="bg-surface border border-[#E5E7EB] rounded-2xl p-6 mb-6">
           <h3 className="font-heading font-black text-text-h text-lg mb-4">Add Account Credit</h3>
           <form onSubmit={handleAddCredit} className="flex gap-4 flex-wrap">
             <div className="flex-1 min-w-48">
@@ -93,8 +93,8 @@ export default function BillingPage() {
       )}
 
       {/* Invoices */}
-      <div className="bg-surface border border-[#312E81] rounded-2xl overflow-hidden">
-        <div className="p-6 border-b border-[#312E81]">
+      <div className="bg-surface border border-[#E5E7EB] rounded-2xl overflow-hidden">
+        <div className="p-6 border-b border-[#E5E7EB]">
           <h2 className="font-heading font-black text-text-h text-xl">Invoices ({invoices.length})</h2>
         </div>
 
@@ -103,7 +103,7 @@ export default function BillingPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-deep border-b border-[#312E81]">
+              <thead className="bg-deep border-b border-[#E5E7EB]">
                 <tr>
                   {['Invoice #', 'Date', 'Due Date', 'Amount', 'Status', 'Actions'].map((h) => (
                     <th key={h} className="text-left px-6 py-3 text-text-muted text-xs font-heading font-bold uppercase tracking-wider">{h}</th>
@@ -112,7 +112,7 @@ export default function BillingPage() {
               </thead>
               <tbody>
                 {invoices.map((inv) => (
-                  <tr key={inv.id} className="border-b border-[#312E81] hover:bg-deep/50 transition-colors">
+                  <tr key={inv.id} className="border-b border-[#E5E7EB] hover:bg-deep/50 transition-colors">
                     <td className="px-6 py-4 font-mono text-text-body text-sm">{inv.invoiceNumber}</td>
                     <td className="px-6 py-4 text-text-muted text-sm">{new Date(inv.createdAt).toLocaleDateString()}</td>
                     <td className="px-6 py-4 text-text-muted text-sm">{new Date(inv.dueDate).toLocaleDateString()}</td>

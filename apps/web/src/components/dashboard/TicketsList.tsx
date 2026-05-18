@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { api, getErrorMessage } from '../../lib/api';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -43,7 +43,7 @@ export default function TicketsList() {
 
   return (
     <div>
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
 
       <div className="flex justify-between items-center mb-6">
         <h2 className="font-heading font-black text-text-h text-2xl">Support Tickets ({tickets.length})</h2>
@@ -58,10 +58,10 @@ export default function TicketsList() {
           <a href="/dashboard/tickets/new" className="btn-primary">Open a Ticket</a>
         </div>
       ) : (
-        <div className="bg-surface border border-[#312E81] rounded-2xl overflow-hidden">
+        <div className="bg-surface border border-[#E5E7EB] rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-deep border-b border-[#312E81]">
+              <thead className="bg-deep border-b border-[#E5E7EB]">
                 <tr>
                   {['#', 'Subject', 'Department', 'Status', 'Priority', 'Last Update'].map((h) => (
                     <th key={h} className="text-left px-6 py-3 text-text-muted text-xs font-heading font-bold uppercase tracking-wider">{h}</th>
@@ -73,7 +73,7 @@ export default function TicketsList() {
                   <tr
                     key={t.id}
                     onClick={() => window.location.href = `/dashboard/tickets/${t.id}`}
-                    className="border-b border-[#312E81] hover:bg-deep/50 transition-colors cursor-pointer"
+                    className="border-b border-[#E5E7EB] hover:bg-deep/50 transition-colors cursor-pointer"
                   >
                     <td className="px-6 py-4 font-mono text-text-muted text-xs">{t.ticketNumber}</td>
                     <td className="px-6 py-4 text-text-h font-heading font-bold text-sm max-w-xs truncate">{t.subject}</td>

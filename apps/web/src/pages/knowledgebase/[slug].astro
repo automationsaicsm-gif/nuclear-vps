@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 const { slug } = Astro.params;
 ---
@@ -111,7 +111,7 @@ const { slug } = Astro.params;
         const el = document.getElementById('related-articles')!;
         if (!articles.length) { el.innerHTML = '<p class="text-text-muted text-sm">No related articles.</p>'; return; }
         el.innerHTML = articles.map((a: any) => `
-          <a href="/knowledgebase/${a.slug}" class="block text-text-body hover:text-coral transition-colors text-sm leading-snug border-b border-[#312E81] pb-3 last:border-0 last:pb-0">
+          <a href="/knowledgebase/${a.slug}" class="block text-text-body hover:text-coral transition-colors text-sm leading-snug border-b border-[#E5E7EB] pb-3 last:border-0 last:pb-0">
             ${a.title}
           </a>
         `).join('');

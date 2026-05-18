@@ -12,22 +12,22 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       <div>
         <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Code</label>
         <input id="cc-code" name="code" type="text" required placeholder="SAVE20"
-          class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm uppercase" />
+          class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm uppercase" />
       </div>
       <div>
         <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Discount (%)</label>
         <input id="cc-discount" name="discount" type="number" min="1" max="100" required placeholder="20"
-          class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
+          class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
       </div>
       <div>
         <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Max Uses</label>
         <input id="cc-maxuses" name="maxUses" type="number" min="1" placeholder="Unlimited"
-          class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
+          class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
       </div>
       <div>
         <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Expiry Date</label>
         <input id="cc-expiry" name="expiresAt" type="date"
-          class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+          class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
       </div>
       <div class="sm:col-span-2 lg:col-span-4">
         <button type="submit" class="btn-primary text-sm px-8 py-2.5">Create Coupon</button>
@@ -37,13 +37,13 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 
   <!-- Coupons table -->
   <div class="card overflow-hidden">
-    <div class="p-5 border-b border-[#312E81]">
+    <div class="p-5 border-b border-[#E5E7EB]">
       <h2 class="font-heading font-black text-text-h">All Coupons</h2>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full">
         <thead>
-          <tr class="bg-deep border-b border-[#312E81]">
+          <tr class="bg-deep border-b border-[#E5E7EB]">
             <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Code</th>
             <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Discount</th>
             <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Uses</th>
@@ -71,7 +71,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           return;
         }
         tbody.innerHTML = coupons.map((c: any) => `
-          <tr class="border-b border-[#312E81] hover:bg-surface transition-colors">
+          <tr class="border-b border-[#E5E7EB] hover:bg-surface transition-colors">
             <td class="px-5 py-4 font-mono font-black text-coral tracking-widest text-sm">${c.code}</td>
             <td class="px-5 py-4 text-center font-heading font-black text-text-h">${c.discount}%</td>
             <td class="px-5 py-4 text-center text-text-body text-sm">${c.uses}${c.maxUses ? ` / ${c.maxUses}` : ''}</td>
@@ -79,16 +79,29 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
             <td class="px-5 py-4 text-center">
               ${c.active
                 ? '<span class="inline-block w-2 h-2 rounded-full bg-green-400"></span>'
-                : '<span class="inline-block w-2 h-2 rounded-full bg-surface border border-[#312E81]"></span>'
+                : '<span class="inline-block w-2 h-2 rounded-full bg-surface border border-[#E5E7EB]"></span>'
               }
             </td>
             <td class="px-5 py-4 text-center">
-              <button data-cid="${c.id}" data-active="${c.active}" class="toggle-coupon text-xs font-heading font-bold ${c.active ? 'text-text-muted hover:text-coral' : 'text-coral hover:underline'}">
-                ${c.active ? 'Deactivate' : 'Activate'}
-              </button>
+              <div class="flex items-center justify-center gap-3">
+                <button data-cid="${c.id}" data-active="${c.active}" class="toggle-coupon text-xs font-heading font-bold ${c.active ? 'text-text-muted hover:text-coral' : 'text-coral hover:underline'}">
+                  ${c.active ? 'Deactivate' : 'Activate'}
+                </button>
+                <button data-del="${c.id}" data-code="${c.code}" class="del-coupon text-text-muted text-xs font-heading font-bold hover:text-coral">Delete</button>
+              </div>
             </td>
           </tr>
         `).join('');
+
+        document.querySelectorAll('.del-coupon').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-del')!;
+            const code = btn.getAttribute('data-code')!;
+            if (!confirm(`Delete coupon "${code}"?`)) return;
+            await fetch(`/api/v1/admin/coupons/${id}`, { method: 'DELETE', credentials: 'include' });
+            load();
+          });
+        });
 
         document.querySelectorAll('.toggle-coupon').forEach(btn => {
           btn.addEventListener('click', async () => {

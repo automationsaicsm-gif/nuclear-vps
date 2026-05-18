@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 
 export default function AffiliateCalculator() {
   const [clients, setClients] = useState(100);
@@ -10,7 +10,7 @@ export default function AffiliateCalculator() {
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
 
   return (
-    <div className="bg-deep border border-[#312E81] rounded-2xl p-8">
+    <div className="bg-deep border border-[#E5E7EB] rounded-2xl p-8">
       <div className="text-center mb-8">
         <p className="section-tag mb-2">EARNINGS CALCULATOR</p>
         <h3 className="font-heading font-black text-2xl text-text-h mb-2">How Much Can You Earn?</h3>
@@ -32,7 +32,7 @@ export default function AffiliateCalculator() {
           onChange={(e) => setClients(Number(e.target.value))}
           className="w-full h-2 rounded-lg appearance-none cursor-pointer"
           style={{
-            background: `linear-gradient(to right, #F87171 0%, #F87171 ${(clients / 10000) * 100}%, #312E81 ${(clients / 10000) * 100}%, #312E81 100%)`,
+            background: `linear-gradient(to right, #2D55C8 0%, #2D55C8 ${(clients / 10000) * 100}%, #E5E7EB ${(clients / 10000) * 100}%, #E5E7EB 100%)`,
           }}
         />
         <div className="flex justify-between text-text-muted text-xs mt-1">
@@ -43,12 +43,12 @@ export default function AffiliateCalculator() {
 
       {/* Results */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        <div className="bg-surface border border-[#312E81] rounded-xl p-6 text-center">
+        <div className="bg-surface border border-[#E5E7EB] rounded-xl p-6 text-center">
           <div className="text-text-muted text-sm mb-2">Monthly Earnings</div>
           <div className="font-heading font-black text-coral text-4xl">{formatCurrency(monthlyEarnings)}</div>
           <div className="text-text-muted text-xs mt-1">per month</div>
         </div>
-        <div className="bg-surface border border-[#312E81] rounded-xl p-6 text-center">
+        <div className="bg-surface border border-[#E5E7EB] rounded-xl p-6 text-center">
           <div className="text-text-muted text-sm mb-2">Annual Earnings</div>
           <div className="font-heading font-black text-coral text-4xl">{formatCurrency(annualEarnings)}</div>
           <div className="text-text-muted text-xs mt-1">per year</div>
@@ -56,7 +56,7 @@ export default function AffiliateCalculator() {
       </div>
 
       {/* Formula breakdown */}
-      <div className="bg-base border border-[#312E81] rounded-xl p-4 mb-6">
+      <div className="bg-base border border-[#E5E7EB] rounded-xl p-4 mb-6">
         <p className="text-text-muted text-xs text-center">
           Formula: <span className="text-text-body">{clients.toLocaleString()} clients</span>
           {' × '}

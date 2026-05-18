@@ -3,38 +3,48 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 ---
 <AdminLayout title="Tickets — Nuclear VPS">
 
-  <div class="flex flex-col sm:flex-row gap-4 mb-6">
-    <div class="relative flex-1 max-w-sm">
-      <input id="tkt-search" type="text" placeholder="Search subject or client..."
-        class="w-full bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
-      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-      </svg>
+  <!-- Quick-filter tabs + filters row -->
+  <div class="flex flex-col gap-4 mb-6">
+
+    <!-- Tabs -->
+    <div class="flex gap-2 flex-wrap">
+      <button data-tab="needs-reply" class="tab-btn active-tab px-4 py-2 rounded-xl font-heading font-black text-sm transition-all">
+        Needs Reply <span id="tab-needs-reply-count" class="ml-1.5 bg-coral text-white text-xs px-1.5 py-0.5 rounded-full"></span>
+      </button>
+      <button data-tab="active" class="tab-btn px-4 py-2 rounded-xl font-heading font-black text-sm transition-all">
+        Active <span id="tab-active-count" class="ml-1.5 bg-indigo-mid/40 text-text-muted text-xs px-1.5 py-0.5 rounded-full"></span>
+      </button>
+      <button data-tab="all" class="tab-btn px-4 py-2 rounded-xl font-heading font-black text-sm transition-all">
+        All Tickets <span id="tab-all-count" class="ml-1.5 bg-indigo-mid/40 text-text-muted text-xs px-1.5 py-0.5 rounded-full"></span>
+      </button>
     </div>
-    <select id="tkt-dept" class="bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
-      <option value="">All Departments</option>
-      <option value="GENERAL">General</option>
-      <option value="BILLING">Billing</option>
-      <option value="TECHNICAL">Technical</option>
-      <option value="SALES">Sales</option>
-    </select>
-    <select id="tkt-status" class="bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
-      <option value="">All Statuses</option>
-      <option value="OPEN">Open</option>
-      <option value="IN_PROGRESS">In Progress</option>
-      <option value="WAITING_CLIENT">Waiting Client</option>
-      <option value="RESOLVED">Resolved</option>
-      <option value="CLOSED">Closed</option>
-    </select>
+
+    <!-- Search + department filter -->
+    <div class="flex flex-col sm:flex-row gap-3">
+      <div class="relative flex-1 max-w-sm">
+        <input id="tkt-search" type="text" placeholder="Search subject or client..."
+          class="w-full bg-surface border border-[#E5E7EB] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+      <select id="tkt-dept" class="bg-surface border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
+        <option value="">All Departments</option>
+        <option value="GENERAL">General</option>
+        <option value="BILLING">Billing</option>
+        <option value="TECHNICAL">Technical</option>
+        <option value="SALES">Sales</option>
+      </select>
+    </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Ticket list -->
     <div class="lg:col-span-1 card overflow-hidden">
-      <div class="p-4 border-b border-[#312E81]">
-        <p class="font-heading font-black text-text-h text-sm" id="ticket-count">All Tickets</p>
+      <div class="p-4 border-b border-[#E5E7EB]">
+        <p class="font-heading font-black text-text-h text-sm" id="ticket-count">Loading...</p>
       </div>
-      <div id="ticket-list" class="overflow-y-auto max-h-[600px] divide-y divide-[#312E81]">
+      <div id="ticket-list" class="overflow-y-auto max-h-[600px] divide-y divide-[#E5E7EB]">
         <p class="text-text-muted text-sm p-4">Loading...</p>
       </div>
     </div>
@@ -45,63 +55,140 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
         Select a ticket to view and reply
       </div>
       <div id="ticket-detail" class="hidden">
-        <div class="flex items-start justify-between mb-6">
+        <div class="flex items-start justify-between mb-4 gap-4 flex-wrap">
           <div>
             <h2 class="font-heading font-black text-text-h text-xl" id="td-subject"></h2>
             <p class="text-text-muted text-sm mt-1" id="td-meta"></p>
           </div>
-          <div id="td-priority-badge"></div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <select id="td-status-sel" class="bg-base border border-[#E5E7EB] rounded-lg px-3 py-1.5 text-text-h text-xs focus:outline-none focus:border-coral">
+              <option value="OPEN">Open</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="WAITING_CLIENT">Waiting Client</option>
+              <option value="RESOLVED">Resolved</option>
+              <option value="CLOSED">Closed</option>
+            </select>
+            <select id="td-priority-sel" class="bg-base border border-[#E5E7EB] rounded-lg px-3 py-1.5 text-text-h text-xs focus:outline-none focus:border-coral">
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+              <option value="URGENT">Urgent</option>
+            </select>
+          </div>
         </div>
         <div id="td-messages" class="space-y-4 mb-6 max-h-96 overflow-y-auto pr-2"></div>
-        <div class="border-t border-[#312E81] pt-4">
+        <div class="border-t border-[#E5E7EB] pt-4">
           <textarea id="reply-text" rows="3" placeholder="Type your reply..."
-            class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm resize-none mb-3"></textarea>
-          <div class="flex gap-3">
-            <button id="reply-btn" class="btn-primary text-sm px-6 py-2.5">Send Reply</button>
-            <button id="close-ticket-btn" class="btn-ghost text-sm px-6 py-2.5">Close Ticket</button>
-          </div>
+            class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm resize-none mb-3"></textarea>
+          <button id="reply-btn" class="btn-primary text-sm px-6 py-2.5">Send Reply</button>
         </div>
       </div>
     </div>
   </div>
 
+  <style>
+    .tab-btn { color: var(--color-text-muted); background: transparent; border: 1px solid #E5E7EB; }
+    .tab-btn:hover { color: var(--color-text-h); background: rgba(30, 63, 160, 0.08); }
+    .active-tab { color: white !important; background: #1A3A8F !important; border-color: #2D55C8 !important; }
+  </style>
+
   <script>
+    const PRIORITY_ORDER: Record<string, number> = { URGENT: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
+
     let allTickets: any[] = [];
     let activeTicketId: string | null = null;
+    let activeTab: string = 'needs-reply';
+
+    function sortTickets(tickets: any[]) {
+      return [...tickets].sort((a, b) => {
+        const pd = PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority];
+        if (pd !== 0) return pd;
+        // Oldest first within the same priority so nothing gets buried
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
+    }
+
+    function applyTab(tickets: any[]) {
+      if (activeTab === 'needs-reply') {
+        // Unanswered: OPEN or last message was from CLIENT
+        return tickets.filter(t =>
+          t.status === 'OPEN' ||
+          (t.status === 'IN_PROGRESS' && t.lastMessageRole === 'CLIENT')
+        );
+      }
+      if (activeTab === 'active') {
+        return tickets.filter(t => ['OPEN', 'IN_PROGRESS', 'WAITING_CLIENT'].includes(t.status));
+      }
+      return tickets; // all
+    }
 
     function priorityColor(p: string) {
       const map: Record<string, string> = {
         URGENT: 'bg-coral/10 text-coral border-coral/30',
         HIGH: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-        MEDIUM: 'bg-indigo-mid/20 text-text-body border-[#312E81]',
-        LOW: 'bg-surface text-text-muted border-[#312E81]',
+        MEDIUM: 'bg-indigo-mid/20 text-text-body border-[#E5E7EB]',
+        LOW: 'bg-surface text-text-muted border-[#E5E7EB]',
       };
       return map[p] || map.LOW;
+    }
+
+    function needsReplyBadge(t: any) {
+      if (t.status === 'OPEN' || (t.status === 'IN_PROGRESS' && t.lastMessageRole === 'CLIENT')) {
+        return '<span class="w-2 h-2 rounded-full bg-coral shrink-0 mt-1.5" title="Needs reply"></span>';
+      }
+      return '<span class="w-2 h-2 rounded-full bg-transparent shrink-0 mt-1.5"></span>';
+    }
+
+    function updateTabCounts() {
+      const q = (document.getElementById('tkt-search') as HTMLInputElement).value.toLowerCase();
+      const dept = (document.getElementById('tkt-dept') as HTMLSelectElement).value;
+      const base = allTickets.filter(t =>
+        (!q || t.subject.toLowerCase().includes(q) || `${t.user?.firstName} ${t.user?.lastName}`.toLowerCase().includes(q)) &&
+        (!dept || t.department === dept)
+      );
+      const nr = base.filter(t => t.status === 'OPEN' || (t.status === 'IN_PROGRESS' && t.lastMessageRole === 'CLIENT'));
+      const active = base.filter(t => ['OPEN', 'IN_PROGRESS', 'WAITING_CLIENT'].includes(t.status));
+
+      document.getElementById('tab-needs-reply-count')!.textContent = String(nr.length);
+      document.getElementById('tab-active-count')!.textContent = String(active.length);
+      document.getElementById('tab-all-count')!.textContent = String(base.length);
     }
 
     function renderList() {
       const q = (document.getElementById('tkt-search') as HTMLInputElement).value.toLowerCase();
       const dept = (document.getElementById('tkt-dept') as HTMLSelectElement).value;
-      const status = (document.getElementById('tkt-status') as HTMLSelectElement).value;
+
       const filtered = allTickets.filter(t =>
         (!q || t.subject.toLowerCase().includes(q) || `${t.user?.firstName} ${t.user?.lastName}`.toLowerCase().includes(q)) &&
-        (!dept || t.department === dept) &&
-        (!status || t.status === status)
+        (!dept || t.department === dept)
       );
-      document.getElementById('ticket-count')!.textContent = `${filtered.length} ticket${filtered.length !== 1 ? 's' : ''}`;
+
+      const tabFiltered = applyTab(filtered);
+      const sorted = sortTickets(tabFiltered);
+
+      updateTabCounts();
+
+      document.getElementById('ticket-count')!.textContent = `${sorted.length} ticket${sorted.length !== 1 ? 's' : ''}`;
       const list = document.getElementById('ticket-list')!;
-      if (!filtered.length) {
-        list.innerHTML = '<p class="text-text-muted text-sm p-4">No tickets found.</p>';
+
+      if (!sorted.length) {
+        list.innerHTML = '<p class="text-text-muted text-sm p-4">No tickets here.</p>';
         return;
       }
-      list.innerHTML = filtered.map((t: any) => `
+
+      list.innerHTML = sorted.map((t: any) => `
         <button data-tid="${t.id}" class="ticket-item w-full text-left px-4 py-3 hover:bg-surface transition-colors ${t.id === activeTicketId ? 'bg-surface border-l-4 border-coral' : ''}">
-          <div class="flex items-start justify-between gap-2">
-            <p class="font-heading font-bold text-text-h text-sm truncate">${t.subject}</p>
-            <span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black border shrink-0 ${priorityColor(t.priority)}">${t.priority}</span>
+          <div class="flex items-start gap-2">
+            ${needsReplyBadge(t)}
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-2">
+                <p class="font-heading font-bold text-text-h text-sm truncate">${t.subject}</p>
+                <span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black border shrink-0 ${priorityColor(t.priority)}">${t.priority}</span>
+              </div>
+              <p class="text-text-muted text-xs mt-1">${t.user?.firstName || ''} ${t.user?.lastName || ''} · ${t.department}</p>
+              <p class="text-text-muted text-xs">${t.status.replace('_', ' ')}</p>
+            </div>
           </div>
-          <p class="text-text-muted text-xs mt-1">${t.user?.firstName || ''} ${t.user?.lastName || ''} · ${t.department}</p>
-          <p class="text-text-muted text-xs">${t.status}</p>
         </button>
       `).join('');
 
@@ -115,56 +202,95 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     }
 
     async function loadTicketDetail(id: string) {
-      const res = await fetch(`/api/v1/tickets/${id}`, { credentials: 'include' });
-      const json = await res.json();
-      const t = json.data;
+      let t: any;
+      try {
+        const res = await fetch(`/api/v1/admin/tickets/${id}`, { credentials: 'include' });
+        const json = await res.json();
+        t = json.data;
+      } catch { return; }
       if (!t) return;
 
       document.getElementById('ticket-empty')!.classList.add('hidden');
       document.getElementById('ticket-detail')!.classList.remove('hidden');
       document.getElementById('td-subject')!.textContent = t.subject;
       document.getElementById('td-meta')!.textContent = `${t.department} · ${t.user?.email || ''} · #${t.ticketNumber}`;
-      document.getElementById('td-priority-badge')!.innerHTML = `<span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black border ${priorityColor(t.priority)}">${t.priority}</span>`;
+
+      const statusSel = document.getElementById('td-status-sel') as HTMLSelectElement;
+      const prioritySel = document.getElementById('td-priority-sel') as HTMLSelectElement;
+      statusSel.value = t.status;
+      prioritySel.value = t.priority;
+
+      statusSel.onchange = async () => {
+        await fetch(`/api/v1/admin/tickets/${id}/status`, {
+          method: 'PUT', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: statusSel.value }),
+        });
+        load();
+      };
+      prioritySel.onchange = async () => {
+        await fetch(`/api/v1/admin/tickets/${id}/priority`, {
+          method: 'PUT', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ priority: prioritySel.value }),
+        });
+        load();
+      };
 
       const msgs = t.messages || [];
       document.getElementById('td-messages')!.innerHTML = msgs.map((m: any) => `
         <div class="${m.authorRole === 'CLIENT' ? 'ml-6' : 'mr-6'}">
-          <div class="${m.authorRole === 'CLIENT' ? 'bg-indigo-mid/20' : 'bg-surface'} rounded-xl p-4 border border-[#312E81]">
+          <div class="${m.authorRole === 'CLIENT' ? 'bg-indigo-mid/20' : 'bg-surface'} rounded-xl p-4 border border-[#E5E7EB]">
             <div class="flex items-center justify-between mb-2">
               <p class="font-heading font-bold text-text-h text-xs">${m.authorRole === 'CLIENT' ? 'Client' : 'Support'}</p>
               <p class="text-text-muted text-xs">${new Date(m.createdAt).toLocaleString()}</p>
             </div>
-            <p class="text-text-body text-sm leading-relaxed">${m.message}</p>
+            <p class="text-text-body text-sm leading-relaxed whitespace-pre-line">${m.message}</p>
           </div>
         </div>
       `).join('');
 
+      // Auto-scroll messages to bottom
+      const msgContainer = document.getElementById('td-messages')!;
+      msgContainer.scrollTop = msgContainer.scrollHeight;
+
       document.getElementById('reply-btn')!.onclick = async () => {
         const msg = (document.getElementById('reply-text') as HTMLTextAreaElement).value.trim();
         if (!msg) return;
+        const btn = document.getElementById('reply-btn') as HTMLButtonElement;
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
         await fetch(`/api/v1/admin/tickets/${id}/reply`, {
           method: 'POST', credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: msg }),
         });
         (document.getElementById('reply-text') as HTMLTextAreaElement).value = '';
+        btn.disabled = false;
+        btn.textContent = 'Send Reply';
         loadTicketDetail(id);
-      };
-
-      document.getElementById('close-ticket-btn')!.onclick = async () => {
-        await fetch(`/api/v1/tickets/${id}/close`, { method: 'PUT', credentials: 'include' });
         load();
       };
     }
 
-    ['tkt-search', 'tkt-dept', 'tkt-status'].forEach(id => {
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeTab = btn.getAttribute('data-tab')!;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab'));
+        btn.classList.add('active-tab');
+        renderList();
+      });
+    });
+
+    ['tkt-search', 'tkt-dept'].forEach(id => {
       document.getElementById(id)!.addEventListener('input', renderList);
       document.getElementById(id)!.addEventListener('change', renderList);
     });
 
     async function load() {
       try {
-        const res = await fetch('/api/v1/admin/tickets', { credentials: 'include' });
+        const res = await fetch('/api/v1/admin/tickets?take=200', { credentials: 'include' });
         const json = await res.json();
         allTickets = json.data?.tickets || [];
         renderList();

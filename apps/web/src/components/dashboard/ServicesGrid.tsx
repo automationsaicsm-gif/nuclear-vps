@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { api, getErrorMessage } from '../../lib/api';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -62,7 +62,7 @@ export default function ServicesGrid() {
 
   return (
     <div>
-      <Toaster position="top-right" toastOptions={{ style: { background: '#252272', color: '#C7D2FE', border: '1px solid #312E81' } }} />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#F9FAFB', color: '#374151', border: '1px solid #E5E7EB' } }} />
       <div className="flex justify-between items-center mb-6">
         <h2 className="font-heading font-black text-text-h text-2xl">My Services ({services.length})</h2>
         <a href="/dashboard/order" className="bg-coral hover:bg-coral-dark text-white font-heading font-bold px-5 py-2 rounded-xl text-sm transition-colors">+ Order New</a>
@@ -74,7 +74,7 @@ export default function ServicesGrid() {
           const isOverdue = svc.nextDueDate && new Date(svc.nextDueDate) < new Date();
 
           return (
-            <div key={svc.id} className="bg-surface border border-[#312E81] rounded-2xl p-6 hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200">
+            <div key={svc.id} className="bg-surface border border-[#E5E7EB] rounded-2xl p-6 hover:shadow-[0_0_0_1px_#2D55C8] transition-all duration-200">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3 flex-wrap">
@@ -108,7 +108,7 @@ export default function ServicesGrid() {
                 <div className="flex gap-2 flex-wrap">
                   <a
                     href={`/dashboard/services/${svc.id}`}
-                    className="border border-[#312E81] text-text-body hover:border-coral hover:text-coral font-heading font-bold text-sm px-4 py-2 rounded-xl transition-colors"
+                    className="border border-[#E5E7EB] text-text-body hover:border-coral hover:text-coral font-heading font-bold text-sm px-4 py-2 rounded-xl transition-colors"
                   >
                     Manage
                   </a>
@@ -126,7 +126,7 @@ export default function ServicesGrid() {
                       <button
                         onClick={() => doAction(svc.id, 'restart')}
                         disabled={!!actionLoading}
-                        className="border border-[#312E81] text-text-muted hover:border-coral hover:text-coral font-heading font-bold text-sm px-4 py-2 rounded-xl transition-colors"
+                        className="border border-[#E5E7EB] text-text-muted hover:border-coral hover:text-coral font-heading font-bold text-sm px-4 py-2 rounded-xl transition-colors"
                       >
                         Restart
                       </button>

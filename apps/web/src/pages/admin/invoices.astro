@@ -3,15 +3,16 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 ---
 <AdminLayout title="Invoices — Nuclear VPS">
 
-  <div class="flex flex-col sm:flex-row gap-4 mb-6">
+  <div class="flex flex-col sm:flex-row gap-4 mb-6 items-start">
+    <button id="create-inv-btn" class="btn-primary text-sm px-5 py-2.5 shrink-0">+ Create Invoice</button>
     <div class="relative flex-1 max-w-sm">
       <input id="inv-search" type="text" placeholder="Search invoice # or client..."
-        class="w-full bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
+        class="w-full bg-surface border border-[#E5E7EB] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm" />
       <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
       </svg>
     </div>
-    <select id="inv-status" class="bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
+    <select id="inv-status" class="bg-surface border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral transition-colors text-sm">
       <option value="">All Statuses</option>
       <option value="UNPAID">Unpaid</option>
       <option value="PAID">Paid</option>
@@ -25,7 +26,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     <div class="overflow-x-auto">
       <table class="w-full">
         <thead>
-          <tr class="bg-deep border-b border-[#312E81]">
+          <tr class="bg-deep border-b border-[#E5E7EB]">
             <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Invoice</th>
             <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Client</th>
             <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Date</th>
@@ -41,6 +42,42 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     </div>
   </div>
 
+  <!-- Create Invoice Modal -->
+  <div id="create-inv-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div class="bg-surface border border-[#E5E7EB] rounded-2xl p-8 max-w-lg w-full">
+      <h3 class="font-heading font-black text-text-h text-xl mb-6">Create Invoice</h3>
+      <div id="ci-error" class="hidden mb-4 bg-coral/10 border border-coral/30 rounded-xl p-3 text-coral text-sm"></div>
+      <form id="create-inv-form" class="space-y-4">
+        <div>
+          <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">User Email</label>
+          <input id="ci-email" type="email" placeholder="client@example.com" required class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Amount ($)</label>
+            <input id="ci-amount" type="number" step="0.01" min="0.01" required placeholder="29.99" class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+          </div>
+          <div>
+            <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Due Date</label>
+            <input id="ci-due" type="date" required class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Description</label>
+          <input id="ci-desc" type="text" placeholder="VPS Hosting — Monthly" required class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+        </div>
+        <div>
+          <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Notes (optional)</label>
+          <input id="ci-notes" type="text" placeholder="Any additional notes..." class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-text-h focus:outline-none focus:border-coral text-sm" />
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" id="ci-cancel" class="btn-ghost flex-1 py-2.5">Cancel</button>
+          <button type="submit" class="btn-primary flex-1 py-2.5">Create Invoice</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     let allInvoices: any[] = [];
 
@@ -48,7 +85,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       const map: Record<string, string> = {
         PAID: 'bg-green-500/10 text-green-400 border-green-500/30',
         UNPAID: 'bg-coral/10 text-coral border-coral/30',
-        CANCELLED: 'bg-surface text-text-muted border-[#312E81]',
+        CANCELLED: 'bg-surface text-text-muted border-[#E5E7EB]',
         REFUNDED: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
       };
       return `<span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black border ${map[s] || ''}">${s}</span>`;
@@ -70,7 +107,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
         return;
       }
       tbody.innerHTML = filtered.map((inv: any) => `
-        <tr class="border-b border-[#312E81] hover:bg-surface transition-colors">
+        <tr class="border-b border-[#E5E7EB] hover:bg-surface transition-colors">
           <td class="px-5 py-4 font-mono text-xs text-text-body">${inv.invoiceNumber}</td>
           <td class="px-5 py-4">
             <p class="text-text-body text-sm">${inv.user?.firstName || ''} ${inv.user?.lastName || ''}</p>
@@ -80,26 +117,43 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           <td class="px-5 py-4 text-right font-heading font-black text-coral">$${inv.amount.toFixed(2)}</td>
           <td class="px-5 py-4 text-center">${statusBadge(inv.status)}</td>
           <td class="px-5 py-4 text-center">
-            ${inv.status === 'UNPAID'
-              ? `<button data-inv="${inv.id}" class="mark-paid text-xs text-coral hover:underline font-heading font-bold">Mark Paid</button>`
-              : '<span class="text-text-muted text-xs">—</span>'
-            }
+            <div class="flex items-center justify-center gap-3">
+              ${inv.status === 'UNPAID'
+                ? `<button data-inv="${inv.id}" class="mark-paid text-xs text-coral hover:underline font-heading font-bold">Mark Paid</button>`
+                : ''
+              }
+              ${inv.status !== 'CANCELLED' && inv.status !== 'REFUNDED'
+                ? `<button data-void="${inv.id}" class="void-inv text-xs text-text-muted hover:text-coral font-heading font-bold">Void</button>`
+                : ''
+              }
+            </div>
           </td>
         </tr>
       `).join('');
-
-      document.querySelectorAll('.mark-paid').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const invId = btn.getAttribute('data-inv')!;
-          await fetch(`/api/v1/admin/invoices/${invId}`, {
-            method: 'PUT', credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: 'PAID' }),
-          });
-          load();
-        });
-      });
     }
+
+    document.getElementById('inv-table')!.addEventListener('click', async (e) => {
+      const target = e.target as HTMLElement;
+      const paidBtn = target.closest('.mark-paid') as HTMLElement | null;
+      const voidBtn = target.closest('.void-inv') as HTMLElement | null;
+
+      if (paidBtn) {
+        await fetch(`/api/v1/admin/invoices/${paidBtn.getAttribute('data-inv')}`, {
+          method: 'PUT', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'PAID' }),
+        });
+        load();
+      }
+
+      if (voidBtn) {
+        if (!confirm('Void this invoice? This cannot be undone.')) return;
+        await fetch(`/api/v1/admin/invoices/${voidBtn.getAttribute('data-void')}`, {
+          method: 'DELETE', credentials: 'include',
+        });
+        load();
+      }
+    });
 
     ['inv-search', 'inv-status'].forEach(id => {
       document.getElementById(id)!.addEventListener('input', render);
@@ -117,5 +171,62 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       }
     }
     load();
+
+    // Create Invoice modal
+    const createModal = document.getElementById('create-inv-modal')!;
+    const ciError = document.getElementById('ci-error')!;
+
+    document.getElementById('create-inv-btn')!.addEventListener('click', () => {
+      ciError.classList.add('hidden');
+      createModal.classList.remove('hidden');
+      // Default due date to today
+      const today = new Date().toISOString().split('T')[0];
+      (document.getElementById('ci-due') as HTMLInputElement).value = today;
+    });
+
+    document.getElementById('ci-cancel')!.addEventListener('click', () => {
+      createModal.classList.add('hidden');
+      (document.getElementById('create-inv-form') as HTMLFormElement).reset();
+    });
+
+    createModal.addEventListener('click', (e) => {
+      if (e.target === createModal) {
+        createModal.classList.add('hidden');
+        (document.getElementById('create-inv-form') as HTMLFormElement).reset();
+      }
+    });
+
+    document.getElementById('create-inv-form')!.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      ciError.classList.add('hidden');
+      const email = (document.getElementById('ci-email') as HTMLInputElement).value.trim();
+      const amount = parseFloat((document.getElementById('ci-amount') as HTMLInputElement).value);
+      const dueDate = (document.getElementById('ci-due') as HTMLInputElement).value;
+      const description = (document.getElementById('ci-desc') as HTMLInputElement).value.trim();
+      const notes = (document.getElementById('ci-notes') as HTMLInputElement).value.trim() || undefined;
+
+      try {
+        // Look up user by email
+        const ur = await fetch(`/api/v1/admin/users?search=${encodeURIComponent(email)}`, { credentials: 'include' });
+        const uj = await ur.json();
+        const users: any[] = uj.data?.users || [];
+        const match = users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+        if (!match) throw new Error('No user found with that email.');
+
+        const res = await fetch('/api/v1/admin/invoices', {
+          method: 'POST', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: match.id, amount, dueDate, description, notes }),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to create invoice.');
+        createModal.classList.add('hidden');
+        (document.getElementById('create-inv-form') as HTMLFormElement).reset();
+        load();
+      } catch (err: any) {
+        ciError.textContent = err.message;
+        ciError.classList.remove('hidden');
+      }
+    });
   </script>
 </AdminLayout>

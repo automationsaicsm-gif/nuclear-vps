@@ -4,14 +4,14 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 <AdminLayout title="Affiliate Withdrawals — Nuclear VPS">
 
   <div class="card overflow-hidden">
-    <div class="p-5 border-b border-[#312E81] flex items-center justify-between">
+    <div class="p-5 border-b border-[#E5E7EB] flex items-center justify-between">
       <h2 class="font-heading font-black text-text-h">Withdrawal Requests</h2>
       <p class="text-text-muted text-sm" id="pending-count"></p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full">
         <thead>
-          <tr class="bg-deep border-b border-[#312E81]">
+          <tr class="bg-deep border-b border-[#E5E7EB]">
             <th class="text-left px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Affiliate</th>
             <th class="text-right px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Amount</th>
             <th class="text-center px-5 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wide">Status</th>
@@ -40,7 +40,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           return;
         }
         tbody.innerHTML = items.map((w: any) => `
-          <tr class="border-b border-[#312E81] hover:bg-surface transition-colors">
+          <tr class="border-b border-[#E5E7EB] hover:bg-surface transition-colors">
             <td class="px-5 py-4">
               <p class="font-heading font-bold text-text-h text-sm">${w.user?.firstName || ''} ${w.user?.lastName || ''}</p>
               <p class="text-text-muted text-xs">${w.user?.email || ''}</p>
@@ -50,7 +50,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
               <span class="inline-block px-2 py-0.5 rounded-full text-xs font-heading font-black border ${
                 w.status === 'pending' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
                 w.status === 'approved' ? 'bg-green-500/10 text-green-400 border-green-500/30' :
-                'bg-surface text-text-muted border-[#312E81]'
+                'bg-surface text-text-muted border-[#E5E7EB]'
               }">${w.status}</span>
             </td>
             <td class="px-5 py-4 text-text-muted text-xs">${new Date(w.createdAt).toLocaleDateString()}</td>

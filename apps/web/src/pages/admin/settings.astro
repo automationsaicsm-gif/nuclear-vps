@@ -15,24 +15,24 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           <div>
             <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Site Name</label>
             <input id="s-sitename" name="site_name" type="text"
-              class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+              class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
           </div>
           <div>
             <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Contact Email</label>
             <input id="s-email" name="contact_email" type="email"
-              class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+              class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
           </div>
           <div>
             <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Site URL</label>
             <input id="s-url" name="site_url" type="url"
-              class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+              class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
           </div>
           <div>
             <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">Maintenance Mode</label>
             <div class="flex items-center gap-3 h-12">
               <label class="relative inline-flex items-center cursor-pointer">
                 <input id="s-maintenance" name="maintenance_mode" type="checkbox" class="sr-only peer" />
-                <div class="w-11 h-6 bg-surface border border-[#312E81] rounded-full peer peer-checked:bg-coral transition-colors"></div>
+                <div class="w-11 h-6 bg-surface border border-[#E5E7EB] rounded-full peer peer-checked:bg-coral transition-colors"></div>
                 <div class="absolute left-1 top-1 w-4 h-4 bg-text-muted rounded-full transition-transform peer-checked:translate-x-5 peer-checked:bg-white"></div>
               </label>
               <span class="text-text-body text-sm">Enable maintenance mode</span>
@@ -50,22 +50,22 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">SMTP Host</label>
           <input id="s-smtp-host" name="smtp_host" type="text" placeholder="smtp.gmail.com"
-            class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+            class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">SMTP Port</label>
           <input id="s-smtp-port" name="smtp_port" type="number" placeholder="587"
-            class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+            class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">SMTP Username</label>
           <input id="s-smtp-user" name="smtp_user" type="text"
-            class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+            class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
         <div>
           <label class="block text-text-muted text-xs font-heading font-black uppercase tracking-wide mb-2">SMTP Password</label>
           <input id="s-smtp-pass" name="smtp_pass" type="password" placeholder="••••••••"
-            class="w-full bg-base border border-[#312E81] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
+            class="w-full bg-base border border-[#E5E7EB] rounded-xl px-4 py-3 text-text-h focus:outline-none focus:border-coral transition-colors text-sm" />
         </div>
       </div>
       <div class="flex gap-3">
@@ -86,7 +86,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           { label: 'PayPal Client ID', key: 'PAYPAL_CLIENT_ID' },
           { label: 'Coinbase API Key', key: 'COINBASE_API_KEY' },
         ].map(({ label, key }) => (
-          <div class="flex items-center justify-between py-3 border-b border-[#312E81] last:border-0">
+          <div class="flex items-center justify-between py-3 border-b border-[#E5E7EB] last:border-0">
             <p class="text-text-body text-sm font-heading font-bold">{label}</p>
             <span class="font-mono text-text-muted text-xs bg-deep px-3 py-1.5 rounded-lg">{key}=***</span>
           </div>

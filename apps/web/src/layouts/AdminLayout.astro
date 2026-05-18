@@ -1,4 +1,4 @@
-﻿---
+---
 import '../styles/global.css';
 
 interface Props {
@@ -6,15 +6,17 @@ interface Props {
 }
 const { title = 'Admin — Nuclear VPS' } = Astro.props;
 
-const navItems = [
+const navItems: { href: string; label: string; icon: string; badge?: boolean }[] = [
   { href: '/admin', label: 'Dashboard', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
   { href: '/admin/users', label: 'Users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
   { href: '/admin/services', label: 'Services', icon: 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01' },
   { href: '/admin/invoices', label: 'Invoices', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01' },
-  { href: '/admin/tickets', label: 'Tickets', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' },
+  { href: '/admin/tickets', label: 'Tickets', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', badge: true },
   { href: '/admin/plans', label: 'Plans', icon: 'M9 5l7 7-7 7' },
   { href: '/admin/coupons', label: 'Coupons', icon: 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z' },
   { href: '/admin/affiliate', label: 'Affiliates', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z' },
+  { href: '/admin/broadcast', label: 'Broadcast', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+  { href: '/admin/audit-log', label: 'Audit Log', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4' },
   { href: '/admin/settings', label: 'Settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z' },
 ];
 
@@ -28,46 +30,47 @@ const currentPath = Astro.url.pathname;
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
-<body class="bg-base text-text-body font-body min-h-screen flex">
+<body class="bg-[#F3F4F6] text-[#374151] font-body min-h-screen flex">
 
   <!-- Sidebar -->
-  <aside class="fixed left-0 top-0 bottom-0 w-64 bg-footer border-r border-[#312E81] flex flex-col z-30">
-    <div class="p-6 border-b border-[#312E81]">
+  <aside class="fixed left-0 top-0 bottom-0 w-64 bg-[#111827] border-r border-[#1F2937] flex flex-col z-30">
+    <div class="p-6 border-b border-[#1F2937]">
       <a href="/">
-        <span class="font-heading font-black text-2xl text-text-h">NUCLEAR</span><span class="font-heading font-black text-2xl text-coral">VPS</span>
+        <span class="font-heading font-black text-2xl text-white">NUCLEAR</span><span class="font-heading font-black text-2xl text-coral">VPS</span>
       </a>
-      <p class="text-text-muted text-xs mt-1 font-heading font-bold uppercase tracking-widest">Admin Panel</p>
+      <p class="text-gray-500 text-xs mt-1 font-heading font-bold uppercase tracking-widest">Admin Panel</p>
     </div>
 
     <nav class="flex-1 p-4 overflow-y-auto">
-      {navItems.map(({ href, label, icon }) => {
+      {navItems.map(({ href, label, icon, badge }) => {
         const isActive = currentPath === href || (href !== '/admin' && currentPath.startsWith(href));
         return (
           <a
             href={href}
             class={`flex items-center gap-3 px-4 py-3 rounded-xl mb-1 font-heading font-bold text-sm transition-all duration-200 ${
               isActive
-                ? 'bg-indigo-mid text-white border-l-4 border-coral'
-                : 'text-text-body hover:bg-surface hover:text-coral'
+                ? 'bg-coral text-white border-l-4 border-white/30'
+                : 'text-gray-300 hover:bg-[#1F2937] hover:text-white'
             }`}
           >
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}/>
             </svg>
-            {label}
+            <span class="flex-1">{label}</span>
+            {badge && <span id="sidebar-tickets-badge" class="hidden bg-red-500 text-white text-xs font-black px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center"></span>}
           </a>
         );
       })}
     </nav>
 
-    <div class="p-4 border-t border-[#312E81] space-y-2">
-      <a href="/dashboard" class="flex items-center gap-3 px-4 py-2.5 text-text-muted hover:text-coral hover:bg-surface rounded-xl font-heading font-bold text-sm transition-colors">
+    <div class="p-4 border-t border-[#1F2937] space-y-2">
+      <a href="/dashboard" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-[#1F2937] rounded-xl font-heading font-bold text-sm transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
         </svg>
         Client Area
       </a>
-      <button id="admin-logout" class="w-full flex items-center gap-3 px-4 py-2.5 text-coral hover:bg-surface rounded-xl font-heading font-bold text-sm transition-colors">
+      <button id="admin-logout" class="w-full flex items-center gap-3 px-4 py-2.5 text-red-400 hover:bg-[#1F2937] rounded-xl font-heading font-bold text-sm transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
         </svg>
@@ -78,17 +81,35 @@ const currentPath = Astro.url.pathname;
 
   <!-- Main content -->
   <div class="ml-64 flex-1 flex flex-col min-h-screen">
-    <header class="bg-footer border-b border-[#312E81] px-6 py-4 flex items-center justify-between sticky top-0 z-20">
-      <h1 class="font-heading font-black text-text-h text-xl">{title.replace(' — Nuclear VPS', '')}</h1>
+    <header class="bg-[#111827] border-b border-[#1F2937] px-6 py-4 flex items-center justify-between sticky top-0 z-20">
+      <h1 class="font-heading font-black text-white text-xl">{title.replace(' — Nuclear VPS', '')}</h1>
       <div class="flex items-center gap-3">
-        <span class="bg-coral/10 border border-coral/30 rounded-full px-3 py-1 text-coral text-xs font-heading font-black uppercase tracking-wider">Admin</span>
+        <!-- Admin notification bell -->
+        <div class="relative" id="admin-notif-wrapper">
+          <button id="admin-notif-btn" class="relative p-2 text-gray-400 hover:text-white transition-colors rounded-xl hover:bg-[#1F2937]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            </svg>
+            <span id="admin-notif-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs font-black flex items-center justify-center"></span>
+          </button>
+          <div id="admin-notif-dropdown" class="hidden absolute right-0 top-11 w-80 bg-[#111827] border border-[#1F2937] rounded-2xl shadow-xl z-50 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-[#1F2937]">
+              <p class="font-heading font-black text-white text-sm">Notifications</p>
+              <button id="admin-notif-clear" class="text-xs text-gray-400 hover:text-white font-heading font-bold">Mark all read</button>
+            </div>
+            <div id="admin-notif-list" class="max-h-72 overflow-y-auto divide-y divide-[#1F2937]">
+              <p class="text-gray-400 text-sm p-4">Loading...</p>
+            </div>
+          </div>
+        </div>
+        <span class="bg-coral/20 border border-coral/40 rounded-full px-3 py-1 text-coral text-xs font-heading font-black uppercase tracking-wider">Admin</span>
         <div class="w-9 h-9 rounded-full bg-coral flex items-center justify-center">
           <span class="font-heading font-black text-white text-sm" id="admin-initials">A</span>
         </div>
       </div>
     </header>
 
-    <main class="flex-1 p-6 bg-base">
+    <main class="flex-1 p-6 bg-[#F3F4F6]">
       <slot />
     </main>
   </div>
@@ -117,6 +138,92 @@ const currentPath = Astro.url.pathname;
       localStorage.removeItem('nuclear-vps-auth');
       window.location.href = '/';
     });
+
+    // Sidebar open-ticket badge
+    async function updateTicketBadge() {
+      try {
+        const res = await fetch('/api/v1/admin/tickets?take=200', { credentials: 'include' });
+        if (!res.ok) return;
+        const json = await res.json();
+        const tickets: any[] = json.data?.tickets || [];
+        const needsReply = tickets.filter((t: any) =>
+          t.status === 'OPEN' || (t.status === 'IN_PROGRESS' && t.lastMessageRole === 'CLIENT')
+        ).length;
+        const badge = document.getElementById('sidebar-tickets-badge');
+        if (badge) {
+          if (needsReply > 0) {
+            badge.textContent = needsReply > 99 ? '99+' : String(needsReply);
+            badge.classList.remove('hidden');
+          } else {
+            badge.classList.add('hidden');
+          }
+        }
+      } catch {}
+    }
+    updateTicketBadge();
+    setInterval(updateTicketBadge, 60000);
+
+    // Admin notification bell
+    const adminNotifBtn = document.getElementById('admin-notif-btn');
+    const adminNotifDropdown = document.getElementById('admin-notif-dropdown');
+    const adminNotifBadge = document.getElementById('admin-notif-badge')!;
+    const adminNotifList = document.getElementById('admin-notif-list')!;
+    let adminSeenIds: string[] = JSON.parse(localStorage.getItem('admin-notif-seen') || '[]');
+
+    async function loadAdminNotifs() {
+      try {
+        const res = await fetch('/api/v1/admin/notifications', { credentials: 'include' });
+        if (!res.ok) return;
+        const json = await res.json();
+        const notifs: any[] = json.data?.notifications || [];
+        const unseen = notifs.filter(n => !adminSeenIds.includes(n.id));
+        if (unseen.length > 0) {
+          adminNotifBadge.textContent = unseen.length > 9 ? '9+' : String(unseen.length);
+          adminNotifBadge.classList.remove('hidden');
+        } else {
+          adminNotifBadge.classList.add('hidden');
+        }
+        if (!notifs.length) {
+          adminNotifList.innerHTML = '<p class="text-gray-400 text-sm p-4">No new notifications.</p>';
+          return;
+        }
+        adminNotifList.innerHTML = notifs.map(n => `
+          <a href="${n.href || '#'}" class="block px-4 py-3 hover:bg-[#1F2937] transition-colors ${adminSeenIds.includes(n.id) ? 'opacity-50' : ''}">
+            <p class="font-heading font-bold text-white text-xs">${n.title}</p>
+            <p class="text-gray-400 text-xs mt-0.5">${n.message}</p>
+            <p class="text-gray-500 text-xs mt-1">${new Date(n.createdAt).toLocaleString()}</p>
+          </a>
+        `).join('');
+      } catch {}
+    }
+
+    adminNotifBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      adminNotifDropdown?.classList.toggle('hidden');
+      if (!adminNotifDropdown?.classList.contains('hidden')) loadAdminNotifs();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!document.getElementById('admin-notif-wrapper')?.contains(e.target as Node)) {
+        adminNotifDropdown?.classList.add('hidden');
+      }
+    });
+
+    document.getElementById('admin-notif-clear')?.addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/v1/admin/notifications', { credentials: 'include' });
+        const json = await res.json();
+        const notifs: any[] = json.data?.notifications || [];
+        adminSeenIds = notifs.map(n => n.id);
+        localStorage.setItem('admin-notif-seen', JSON.stringify(adminSeenIds));
+        adminNotifBadge.classList.add('hidden');
+        loadAdminNotifs();
+      } catch {}
+    });
+
+    // Poll every 60s
+    loadAdminNotifs();
+    setInterval(loadAdminNotifs, 60000);
   </script>
 </body>
 </html>

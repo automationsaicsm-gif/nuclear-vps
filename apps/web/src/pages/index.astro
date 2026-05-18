@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PricingSection from '../components/sections/PricingSection';
 import TestimonialsCarousel from '../components/sections/TestimonialsCarousel';
@@ -8,21 +8,21 @@ import FAQAccordion from '../components/sections/FAQAccordion';
 
   <!-- Hero -->
   <section class="bg-hero relative overflow-hidden py-20 lg:py-32">
-    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
-    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#F87171,transparent);transform:translate(30%,30%)"></div>
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#60A5FA,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" style="background:radial-gradient(circle,#93C5FD,transparent);transform:translate(30%,30%)"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col lg:flex-row items-center gap-12">
         <!-- Left -->
         <div class="lg:w-[55%]">
-          <div class="inline-flex items-center gap-2 bg-coral/10 border border-coral/30 rounded-full px-4 py-2 mb-6">
-            <span class="text-coral text-sm font-heading font-bold">⚡ Boost Your Trading!</span>
+          <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 mb-6">
+            <span class="text-white text-sm font-heading font-bold">⚡ Boost Your Trading!</span>
           </div>
           <h1 class="font-heading font-black text-4xl lg:text-5xl xl:text-6xl leading-tight mb-6">
-            <span class="text-text-h">High Performance</span><br/>
-            <span class="text-coral">Trading VPS</span>
+            <span class="text-white">High Performance</span><br/>
+            <span class="text-blue-200">Trading VPS</span>
           </h1>
-          <p class="text-text-body text-lg mb-8 leading-relaxed">
+          <p class="text-blue-100 text-lg mb-8 leading-relaxed">
             Powerful Forex VPS Optimized for Trading Robots and Expert Advisors.
           </p>
 
@@ -30,19 +30,19 @@ import FAQAccordion from '../components/sections/FAQAccordion';
           <ul class="space-y-3 mb-10">
             {['Fully Managed & User-friendly', 'Supports All Trading Platforms', '24/7 Live Human Support', 'Ultra-Low Latency Network'].map((item) => (
               <li class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded-full bg-coral flex items-center justify-center shrink-0">
+                <div class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                   <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
                   </svg>
                 </div>
-                <span class="text-text-body">{item}</span>
+                <span class="text-blue-100">{item}</span>
               </li>
             ))}
           </ul>
 
           <div class="flex flex-wrap gap-4">
-            <a href="#pricing" class="btn-primary">Explore Our Services</a>
-            <a href="#pricing" class="text-coral font-heading font-bold underline underline-offset-4 hover:text-coral-dark transition-colors self-center">View Pricing</a>
+            <a href="#pricing" class="bg-white text-[#1A3A8F] font-heading font-black px-6 py-3 rounded-full hover:bg-blue-50 transition-all duration-200">Explore Our Services</a>
+            <a href="#pricing" class="text-white font-heading font-bold underline underline-offset-4 hover:text-blue-200 transition-colors self-center">View Pricing</a>
           </div>
         </div>
 
@@ -53,19 +53,19 @@ import FAQAccordion from '../components/sections/FAQAccordion';
               <!-- Server towers -->
               {[0, 1, 2].map((i) => (
                 <div
-                  class="absolute bg-deep border border-[#312E81] rounded-xl"
-                  style={`width:70px;height:${140 + i*20}px;left:${i*80}px;bottom:0;box-shadow:0 0 20px rgba(248,113,113,0.1)`}
+                  class="absolute bg-[#0F172A] border border-[#1E3A8A] rounded-xl"
+                  style={`width:70px;height:${140 + i*20}px;left:${i*80}px;bottom:0;box-shadow:0 0 20px rgba(45,85,200,0.2)`}
                 >
-                  <!-- Coral glow lines -->
+                  <!-- Blue glow lines -->
                   {[0,1,2].map((j) => (
-                    <div class="h-0.5 bg-coral/60 mx-3 rounded-full" style={`margin-top:${20+j*16}px`}></div>
+                    <div class="h-0.5 bg-blue-500/60 mx-3 rounded-full" style={`margin-top:${20+j*16}px`}></div>
                   ))}
                   <!-- Status dot -->
-                  <div class="w-2.5 h-2.5 rounded-full bg-coral absolute bottom-4 left-1/2 -translate-x-1/2" style="box-shadow:0 0 8px #F87171"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-blue-400 absolute bottom-4 left-1/2 -translate-x-1/2" style="box-shadow:0 0 8px #60A5FA"></div>
                 </div>
               ))}
               <!-- Glow base -->
-              <div class="absolute bottom-0 left-0 right-0 h-4 rounded-full" style="background:radial-gradient(ellipse,rgba(248,113,113,0.3),transparent);filter:blur(8px)"></div>
+              <div class="absolute bottom-0 left-0 right-0 h-4 rounded-full" style="background:radial-gradient(ellipse,rgba(45,85,200,0.4),transparent);filter:blur(8px)"></div>
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@ import FAQAccordion from '../components/sections/FAQAccordion';
   </section>
 
   <!-- Stats Bar -->
-  <section class="bg-deep border-y border-[#312E81] py-8">
+  <section class="bg-[#F3F4F6] border-y border-[#E5E7EB] py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-wrap justify-around gap-6">
         {[
@@ -86,7 +86,7 @@ import FAQAccordion from '../components/sections/FAQAccordion';
         ].map(({ value, label }) => (
           <div class="text-center">
             <div class="font-heading font-black text-coral text-2xl lg:text-3xl count-stat">{value}</div>
-            <div class="text-text-muted text-xs mt-1">{label}</div>
+            <div class="text-[#6B7280] text-xs mt-1">{label}</div>
           </div>
         ))}
       </div>
@@ -94,23 +94,23 @@ import FAQAccordion from '../components/sections/FAQAccordion';
   </section>
 
   <!-- Pricing -->
-  <section id="pricing" class="bg-base py-20">
+  <section id="pricing" class="bg-white py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-14">
         <p class="section-tag mb-3">Nuclear VPS FOR TRADING</p>
-        <h2 class="font-heading font-black text-4xl lg:text-5xl text-text-h mb-4">Choose Your Perfect Plan</h2>
-        <p class="text-text-muted text-lg">High performance VPS optimized for Forex and algorithmic trading</p>
+        <h2 class="font-heading font-black text-4xl lg:text-5xl text-[#111827] mb-4">Choose Your Perfect Plan</h2>
+        <p class="text-[#6B7280] text-lg">High performance VPS optimized for Forex and algorithmic trading</p>
       </div>
       <PricingSection client:load />
     </div>
   </section>
 
   <!-- Guarantees -->
-  <section class="bg-surface py-20">
+  <section class="bg-[#F9FAFB] py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-14">
         <p class="section-tag mb-3">WHY CHOOSE US?</p>
-        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Our Guarantees</h2>
+        <h2 class="font-heading font-black text-4xl text-[#111827] mb-4">Our Guarantees</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
@@ -121,14 +121,14 @@ import FAQAccordion from '../components/sections/FAQAccordion';
           { icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', title: 'Highest Server Security', desc: 'Redundant cloud monitoring, always protected.' },
           { icon: 'M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4', title: 'Daily Backups', desc: 'Restore any of the last 5 days of data anytime.' },
         ].map(({ icon, title, desc }) => (
-          <div class="bg-base border border-[#312E81] rounded-2xl p-6 hover:border-coral hover:shadow-[0_0_0_1px_#F87171] transition-all duration-200">
-            <div class="w-10 h-10 bg-indigo-mid rounded-xl flex items-center justify-center mb-4">
+          <div class="bg-white border border-[#E5E7EB] rounded-2xl p-6 hover:border-coral hover:shadow-[0_0_0_1px_#2D55C8] transition-all duration-200">
+            <div class="w-10 h-10 bg-coral/10 rounded-xl flex items-center justify-center mb-4">
               <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}/>
               </svg>
             </div>
-            <h3 class="font-heading font-black text-text-h text-lg mb-2">{title}</h3>
-            <p class="text-text-muted text-sm leading-relaxed">{desc}</p>
+            <h3 class="font-heading font-black text-[#111827] text-lg mb-2">{title}</h3>
+            <p class="text-[#6B7280] text-sm leading-relaxed">{desc}</p>
           </div>
         ))}
       </div>
@@ -136,15 +136,15 @@ import FAQAccordion from '../components/sections/FAQAccordion';
   </section>
 
   <!-- Support Stats -->
-  <section class="bg-deep border-y border-[#312E81] py-20">
+  <section class="bg-[#F3F4F6] border-y border-[#E5E7EB] py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col lg:flex-row gap-12 items-center">
         <div class="lg:w-3/5">
           <p class="section-tag mb-3">24/7 TECHNICAL SUPPORT</p>
-          <h2 class="font-heading font-black text-3xl lg:text-4xl text-text-h mb-4">
+          <h2 class="font-heading font-black text-3xl lg:text-4xl text-[#111827] mb-4">
             Our technical team is here to help you 24/7!
           </h2>
-          <p class="text-text-body leading-relaxed">
+          <p class="text-[#374151] leading-relaxed">
             Whether you're having trouble connecting, need help setting up your trading platform, or have a billing question — our expert support team is always available via live chat and support tickets to get you back on track fast.
           </p>
         </div>
@@ -157,7 +157,7 @@ import FAQAccordion from '../components/sections/FAQAccordion';
           ].map(({ value, unit, label }) => (
             <div class="text-center">
               <div class="font-heading font-black text-coral text-4xl">{value}{unit}</div>
-              <div class="font-heading font-black text-text-h text-sm mt-1">{label}</div>
+              <div class="font-heading font-black text-[#111827] text-sm mt-1">{label}</div>
             </div>
           ))}
         </div>
@@ -166,21 +166,21 @@ import FAQAccordion from '../components/sections/FAQAccordion';
   </section>
 
   <!-- Testimonials -->
-  <section class="bg-base py-20">
+  <section class="bg-white py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-14">
         <p class="section-tag mb-3">CUSTOMER REVIEWS</p>
-        <h2 class="font-heading font-black text-4xl text-text-h mb-4">Why Our Customers Love Our Services</h2>
+        <h2 class="font-heading font-black text-4xl text-[#111827] mb-4">Why Our Customers Love Our Services</h2>
       </div>
       <TestimonialsCarousel client:load />
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="bg-surface py-20">
+  <section class="bg-[#F9FAFB] py-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
-        <h2 class="font-heading font-black text-4xl text-text-h">Frequently Asked Questions</h2>
+        <h2 class="font-heading font-black text-4xl text-[#111827]">Frequently Asked Questions</h2>
       </div>
       <FAQAccordion client:load />
     </div>
@@ -189,11 +189,11 @@ import FAQAccordion from '../components/sections/FAQAccordion';
   <!-- CTA Banner -->
   <section class="bg-hero py-20 text-center">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="font-heading font-black text-4xl text-text-h mb-4">Let's Get Started</h2>
-      <p class="text-text-body text-lg mb-8 leading-relaxed">
+      <h2 class="font-heading font-black text-4xl text-white mb-4">Let's Get Started</h2>
+      <p class="text-blue-100 text-lg mb-8 leading-relaxed">
         Choose Nuclear VPS as your provider — fast setup for Algo Trading. Get started today and take your trading to the next level.
       </p>
-      <a href="#pricing" class="btn-primary text-lg px-10 py-4">Get Started Now</a>
+      <a href="#pricing" class="bg-white text-[#1A3A8F] font-heading font-black text-lg px-10 py-4 rounded-full hover:bg-blue-50 transition-all duration-200">Get Started Now</a>
     </div>
   </section>
 

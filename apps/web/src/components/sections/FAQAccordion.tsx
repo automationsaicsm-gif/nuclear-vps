@@ -35,7 +35,7 @@ export default function FAQAccordion() {
       {faqs.map((faq, i) => (
         <div
           key={i}
-          className={`border rounded-xl overflow-hidden transition-all duration-200 ${open === i ? 'border-coral' : 'border-[#312E81]'}`}
+          className={`border rounded-xl overflow-hidden transition-all duration-200 ${open === i ? 'border-coral' : 'border-[#E5E7EB]'}`}
         >
           <button
             className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors ${

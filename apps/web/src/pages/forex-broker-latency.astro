@@ -5,14 +5,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <!-- Hero -->
   <section class="bg-hero relative overflow-hidden py-20">
-    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#4F46E5,transparent);transform:translate(-30%,-30%)"></div>
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background:radial-gradient(circle,#1E3FA0,transparent);transform:translate(-30%,-30%)"></div>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="section-tag mb-4">LATENCY TOOL</p>
-      <h1 class="font-heading font-black text-4xl lg:text-6xl text-text-h mb-6">
+      <p class="text-blue-200 text-xs font-heading font-black tracking-widest uppercase mb-4">LATENCY TOOL</p>
+      <h1 class="font-heading font-black text-4xl lg:text-6xl text-white mb-6">
         Forex Broker
         <span class="text-coral">Latency</span>
       </h1>
-      <p class="text-text-body text-xl max-w-2xl mx-auto leading-relaxed">
+      <p class="text-blue-100 text-xl max-w-2xl mx-auto leading-relaxed">
         Ping times from our New York data center to the world's leading forex brokers. Deploy where it matters most.
       </p>
     </div>
@@ -29,7 +29,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             id="broker-search"
             type="text"
             placeholder="Search broker..."
-            class="bg-surface border border-[#312E81] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm"
+            class="bg-surface border border-[#E5E7EB] rounded-xl px-4 py-2.5 pl-10 text-text-h placeholder-text-muted focus:outline-none focus:border-coral transition-colors text-sm"
           />
           <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -43,7 +43,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="overflow-x-auto">
           <table class="w-full" id="latency-table">
             <thead>
-              <tr class="bg-deep border-b border-[#312E81]">
+              <tr class="bg-deep border-b border-[#E5E7EB]">
                 <th class="text-left px-6 py-4 text-text-muted text-xs font-heading font-black uppercase tracking-wider cursor-pointer hover:text-coral transition-colors" data-col="broker">
                   Broker <span class="sort-icon">↕</span>
                 </th>
@@ -64,7 +64,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p class="text-text-muted text-xs mt-4 text-center">* Ping times measured from our data center infrastructure. Updated regularly.</p>
 
       <!-- CTA -->
-      <div class="mt-16 bg-hero rounded-2xl p-10 text-center border border-[#312E81]">
+      <div class="mt-16 bg-hero rounded-2xl p-10 text-center border border-[#E5E7EB]">
         <h2 class="font-heading font-black text-3xl text-text-h mb-4">Ready to Trade at Maximum Speed?</h2>
         <p class="text-text-body mb-8 max-w-lg mx-auto">Deploy your VPS in the location closest to your broker and eliminate latency from your strategy.</p>
         <a href="/#pricing" class="btn-primary text-lg px-8 py-4">Choose Your Plan</a>
@@ -95,7 +95,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         return;
       }
       body.innerHTML = data.map((row, i) => `
-        <tr class="${i % 2 === 0 ? 'bg-surface' : 'bg-base'} border-b border-[#312E81] hover:bg-deep transition-colors">
+        <tr class="${i % 2 === 0 ? 'bg-surface' : 'bg-base'} border-b border-[#E5E7EB] hover:bg-deep transition-colors">
           <td class="px-6 py-4 font-heading font-bold text-text-h text-sm">${row.broker}</td>
           <td class="px-6 py-4 text-center font-heading font-black text-lg ${latencyColor(row.newYork)}">${row.newYork}</td>
         </tr>
